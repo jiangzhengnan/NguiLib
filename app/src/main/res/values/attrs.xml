@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<declare-styleable name="ctattrs">-->
+    <!--<attr name="android:text" />-->
+    <!--<attr name="centerbackground" format="reference" />-->
+    <!--</declare-styleable>-->
+
+
+    <declare-styleable name="ctattrs">
+        <attr name="text" format="string" />
+        <attr name="textdimension" format="dimension" />
+        <attr name="normalinsidebackground" format="reference" />
+        <attr name="normalexternalbackground" format="reference" />
+        <attr name="selectedinsidebackground" format="reference" />
+        <attr name="selectedexternalbackground" format="reference" />
+    </declare-styleable>
+</resources>
