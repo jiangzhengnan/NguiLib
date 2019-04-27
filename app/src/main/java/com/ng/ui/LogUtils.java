@@ -1,12 +1,9 @@
-package com.ng.ngcommon.util;
+package com.ng.ui;
 
 import android.util.Log;
 
-/**
- * Created by jiangzn on 16/9/28.
- */
 public class LogUtils {
-    private static String TAG = "nangua";
+    private static String TAG = "pumpkin";
     public static void d(String msg) {
         if (msg != null ) {
             Log.d(TAG,msg);

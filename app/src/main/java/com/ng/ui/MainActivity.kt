@@ -1,45 +1,43 @@
 package com.ng.ui
 
-import android.view.View
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import com.ng.ngcommon.bean.MessageEvent
-import com.ng.ngcommon.ui.activity.BaseActivity
-import com.ng.ngcommon.util.LogUtils
 import com.ng.ui.view.CentralTractionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
-    override fun onClick(view: View?) {
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var ctt: CentralTractionButton
+    private lateinit var btn1: Button
+    private lateinit var btn2: Button
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(getContentViewLayoutID())
+        initViewsAndEvents()
     }
 
-    private lateinit var ctt_main: CentralTractionButton
-    private lateinit var btn1_main: Button
-    private lateinit var btn2_main: Button
-
-    override fun getContentViewLayoutID(): Int {
+    private fun getContentViewLayoutID(): Int {
         return R.layout.activity_main
     }
 
 
-    override fun initViewsAndEvents() {
-        ctt_main = findViewById(R.id.ctt_main) as CentralTractionButton
-        btn1_main = findViewById(R.id.btn1_main) as Button
-        btn1_main.setOnClickListener({
+    private fun initViewsAndEvents() {
+        ctt = findViewById(R.id.ctt_main)
+        btn1 = findViewById(R.id.btn1_main)
+        btn1.setOnClickListener {
             ctt_main.isChecked = true
             LogUtils.d("选中")
-        })
+        }
 
-        btn2_main = findViewById(R.id.btn2_main) as Button
-        btn2_main.setOnClickListener({
+        btn2 = findViewById(R.id.btn2_main)
+
+        btn2.setOnClickListener {
             ctt_main.isChecked = false
             LogUtils.d("取消选中")
-        })
+        }
     }
 
-    override fun getLoadingTargetView(): View? {
-        return null
-    }
-
-    override fun onGetEvent(event: MessageEvent) {
-
-    }
 }

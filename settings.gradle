@@ -1,1 +1,1 @@
-include ':app', ':ngcommon'
+include ':app'
