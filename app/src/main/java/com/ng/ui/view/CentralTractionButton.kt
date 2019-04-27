@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.view.animation.OvershootInterpolator
 import android.widget.CompoundButton
 import android.widget.RadioButton
-import com.ng.ngcommon.util.LogUtils
+import com.ng.ui.LogUtils
 import com.ng.ui.R
 
 /**
@@ -42,7 +42,6 @@ class CentralTractionButton : RadioButton {
     private var centerx: Float = 0.toFloat()
     private var centery: Float = 0.toFloat()
 
-
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -54,13 +53,6 @@ class CentralTractionButton : RadioButton {
         selectedinsidebackground = ta.getResourceId(R.styleable.ctattrs_selectedinsidebackground, 0)
         selectedexternalbackground = ta.getResourceId(R.styleable.ctattrs_selectedexternalbackground, 0)
 
-        //打印所有的属性
-        val count = attrs.attributeCount
-        for (i in 0..count - 1) {
-            val attrName = attrs.getAttributeName(i)
-            val attrVal = attrs.getAttributeValue(i)
-            LogUtils.d("attrName = $attrName , attrVal = $attrVal")
-        }
         ta.recycle()
         init()
     }
@@ -76,7 +68,6 @@ class CentralTractionButton : RadioButton {
         centerX = ((getRight() + getLeft()) / 2).toFloat()
         centerx = mWidth / 2
         centery = mHeight / 2
-        LogUtils.d("中心点坐标: $centerX $centerY")
         init()
     }
 
@@ -91,10 +82,8 @@ class CentralTractionButton : RadioButton {
 
     private fun init() {
         initPaint()
-        LogUtils.d("-----init-----")
         //得到组件宽高中的较小值,再/2得到ob的距离
         if (mHeight > mWidth) mR = mHeight / 2 else mR = mWidth / 2
-        LogUtils.d("ob的距离:" + mR)
         mr = mR / 2
 
         // 背景图绘制区域
@@ -190,17 +179,11 @@ class CentralTractionButton : RadioButton {
         var my1 = event.y
         var mx2 = event.x
         var my2 = event.y  //需要减掉标题栏高度
-        LogUtils.d("---onTouchEvent---")
-        LogUtils.d(" 点击坐标：$mx1 $my1")
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                LogUtils.d("ACTION_DOWN")
-                //TODO 弹动一下的动画效果
                 postInvalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                LogUtils.d("ACTION_MOVE:" + scrollX + " " + scrollY)
-
                 //判断点击位置距离中心的距离
                 var distanceToCenter = getDistanceTwoPoint(mx1, my1, centerx, centery)
 
@@ -237,7 +220,6 @@ class CentralTractionButton : RadioButton {
 
                     var ab = my2 - centery
                     var bo = mx2 - centerx
-                    LogUtils.d("ab:" + ab + "  bo:" + bo)
                     mx2 = centerx + 2f * bo
                     my2 = centery + 2f * ab
                     distanceToCenter = getDistanceTwoPoint(mx1, my1, centerx, centery)
@@ -263,8 +245,6 @@ class CentralTractionButton : RadioButton {
                 postInvalidate()
             }
             MotionEvent.ACTION_UP -> {
-                LogUtils.d("ACTION_UP")
-
                 //复原背景图绘制区域
                 mExternalDestRect = Rect((centerx - mr).toInt(), (centery - mr).toInt(),
                         (centerx + mr).toInt(),
@@ -277,7 +257,6 @@ class CentralTractionButton : RadioButton {
             }
         }
 
-        LogUtils.d("---end---")
         return super.onTouchEvent(event)
     }
 

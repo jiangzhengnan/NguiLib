@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/UI.iml" filepath="$PROJECT_DIR$/.idea/UI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UI.iml" filepath="$PROJECT_DIR$/UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ngcommon/ngcommon.iml" filepath="$PROJECT_DIR$/ngcommon/ngcommon.iml" />
     </modules>
   </component>
 </project>
