@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getContentViewLayoutID())
         initViewsAndEvents()
+        LogUtils.d("aaa")
     }
 
     private fun getContentViewLayoutID(): Int {
