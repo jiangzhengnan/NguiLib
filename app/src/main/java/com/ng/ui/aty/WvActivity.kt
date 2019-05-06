@@ -22,7 +22,7 @@ class WvActivity : AppCompatActivity() {
 
     private fun initViewsAndEvents() {
 
-        LogUtils.d("aaaaaaaaa")
+        LogUtils.d("aaaaaaaaaaa")
     }
 
 }
