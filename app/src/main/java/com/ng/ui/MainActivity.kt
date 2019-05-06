@@ -3,42 +3,38 @@ package com.ng.ui
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import com.ng.ui.view.CentralTractionButton
+import butterknife.ButterKnife
+import com.ng.ui.aty.CtbActivity
+import com.ng.ui.aty.WvActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var ctt: CentralTractionButton
-    private lateinit var btn1: Button
-    private lateinit var btn2: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getContentViewLayoutID())
+        ButterKnife.bind(this)
         initViewsAndEvents()
-        LogUtils.d("aaa")
     }
 
     private fun getContentViewLayoutID(): Int {
         return R.layout.activity_main
     }
 
-
     private fun initViewsAndEvents() {
-        ctt = findViewById(R.id.ctt_main)
-        btn1 = findViewById(R.id.btn1_main)
-        btn1.setOnClickListener {
-            ctt_main.isChecked = true
-            LogUtils.d("选中")
-        }
+        //cbt
+        addIntentBtn(CtbActivity().javaClass,"CentralTractionButton")
+        //wv
+        addIntentBtn(WvActivity().javaClass,"WaveView")
 
-        btn2 = findViewById(R.id.btn2_main)
+    }
 
-        btn2.setOnClickListener {
-            ctt_main.isChecked = false
-            LogUtils.d("取消选中")
-        }
+    private fun addIntentBtn(target: Class<AppCompatActivity>,txt:String) {
+        val button = Button(this)
+        button.text = txt
+        button.setOnClickListener { startActivity(intent.setClass(this, target)) }
+        ll_main.addView(button)
     }
 
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ng.ui.MainActivity">
+
+    <com.ng.ui.view.CentralTractionButton
+        android:id="@+id/ctt_mcv"
+        android:button="@null"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        app:normalexternalbackground="@drawable/iv_rb1_bg_normal"
+        app:normalinsidebackground="@drawable/iv_rb1_in_normal"
+        app:selectedexternalbackground="@drawable/iv_rb1_bg_selected"
+        app:selectedinsidebackground="@drawable/iv_rb1_in_selected"
+        app:text="消息"
+        app:textdimension="12sp" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginBottom="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn1_mcv"
+            android:text="选中"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn2_mcv"
+            android:layout_marginLeft="50dp"
+            android:text="取消选中"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>
