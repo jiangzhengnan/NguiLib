@@ -1,5 +1,6 @@
 package com.ng.ui.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -7,6 +8,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
+import com.ng.ui.LogUtils
 import com.ng.ui.R
 
 class WaveView : View {
@@ -26,6 +29,25 @@ class WaveView : View {
     private var top: Float = 0f
     private var right: Float = 0f
     private var bottom: Float = 0f
+    private var xOffsetAnimator: ValueAnimator? = null
+
+
+    fun startAnima() {
+        if (xOffsetAnimator == null) {
+            xOffsetAnimator = ValueAnimator.ofInt(0, width)
+            xOffsetAnimator?.addUpdateListener { animation ->
+                val value = animation.animatedValue as Int
+                xOffset = (-value).toFloat()
+                postInvalidate()
+            }
+            xOffsetAnimator?.interpolator = LinearInterpolator()
+            xOffsetAnimator?.duration = 1500
+            xOffsetAnimator?.repeatCount = ValueAnimator.INFINITE
+        }
+        LogUtils.d("开始动画")
+        xOffsetAnimator?.start()
+    }
+
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         val array = context?.obtainStyledAttributes(attrs, R.styleable.WaveView)

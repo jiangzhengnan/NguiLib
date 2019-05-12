@@ -2,8 +2,8 @@ package com.ng.ui.aty
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ng.ui.LogUtils
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.activity_wv.*
 
 class WvActivity : AppCompatActivity() {
 
@@ -21,8 +21,13 @@ class WvActivity : AppCompatActivity() {
 
 
     private fun initViewsAndEvents() {
+     }
 
-        LogUtils.d("fdsfdsfs")
+    override fun onStart() {
+        super.onStart()
+        waveview.post(Runnable {
+            waveview.startAnima()
+        })
     }
 
 }
