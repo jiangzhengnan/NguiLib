@@ -28,10 +28,10 @@ class EcgShowView : View {
 
     //心电
     private val MAX_VALUE = 20f //峰值
-    private val HEART_LINE_STROKE_WIDTH = 3f
+    private val HEART_LINE_STROKE_WIDTH = 5f
 
     //网格
-    private val GRID_LINE_STROKE_WIDTH = 1f
+    private val GRID_LINE_STROKE_WIDTH = 3f
     private val GRID_WIDTH_AND_HEIGHT = 10f
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
@@ -52,11 +52,11 @@ class EcgShowView : View {
         mHeight = measuredHeight.toFloat()
         mGridLinestrokeWidth = dip2px(GRID_LINE_STROKE_WIDTH).toFloat()
         mGridstrokeWidthAndHeight = dip2px(GRID_WIDTH_AND_HEIGHT).toFloat()
-        // mGridLinestrokeWidth * columu + mGridstrokeWidthAndHeight * ( column - 1) = mWidth
-        // ==>     ( mGridstrokeWidthAndHeight + mGridLinestrokeWidth ) * column  - mGridstrokeWidthAndHeight = mWidth
-        column = ((mWidth + mGridstrokeWidthAndHeight) / (mGridstrokeWidthAndHeight + mGridLinestrokeWidth)).toInt()
+        column = (mWidth / mGridstrokeWidthAndHeight).toInt();
+
         intervalColumn = mWidth / column
-        row = ((mHeight + mGridstrokeWidthAndHeight) / (mGridstrokeWidthAndHeight + mGridLinestrokeWidth)).toInt()
+        row = (mHeight / mGridstrokeWidthAndHeight).toInt()
+
         intervalRow = mHeight / row
 
         mHeartLinestrokeWidth = dip2px(HEART_LINE_STROKE_WIDTH).toFloat()
