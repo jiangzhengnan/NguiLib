@@ -21,13 +21,13 @@ class WvActivity : AppCompatActivity() {
 
 
     private fun initViewsAndEvents() {
-     }
+    }
 
     override fun onStart() {
         super.onStart()
-        waveview.post(Runnable {
+        waveview.post {
             waveview.startAnima()
-        })
+        }
     }
 
 }
