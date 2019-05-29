@@ -5,8 +5,23 @@ issues welcome<br/>
 Jcenter: 
 <a href="https://bintray.com/jiangzhengnan/NguiLib/NguiLib">https://bintray.com/jiangzhengnan/NguiLib/NguiLib</a><br />
 
+UseAge
+-------
+gradle:
+```grovvy
+repositories {
+    mavenCentral()
+    jcenter()
+}
 
-<h3>Sample</h3><br/>
+...
+
+dependencies {
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+}
+```
+
+<h3>Sample</h3>
 1.CentralTractionButton 腾讯QQ的Tab按钮动画效果完美实现   <br />
 博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695">腾讯QQ的Tab按钮动画效果完美实现</a><br />
 2.WaveView 贝塞尔曲线的水波浪效果实现<br />
