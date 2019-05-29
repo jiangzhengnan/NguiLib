@@ -2,8 +2,8 @@
 <h3>NguiLib</h3><br/>
 An *beautiful+useful+easy-style*  custom view collection for Android,minSdkVersion >= 11<br>
 issues welcome<br/>
-UseAge
--------
+# UseAge
+<br/>
 gradle:
 ```grovvy
 repositories {
@@ -16,7 +16,9 @@ dependencies {
     api 'ng.ngui.ngbase:nguilib:0.0.1'
 }
 ```
+<br/>
 To add gradle dependency you need to open build.gradle (in your app folder,not in a project folder) then copy and add the dependencies there in the dependencies block;
+<br/>
 
 
 <h3>Sample</h3><br/>
