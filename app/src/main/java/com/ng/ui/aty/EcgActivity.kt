@@ -3,12 +3,13 @@ package com.ng.ui.aty
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ng.ui.R
+import com.ng.ui.view.EcgShowView
 import com.ng.ui.view.EcgShowViewJava
 import com.ng.ui.view.EcgShowViewJava.SHOW_MODEL_DYNAMIC_REFRESH
 import java.util.*
 
 class EcgActivity : AppCompatActivity() {
-    private lateinit var ecgview: EcgShowViewJava
+    private lateinit var ecgview: EcgShowView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

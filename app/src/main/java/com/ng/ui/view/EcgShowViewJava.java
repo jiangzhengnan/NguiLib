@@ -277,7 +277,6 @@ public class EcgShowViewJava extends View {
 
         canvas.drawPath(path, paint);
         postInvalidate();
-
     }
 
     //绘制全部心电图
