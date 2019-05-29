@@ -126,10 +126,6 @@ class EcgShowView : View {
         paint!!.isAntiAlias = true
         path!!.moveTo(0f, mHeight / 2)
 
-        //LogUtils.d("2:   " + refreshList.toString());
-
-        //LogUtils.d("3:   " + refreshList.get(0));
-
         val nowIndex = if (refreshList == null) 0 else refreshList!!.size //当前长度
 
         if (nowIndex == 0) {
@@ -148,8 +144,6 @@ class EcgShowView : View {
                 break
             }
             if (nowIndex <= intervalNumHeart) {
-                LogUtils.d(i.toString() + "   4:   " + data!![0])
-                LogUtils.d(i.toString() + "   5:   " + refreshList!![i])
 
                 data!![i] = refreshList!![i]
             } else {

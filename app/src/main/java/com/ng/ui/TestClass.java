@@ -21,44 +21,28 @@ public class TestClass {
     }
 
     private static void drawHeartRefresh() {
-
-
         int nowIndex = refreshList.size(); //当前长度
-
         if (nowIndex < intervalNumHeart) {
             showIndex = nowIndex - 1;
         } else {
             showIndex = (nowIndex - 1) % intervalNumHeart;
         }
-
-
         for (int i = 0; i < intervalNumHeart; i++) {
-
             if (i > refreshList.size() - 1) {
                 break;
             }
-
             if (nowIndex <= intervalNumHeart) {
                 data[i] = refreshList.get(i);
             } else {
                 int times = (nowIndex - 1) / intervalNumHeart;
-
-
                 int temp = times * intervalNumHeart + i;
-
-                Log(i + "    " + temp + "  <<<<<<<<< " + nowIndex);
-
                 if (temp < nowIndex) {
                     data[i] =
                             refreshList.get(temp);
                 }
-
             }
-
         }
-
         logdata();
-
     }
 
     private static void logdata() {
@@ -68,7 +52,7 @@ public class TestClass {
             str += tempInt + " , ";
 
         }
-        Log("   " + str + "                     " + (refreshList.size()));
+        Log( "第" +(refreshList.size()) + "次添加   " + str + "                     " );
     }
 
     private static void Log(String txt) {
