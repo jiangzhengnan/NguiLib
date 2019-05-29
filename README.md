@@ -10,7 +10,6 @@ UseAge
 gradle:
 ```grovvy
 repositories {
-    mavenCentral()
     jcenter()
 }
 
