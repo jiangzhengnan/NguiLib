@@ -2,8 +2,8 @@
 <h3>NguiLib</h3><br/>
 An *beautiful+useful+easy-style*  custom view collection for Android,minSdkVersion >= 11<br>
 issues welcome<br/>
- 
-
+Jcenter: 
+<a href="https://bintray.com/jiangzhengnan/NguiLib/NguiLib">https://bintray.com/jiangzhengnan/NguiLib/NguiLib</a><br />
 
 
 <h3>Sample</h3><br/>
