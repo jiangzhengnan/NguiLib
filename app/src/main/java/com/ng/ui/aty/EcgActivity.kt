@@ -3,20 +3,56 @@ package com.ng.ui.aty
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ng.ui.R
-import com.ng.ui.view.EcgShowView
+import com.ng.ui.view.EcgShowViewJava
+import com.ng.ui.view.EcgShowViewJava.SHOW_MODEL_DYNAMIC_REFRESH
+import java.util.*
 
 class EcgActivity : AppCompatActivity() {
-    private lateinit var ecgview: EcgShowView
+    private lateinit var ecgview: EcgShowViewJava
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ecg)
         ecgview = findViewById(R.id.ecgview);
-        ecgview.setData(health_data1)
+        health_data1 = health_data1 + health_data1 + health_data1 + health_data1 + health_data1 + health_data1
+
+        //显示全部心电图
+        //ecgview.setData(health_data1,EcgShowViewJava.SHOW_MODEL_ALL)
+
+
+        //显示滚动心电动态图
+        //ecgview.setData(health_data1,EcgShowViewJava.SHOW_MODEL_DYNAMIC_SCROLL)
+
+        //动态显示心电数据
+        showEcgData()
 
     }
 
-    private val health_data1 = "0.101253886148333549,0.0" +
+    private lateinit var timer: Timer
+    private lateinit var timerTask: TimerTask
+    private lateinit var dataList: Array<String>
+    private var index: Int = 0
+
+    private fun showEcgData() {
+        ecgview.setData(null, SHOW_MODEL_DYNAMIC_REFRESH)
+
+        dataList = health_data1.split(",").toTypedArray()
+        timer = object : Timer() {}
+
+        timerTask = object : TimerTask() {
+            override fun run() {
+                if (index >= dataList.size) {
+                    index = 0
+                }
+                if (dataList[index] == null || dataList[index] == "") return
+                ecgview.showLine(dataList[index].toFloat())
+                index++
+            }
+        }
+        timer.schedule(timerTask, 500, 50)
+    }
+
+    private var health_data1 = "0.101253886148333549,0.0" +
             "01253886148333549,0.003036087844520807,0.002440808573737741,-0.01077798567712307,-0.02941250056028366,-0.02127" +
             "940207719803,0.03379339724779129,0.09094017744064331,0.05208359658718109,-0.1133501008152962,-0.2622079849243" +
             "164,-0.1582041531801224,0.2832704782485962,0.8482071161270142,1.202911853790283,1.217478036880493,1.0064306259" +
@@ -36,5 +72,5 @@ class EcgActivity : AppCompatActivity() {
             "019378662,0.9481502175331116,0.3396361768245697,-0.9867785573005676,-1.6379554271698,0.3059036731719971,4.8029" +
             "6802520752,7.988834857940674,4.358085632324219,-7.128910541534424,-18.30419731140137,-13.80635738372803,19.7751" +
             "1596679688,82.21820831298828,152.1483306884766,190.4971923828125,159.1590728759766,49.01980972290039,-102.2764" +
-            "30415726,0.07632210850715637,0.04921660572290421,0.02271043695509434"
+            "30415726,0.07632210850715637,0.04921660572290421,0.02271043695509434,"
 }

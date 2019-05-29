@@ -1,0 +1,142 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'org.jetbrains.dokka'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+version = "0.0.1" //版本
+
+def siteUrl = 'https://github.com/jiangzhengnan/UI'    // 项目主页
+def gitUrl = 'https://github.com/jiangzhengnan/UI' //  git
+
+//group = "com.plugin.gradle"
+group = "ng.ngui.ngbase"
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+
+//doka
+//同时添加三个方法
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = javadoc.destinationDir
+}
+task generateJavadoc(type: Jar, dependsOn: dokkaJavadoc) {
+    group = 'jar'
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+task generateSourcesJar(type: Jar) {
+    group = 'jar'
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives generateJavadoc //javadocJar
+    archives generateSourcesJar //sourcesJar
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name 'NguiLib'  //项目名字
+                url siteUrl
+
+                //用apache2.0
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                //开发者基本信息
+                developers {
+                    developer {
+                        id 'jiang zhengnan'
+                        name 'jiang zhengnan'
+                        email '3442771773@qq.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    /**
+     * 用户名和key，这两个信息一般会保存在local.properties里面，只保留在本地，不上传到仓库。
+     */
+    user = properties.getProperty("bintrayUser")
+    key = properties.getProperty("bintrayApiKey")
+    println user
+    println key
+    configurations = ['archives']
+    pkg {
+        repo = "NguiLib"               //跟上面创建的Maven仓库名字保持一致 //(**慎重填写**)这里填写在bintray中自己新建仓库的名字
+        name = "NguiLib"                //发布到JCenter上的项目名字   //（**慎重填写**）发布到JCenter上的项目名字，必须填写，对应com.squareup.okhttp3:okhttp:3.4.1中的okhttp
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+        publish = true
+    }
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}

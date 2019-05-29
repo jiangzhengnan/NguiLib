@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ng.ui.view.EcgShowView
+    <com.ng.ui.view.EcgShowViewJava
         android:id="@+id/ecgview"
         android:layout_margin="10dp"
         android:layout_width="match_parent"

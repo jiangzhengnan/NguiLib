@@ -8,7 +8,6 @@ import com.ng.ui.aty.CtbActivity
 import com.ng.ui.aty.EcgActivity
 import com.ng.ui.aty.WvActivity
 import kotlinx.android.synthetic.main.activity_main.*
-
 class MainActivity : AppCompatActivity() {
 
 
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(getContentViewLayoutID())
         ButterKnife.bind(this)
         initViewsAndEvents()
+
     }
 
     private fun getContentViewLayoutID(): Int {
