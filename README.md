@@ -5,20 +5,24 @@ issues welcome<br/>
 # UseAge
 <br/>
 gradle:
-```grovvy
+```
+grovvy
 repositories {
+    mavenCentral()
     jcenter()
 }
 
 ...
 
 dependencies {
-    api 'ng.ngui.ngbase:nguilib:0.0.1'
+    compile 'ng.ngui.ngbase:nguilib:0.0.1'
+
 }
 ```
 <br/>
-To add gradle dependency you need to open build.gradle (in your app folder,not in a project folder) then copy and add the dependencies there in the dependencies block;
+To add gradle dependency you need to open build.gradle (in your app folder,not in a project folder) then copy and add the dependencies there in the dependencies block
 <br/>
+
 
 
 <h3>Sample</h3><br/>
@@ -35,7 +39,7 @@ To add gradle dependency you need to open build.gradle (in your app folder,not i
 动态刷新显示模式：
 <img src="https://github.com/jiangzhengnan/UI/blob/master/app/src/main/res/raw/ecg_refresh.gif" />
 
-
+ 
 
 
 ## License
