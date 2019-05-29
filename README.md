@@ -17,7 +17,7 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+    api 'ng.ngui.ngbase:nguilib:0.0.1'
 }
 ```
 
