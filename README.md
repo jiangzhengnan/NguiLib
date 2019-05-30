@@ -42,7 +42,7 @@ To add gradle dependency you need to open build.gradle (in your app folder,not i
 
 ## License
 
-    Copyright 2017, Yalantis
+    Copyright 2019, J
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
