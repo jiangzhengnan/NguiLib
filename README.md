@@ -19,6 +19,9 @@ dependencies {
     api 'ng.ngui.ngbase:nguilib:0.0.1'
 }
 ```
+<br/>
+To add gradle dependency you need to open build.gradle (in your app folder,not in a project folder) then copy and add the dependencies there in the dependencies block
+<br/>
 
 <h3>Sample</h3>
 1.CentralTractionButton 腾讯QQ的Tab按钮动画效果完美实现   <br />
