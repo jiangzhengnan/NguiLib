@@ -41,7 +41,6 @@ class CentralTractionButton : RadioButton {
     private var centerx: Float = 0.toFloat()
     private var centery: Float = 0.toFloat()
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ctattrs)
@@ -55,6 +54,7 @@ class CentralTractionButton : RadioButton {
         ta.recycle()
         init()
     }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)

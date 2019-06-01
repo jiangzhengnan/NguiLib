@@ -33,6 +33,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    implementation project(':nguilib')
+
     //api 'com.plugin.gradle:nguilib:0.0.1'
     //api 'ng.ngui.ngbase:nguilib:0.0.2'
 

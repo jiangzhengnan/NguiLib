@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ng.ui.R
 import com.ng.ui.view.EcgShowView
-import com.ng.ui.view.EcgShowViewJava
-import com.ng.ui.view.EcgShowViewJava.SHOW_MODEL_DYNAMIC_REFRESH
 import java.util.*
 
 class EcgActivity : AppCompatActivity() {
@@ -35,7 +33,7 @@ class EcgActivity : AppCompatActivity() {
     private var index: Int = 0
 
     private fun showEcgData() {
-        ecgview.setData(null, SHOW_MODEL_DYNAMIC_REFRESH)
+        ecgview.setData(null, ecgview.SHOW_MODEL_DYNAMIC_REFRESH)
 
         dataList = health_data1.split(",").toTypedArray()
         timer = object : Timer() {}

@@ -8,7 +8,7 @@ import com.ng.ui.R
 import com.ng.ui.view.CentralTractionButton
 
 
-  class CtbActivity : AppCompatActivity() {
+class CtbActivity : AppCompatActivity() {
 
 
     private lateinit var ctt: CentralTractionButton

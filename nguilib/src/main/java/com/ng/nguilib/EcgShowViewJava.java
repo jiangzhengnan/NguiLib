@@ -141,9 +141,6 @@ public class EcgShowViewJava extends View {
         paint.setAntiAlias(true);
         path.moveTo(0, mHeight / 2);
 
-        //LogUtils.d("2:   " + refreshList.toString());
-
-        //LogUtils.d("3:   " + refreshList.get(0));
 
         int nowIndex = refreshList==null?0:refreshList.size();
 
@@ -175,8 +172,6 @@ public class EcgShowViewJava extends View {
             }
         }
 
-        logdata();
-
         float nowX;
         float nowY;
         for (int i = 0; i < data.length; i++) {
@@ -203,15 +198,6 @@ public class EcgShowViewJava extends View {
         }
 
         canvas.drawPath(path, paint);
-    }
-
-    private void logdata() {
-        String str = "";
-        for (float temp : data) {
-            str += temp + ",";
-
-        }
-
     }
 
     private void drawHeartScroll(Canvas canvas) {
@@ -357,11 +343,6 @@ public class EcgShowViewJava extends View {
                 intervalRowHeart = mWidth / dip2px(INTERVAL_SCROLL_REFRESH);
                 intervalNumHeart = (int) (mWidth / intervalRowHeart);
                 intervalColumnHeart = mHeight / (MAX_VALUE * 2);
-                LogUtils.d("what the fk ? " + mHeight);
-
-                LogUtils.d("what the fk ? " +  (MAX_VALUE * 2));
-
-                LogUtils.d("what the fk ? " + intervalColumnHeart);
 
                 break;
         }
