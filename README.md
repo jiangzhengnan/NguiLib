@@ -29,7 +29,7 @@ Information: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695
 2.WaveView.Bezier wave view<br />
 Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90139954">贝塞尔曲线的水波浪效果实现</a><br />
 3.EcgView. ECG display <br />
-Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90349970">ECG心电图的绘制实现</a><br />
+Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90679481">ECG心电图的绘制实现</a><br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" />
 
  
