@@ -30,12 +30,7 @@ To add gradle dependency you need to open build.gradle (in your app folder,not i
 博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/90139954">贝塞尔曲线的水波浪效果实现</a><br />
 3.EcgView ECG心电图的绘制实现<br />
 博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/90349970">ECG心电图的绘制实现</a><br />
-数据全部显示模式：
-<img src="https://github.com/jiangzhengnan/UI/blob/master/app/src/main/res/raw/ecg_showall.png" />
-滑动显示模式：
-<img src="https://github.com/jiangzhengnan/UI/blob/master/app/src/main/res/raw/ecg_scroll.gif" />
-动态刷新显示模式：
-<img src="https://github.com/jiangzhengnan/UI/blob/master/app/src/main/res/raw/ecg_refresh.gif" />
+<img src="https://github.com/jiangzhengnan/UI/blob/master/app/src/main/res/raw/ecg_show." />
 
  
 
