@@ -1,5 +1,5 @@
 # NguiLib
-<h3>NguiLib</h3><br/>
+
 An *beautiful+useful+easy-style*  custom view collection for Android,minSdkVersion >= 11<br>
 issues welcome<br/>
 Jcenter: 
