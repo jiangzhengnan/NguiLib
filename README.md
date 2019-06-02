@@ -24,12 +24,12 @@ To add gradle dependency you need to open build.gradle (in your app folder,not i
 <br/>
 
 <h3>Sample</h3>
-1.CentralTractionButton 腾讯QQ的Tab按钮动画效果完美实现   <br />
-博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695">腾讯QQ的Tab按钮动画效果完美实现</a><br />
-2.WaveView 贝塞尔曲线的水波浪效果实现<br />
-博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/90139954">贝塞尔曲线的水波浪效果实现</a><br />
-3.EcgView ECG心电图的绘制实现<br />
-博客地址: <a href="https://blog.csdn.net/qq_22770457/article/details/90349970">ECG心电图的绘制实现</a><br />
+1.CentralTractionButton. Perfect Realization of Tab Button Animation Effect of Tencent QQ   <br />
+Information: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695">腾讯QQ的Tab按钮动画效果完美实现</a><br />
+2.WaveView.Bezier wave view<br />
+Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90139954">贝塞尔曲线的水波浪效果实现</a><br />
+3.EcgView. ECG display <br />
+Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90349970">ECG心电图的绘制实现</a><br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" />
 
  
