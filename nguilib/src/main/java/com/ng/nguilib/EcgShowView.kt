@@ -36,12 +36,12 @@ class EcgShowView : View {
     private var intervalNumHeart: Int = 0
     private var intervalRowHeart: Float = 0.toFloat()
     private var intervalColumnHeart: Float = 0.toFloat()
-    private val HEART_LINE_STROKE_WIDTH = 5f
+    private val HEART_LINE_STROKE_WIDTH = 2.5f
     private var data: FloatArray? = null
     private var mHeartLinestrokeWidth: Float = 0.toFloat()
 
-    private val GRID_LINE_STROKE_WIDTH = 3f
-    private val GRID_WIDTH_AND_HEIGHT = 10f
+    private val GRID_LINE_STROKE_WIDTH = 1.5f
+    private val GRID_WIDTH_AND_HEIGHT = 5f
     private var row: Int = 0
     private var intervalRow: Float = 0.toFloat()
     private var column: Int = 0

@@ -18,11 +18,7 @@
 
         <activity android:name=".aty.WvActivity"></activity>
         <activity android:name=".aty.CtbActivity"></activity>
-        <activity
-            android:name=".aty.EcgActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
+        <activity android:name=".aty.EcgActivity"></activity>
 
     </application>
 
