@@ -32,14 +32,14 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/btn1_mcv"
-            android:text="选中"
+            android:text="choise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btn2_mcv"
             android:layout_marginLeft="50dp"
-            android:text="取消选中"
+            android:text="unchoise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

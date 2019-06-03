@@ -6,6 +6,7 @@ import android.widget.Button
 import butterknife.ButterKnife
 import com.ng.ui.aty.CtbActivity
 import com.ng.ui.aty.EcgActivity
+import com.ng.ui.aty.PlActivity
 import com.ng.ui.aty.WvActivity
 import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         addIntentBtn(WvActivity().javaClass,"WaveView")
         //ecg
         addIntentBtn(EcgActivity().javaClass,"EcgView")
+        //pl
+        addIntentBtn(PlActivity().javaClass,"PolygonLoadView")
 
     }
 

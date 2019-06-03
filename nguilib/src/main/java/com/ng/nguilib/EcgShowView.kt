@@ -8,7 +8,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.ng.nguilib.LogUtils
-import com.ng.nguilib.R
+import com.ng.nguilib.utils.DensityUtil.dip2px
 import java.util.*
 
 class EcgShowView : View {
@@ -25,8 +25,8 @@ class EcgShowView : View {
     private var dataStrList: Array<String>? = null
 
     private var scrollIndex = 0
-    internal var timer: Timer? = null
-    internal var timerTask: TimerTask? = null
+    private lateinit var timer: Timer
+    private lateinit var timerTask: TimerTask
     private val INTERVAL_SCROLL_REFRESH = 80f
 
     private var refreshList: MutableList<Float>? = null
@@ -63,22 +63,21 @@ class EcgShowView : View {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         mWidth = measuredWidth.toFloat()
         mHeight = measuredHeight.toFloat()
-        mGridLinestrokeWidth = dip2px(GRID_LINE_STROKE_WIDTH).toFloat()
-        mGridstrokeWidthAndHeight = dip2px(GRID_WIDTH_AND_HEIGHT).toFloat()
+        mGridLinestrokeWidth = dip2px(context,GRID_LINE_STROKE_WIDTH).toFloat()
+        mGridstrokeWidthAndHeight = dip2px(context,GRID_WIDTH_AND_HEIGHT).toFloat()
 
         column = (mWidth / mGridstrokeWidthAndHeight).toInt()
         intervalColumn = mWidth / column
         row = (mHeight / mGridstrokeWidthAndHeight).toInt()
         intervalRow = mHeight / row
 
-        mHeartLinestrokeWidth = dip2px(HEART_LINE_STROKE_WIDTH).toFloat()
+        mHeartLinestrokeWidth = dip2px(context,HEART_LINE_STROKE_WIDTH).toFloat()
         initData()
     }
 
@@ -319,7 +318,7 @@ class EcgShowView : View {
                 for (i in 0 until dataLength) {
                     data!![i] = java.lang.Float.parseFloat(dataStrList!![i])
                 }
-                intervalRowHeart = mWidth / dip2px(INTERVAL_SCROLL_REFRESH)
+                intervalRowHeart = mWidth / dip2px(context, INTERVAL_SCROLL_REFRESH)
                 intervalNumHeart = (mWidth / intervalRowHeart).toInt()
                 intervalColumnHeart = mHeight / (MAX_VALUE * 2)
                 startScrollTimer()
@@ -327,17 +326,11 @@ class EcgShowView : View {
             SHOW_MODEL_DYNAMIC_REFRESH -> {
 
 
-                intervalRowHeart = mWidth / dip2px(INTERVAL_SCROLL_REFRESH)
+                intervalRowHeart = mWidth / dip2px(context, INTERVAL_SCROLL_REFRESH)
                 intervalNumHeart = (mWidth / intervalRowHeart).toInt()
                 intervalColumnHeart = mHeight / (MAX_VALUE * 2)
-                LogUtils.d("what the fk ? $mHeight")
-
-                LogUtils.d("what the fk ? " + MAX_VALUE * 2)
-
-                LogUtils.d("what the fk ? $intervalColumnHeart")
             }
         }
-        LogUtils.d(Thread.currentThread().name + "initDataEnd : " + intervalColumnHeart)
 
     }
 
@@ -356,17 +349,9 @@ class EcgShowView : View {
     }
 
 
-    private fun dip2px(dipValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
-    }
-
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (timer != null) {
-            timer!!.cancel()
-            timer = null
-        }
+        timer.cancel()
     }
 
 }

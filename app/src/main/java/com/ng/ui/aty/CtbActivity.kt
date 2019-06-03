@@ -3,7 +3,7 @@ package com.ng.ui.aty
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import com.ng.ui.LogUtils
+import com.ng.nguilib.LogUtils
 import com.ng.ui.R
 import com.ng.ui.view.CentralTractionButton
 
@@ -32,14 +32,14 @@ class CtbActivity : AppCompatActivity() {
         btn1 = findViewById(R.id.btn1_mcv)
         btn1.setOnClickListener {
             ctt.isChecked = true
-            LogUtils.d("选中")
+            LogUtils.d("choise")
         }
 
         btn2 = findViewById(R.id.btn2_mcv)
 
         btn2.setOnClickListener {
             ctt.isChecked = false
-            LogUtils.d("取消选中")
+            LogUtils.d("unchoise")
         }
     }
 }

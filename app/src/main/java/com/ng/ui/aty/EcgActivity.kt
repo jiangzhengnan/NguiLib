@@ -2,7 +2,6 @@ package com.ng.ui.aty
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ng.nguilib.EcgShowViewJava
 import com.ng.ui.R
 import com.ng.ui.view.EcgShowView
 import java.util.*
@@ -16,15 +15,15 @@ class EcgActivity : AppCompatActivity() {
         ecgview = findViewById(R.id.ecgview);
         health_data1 = health_data1 + health_data1 + health_data1 + health_data1
 
-        //显示全部心电图
-        ecgview.setData(health_data1,EcgShowViewJava.SHOW_MODEL_ALL)
+        //show all ecg
+        //ecgview.setData(health_data1, ecgview.SHOW_MODEL_ALL)
 
 
-        //显示滚动心电动态图
-        //ecgview.setData(health_data1, EcgShowViewJava.SHOW_MODEL_DYNAMIC_SCROLL)
+        //show scroll ecg
+        //ecgview.setData(health_data1, ecgview.SHOW_MODEL_DYNAMIC_SCROLL)
 
-        //动态显示心电数据
-        //showEcgData()
+        //show refresh ecg
+        showEcgData()
 
     }
 

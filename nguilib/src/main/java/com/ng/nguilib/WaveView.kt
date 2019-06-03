@@ -7,7 +7,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -59,7 +58,6 @@ class WaveView : View {
         paint.color = this.color;
         clipPath = Path()
         array.recycle()
-
     }
 
     @SuppressLint("NewApi")
