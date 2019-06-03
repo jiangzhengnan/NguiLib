@@ -1,6 +1,6 @@
 # NguiLib
 
-An *beautiful+useful+easy-style*  custom view collection for Android,minSdkVersion >= 11<br>
+An *beautiful+useful+easy-style*  custom view collection for Android,minSdkVersion >= 14<br>
 issues welcome<br/>
 Jcenter: 
 <a href="https://bintray.com/jiangzhengnan/NguiLib/NguiLib">https://bintray.com/jiangzhengnan/NguiLib/NguiLib</a><br />
