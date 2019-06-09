@@ -1,5 +1,6 @@
 package com.ng.nguilib
 
+import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -23,6 +24,8 @@ class PolygonLoadView : View {
     val SHOW_MODEL_TRIANGLE = 0x01
     val SHOW_MODEL_SQUARE = 0x02
 
+    private lateinit var animatorSet: AnimatorSet
+
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
@@ -32,6 +35,7 @@ class PolygonLoadView : View {
         SHOW_MODEL = SHOW_MODEL_ROUND
         LogUtils.d("init")
         paint = Paint()
+        animatorSet = AnimatorSet()
         //开始动画
         startAnim()
     }
