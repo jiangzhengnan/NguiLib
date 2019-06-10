@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -109,8 +111,9 @@ public class PolygonLoadViewJ extends View {
 
         ValueAnimator pointAnimator1 = ValueAnimator.ofFloat(0, 100);
         pointAnimator1.setDuration(TIME_CIRCLE / 4);
-        pointAnimator1.setInterpolator(new AccelerateInterpolator(1));
+        pointAnimator1.setInterpolator(new AccelerateInterpolator(2));
         pointAnimator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float temp = animation.getAnimatedFraction();
@@ -124,9 +127,10 @@ public class PolygonLoadViewJ extends View {
 
         ValueAnimator pointAnimator2 = ValueAnimator.ofFloat(0, 100);
         pointAnimator2.setDuration(TIME_CIRCLE / 4);
-        pointAnimator2.setInterpolator(new AccelerateInterpolator(1));
+        pointAnimator2.setInterpolator(new AccelerateInterpolator(2));
 
         pointAnimator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float temp = animation.getAnimatedFraction();
@@ -139,9 +143,10 @@ public class PolygonLoadViewJ extends View {
         });
         ValueAnimator pointAnimator3 = ValueAnimator.ofFloat(0, 100);
         pointAnimator3.setDuration(TIME_CIRCLE / 4);
-        pointAnimator3.setInterpolator(new AccelerateInterpolator(1));
+        pointAnimator3.setInterpolator(new AccelerateInterpolator(2));
 
         pointAnimator3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
             @Override
 
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -157,8 +162,9 @@ public class PolygonLoadViewJ extends View {
         });
         ValueAnimator pointAnimator4 = ValueAnimator.ofFloat(0, 100);
         pointAnimator4.setDuration(TIME_CIRCLE / 4);
-        pointAnimator4.setInterpolator(new AccelerateInterpolator(1));
+        pointAnimator4.setInterpolator(new AccelerateInterpolator(2));
         pointAnimator4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
             @Override
 
             public void onAnimationUpdate(ValueAnimator animation) {
