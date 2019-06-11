@@ -1,5 +1,7 @@
 package com.ng.nguilib
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
@@ -7,86 +9,345 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.view.animation.RotateAnimation
 
 class PolygonLoadView : View {
-    private lateinit var paint: Paint
-    private lateinit var round: RectF
-    private var mGridLinestrokeWidth: Float = 30f
-    private lateinit var rotateAnimation: RotateAnimation
+    //common
+    private var paintLine: Paint? = null
+    private var paintPoint: Paint? = null
 
-    var SHOW_MODEL = 0
+    private var roundRF: RectF? = null
+    private val mGridLinestrokeWidth = 30f
+
+    private var SHOW_MODEL = 0
     val SHOW_MODEL_ROUND = 0x00
     val SHOW_MODEL_TRIANGLE = 0x01
     val SHOW_MODEL_SQUARE = 0x02
 
-    private lateinit var animatorSet: AnimatorSet
+    val TIME_CIRCLE: Long = 2200
 
+    private var animatorSet: AnimatorSet? = null
+    private var mSideLenght: Float = 0.toFloat()
+    private var mHalfSH: Float = 0.toFloat()
+    private var thickness: Float = 0.toFloat()
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
+    //round
+    private var pointX: Float = 0.toFloat()
+    private var pointY: Float = 0.toFloat()
+    private var startAngle: Float = 0.toFloat()
+    private val swipeAngle = 270f
+    //triangle
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+
+    fun setModel(model: Int) {
+        if (SHOW_MODEL == SHOW_MODEL_ROUND || SHOW_MODEL == SHOW_MODEL_TRIANGLE || SHOW_MODEL == SHOW_MODEL_SQUARE) {
+            this.SHOW_MODEL = model
+            init()
+            postInvalidate()
+        } else {
+            try {
+                throw Exception("error model")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
     }
 
     private fun init() {
-        SHOW_MODEL = SHOW_MODEL_ROUND
-        LogUtils.d("init")
-        paint = Paint()
+        paintLine = Paint()
+        paintPoint = Paint()
         animatorSet = AnimatorSet()
-        //开始动画
-        startAnim()
+        mHalfSH = mSideLenght / 2
+        thickness = mGridLinestrokeWidth / 2
+        when (SHOW_MODEL) {
+            SHOW_MODEL_ROUND -> initRound()
+            SHOW_MODEL_TRIANGLE -> initTriangle()
+            SHOW_MODEL_SQUARE -> initSquare()
+        }
+
     }
 
-    private fun startAnim() {
-        rotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-        rotateAnimation.interpolator = OvershootInterpolator(5f)
-        rotateAnimation.duration = 1500
-        rotateAnimation.repeatCount = ValueAnimator.INFINITE
-        this.animation = rotateAnimation
-        rotateAnimation.start()
+    private fun initSquare() {
+        startAnimSquare()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    private fun startAnimSquare() {
+
+    }
+
+    private fun initTriangle() {
+        //paint
+        paintLine!!.style = Paint.Style.STROKE
+        paintLine!!.color = Color.parseColor("#2D283C")
+        paintLine!!.strokeWidth = mGridLinestrokeWidth
+        paintLine!!.isAntiAlias = true
+        paintLine!!.strokeCap = Paint.Cap.ROUND
+        roundRF = RectF(0 + mGridLinestrokeWidth / 2,
+                0 + mGridLinestrokeWidth / 2,
+                mSideLenght - mGridLinestrokeWidth / 2,
+                mSideLenght - mGridLinestrokeWidth / 2)
+        paintPoint!!.isAntiAlias = true
+        paintPoint!!.color = Color.parseColor("#4A22EA")
+        paintPoint!!.style = Paint.Style.STROKE
+        paintPoint!!.strokeWidth = mGridLinestrokeWidth
+        paintPoint!!.strokeCap = Paint.Cap.ROUND
+
+
+        //point
+        pointX = mHalfSH / 3 + thickness
+        pointY = mHalfSH / 2
+        startAnimTriangle()
+    }
+
+    /**
+     * x ->  width/3  -  width/2  - width*2/3 - width/3
+     * y ->  width/2   -   0  -  width/2 - width/2
+     * startAngle ->        315f 225f 135f 45f -45f
+     */
+    private fun startAnimTriangle() {
+        val interpolator = AccelerateInterpolator(1f)
+        val pointAnimator1 = ValueAnimator.ofFloat(0f, 100f)
+        pointAnimator1.duration = TIME_CIRCLE / 3
+        pointAnimator1.interpolator = interpolator
+        pointAnimator1.startDelay = 30//制造停顿感
+        pointAnimator1.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = mHalfSH - temp * (mHalfSH - thickness)
+            pointY = thickness + temp * (mHalfSH - thickness)
+            invalidate()
+        }
+
+        val pointAnimator2 = ValueAnimator.ofFloat(0f, 100f)
+        pointAnimator2.duration = TIME_CIRCLE / 3
+        pointAnimator2.interpolator = interpolator
+        pointAnimator2.startDelay = 30
+
+        pointAnimator2.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = thickness + temp * (mHalfSH - thickness)
+            pointY = mHalfSH + temp * (mHalfSH - thickness)
+            invalidate()
+        }
+        val pointAnimator3 = ValueAnimator.ofFloat(0f, 100f)
+        pointAnimator3.duration = TIME_CIRCLE / 3
+        pointAnimator3.interpolator = interpolator
+        pointAnimator3.startDelay = 30
+
+        pointAnimator3.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = mHalfSH + temp * (mHalfSH - thickness)
+            pointY = mSideLenght - thickness - temp * (mHalfSH - thickness)
+            invalidate()
+        }
+        animatorSet!!.playSequentially(pointAnimator1, pointAnimator2, pointAnimator3)
+        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                animatorSet!!.start()
+            }
+        })
+        animatorSet!!.start()
+    }
+
+    private fun initRound() {
+        //paint
+        paintLine!!.style = Paint.Style.STROKE
+        paintLine!!.color = Color.parseColor("#2D283C")
+        paintLine!!.strokeWidth = mGridLinestrokeWidth
+        paintLine!!.isAntiAlias = true
+        paintLine!!.strokeCap = Paint.Cap.ROUND
+        roundRF = RectF(0 + mGridLinestrokeWidth / 2,
+                0 + mGridLinestrokeWidth / 2,
+                mSideLenght - mGridLinestrokeWidth / 2,
+                mSideLenght - mGridLinestrokeWidth / 2)
+        paintPoint!!.isAntiAlias = true
+        paintPoint!!.color = Color.parseColor("#4A22EA")
+        paintPoint!!.style = Paint.Style.STROKE
+        paintPoint!!.strokeWidth = mGridLinestrokeWidth
+        paintPoint!!.strokeCap = Paint.Cap.ROUND
+
+
+        //point
+        pointX = mHalfSH
+        pointY = thickness
+
+        // startAnimRound()
+
+        startAnimByStep(4, object : OnAnimationUpdatePLView {
+            override fun onUpdate(step: Int, fraction: Float) {
+                when (step) {
+                    1 -> {
+                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
+                        pointY = thickness + fraction * (mHalfSH - thickness)
+                        startAngle = 315f - fraction * 90
+                    }
+                    2 -> {
+                        pointX = thickness + fraction * (mHalfSH - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+                        startAngle = 225f - fraction * 90
+                    }
+                    3 -> {
+                        pointX = mHalfSH + fraction * (mHalfSH - thickness)
+                        pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
+                        startAngle = 135f - fraction * 90
+                    }
+                    4 -> {
+                        pointX = mSideLenght - fraction * (mHalfSH - thickness) - thickness
+                        pointY = mHalfSH - fraction * (mHalfSH - thickness)
+                        startAngle = if (startAngle > 0) {
+                            45 - fraction * 90
+                        } else {
+                            405 - fraction * 90
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
+    private fun startAnimByStep(step: Int, listener: OnAnimationUpdatePLView) {
+        val interpolator = AccelerateInterpolator(1f)
+        val pointAnimList = mutableListOf<Animator>()
+        for (index in 1..step) {
+            val pointAnimatorTemp = ValueAnimator.ofFloat(0f, 100f)
+            pointAnimatorTemp.duration = TIME_CIRCLE / 4
+            pointAnimatorTemp.interpolator = interpolator
+            pointAnimatorTemp.startDelay = 30//制造停顿感
+            pointAnimatorTemp.addUpdateListener { animation ->
+                val temp = animation.animatedFraction
+                listener.onUpdate(index, temp)
+                invalidate()
+            }
+            pointAnimList.add(pointAnimatorTemp)
+        }
+        animatorSet!!.playSequentially(pointAnimList)
+        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                animatorSet!!.start()
+            }
+        })
+        animatorSet!!.start()
+    }
+
+    /**
+     * x ->  width/2  -  0  - width/2 - width - width/2
+     * y ->  0       -   height/2   - height  - height/2 - 0
+     * startAngle ->        315f 225f 135f 45f -45f
+     */
+    private fun startAnimRound() {
+        val interpolator = AccelerateInterpolator(1f)
+        val pointAnimator1 = ValueAnimator.ofFloat(0f, 100f)
+        pointAnimator1.duration = TIME_CIRCLE / 4
+        pointAnimator1.interpolator = interpolator
+        pointAnimator1.startDelay = 30//制造停顿感
+        pointAnimator1.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = mHalfSH - temp * (mHalfSH - thickness)
+            pointY = thickness + temp * (mHalfSH - thickness)
+            startAngle = 315f - temp * 90
+            invalidate()
+        }
+
+        val pointAnimator2 = ValueAnimator.ofFloat(0f, 100F)
+        pointAnimator2.duration = TIME_CIRCLE / 4
+        pointAnimator2.interpolator = interpolator
+        pointAnimator2.startDelay = 30
+
+        pointAnimator2.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = thickness + temp * (mHalfSH - thickness)
+            pointY = mHalfSH + temp * (mHalfSH - thickness)
+            startAngle = 225f - temp * 90
+            invalidate()
+        }
+        val pointAnimator3 = ValueAnimator.ofFloat(0f, 100F)
+        pointAnimator3.duration = TIME_CIRCLE / 4
+        pointAnimator3.interpolator = interpolator
+        pointAnimator3.startDelay = 30
+
+        pointAnimator3.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = mHalfSH + temp * (mHalfSH - thickness)
+            pointY = mSideLenght - thickness - temp * (mHalfSH - thickness)
+            startAngle = 135f - temp * 90
+            invalidate()
+        }
+        val pointAnimator4 = ValueAnimator.ofFloat(0f, 100F)
+        pointAnimator4.duration = TIME_CIRCLE / 4
+        pointAnimator4.interpolator = interpolator
+        pointAnimator4.startDelay = 30
+        pointAnimator4.addUpdateListener { animation ->
+            val temp = animation.animatedFraction
+            pointX = mSideLenght - temp * (mHalfSH - thickness) - thickness
+            pointY = mHalfSH - temp * (mHalfSH - thickness)
+            startAngle = if (startAngle > 0) {
+                45 - temp * 90
+            } else {
+                405 - temp * 90
+            }
+            invalidate()
+        }
+        //        animatorSet.play(pointAnimator1);
+        //        animatorSet.play(pointAnimator2).after(pointAnimator1);
+        //        animatorSet.play(pointAnimator3).after(pointAnimator2);
+        //        animatorSet.play(pointAnimator4).after(pointAnimator3);
+        animatorSet!!.playSequentially(pointAnimator1, pointAnimator2, pointAnimator3, pointAnimator4)
+        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                animatorSet!!.start()
+            }
+        })
+        animatorSet!!.start()
+    }
+
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        mSideLenght = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
+        //宽必须等于高
+        LogUtils.d("宽： $mSideLenght  高：  $mSideLenght")
+    }
+
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         when (SHOW_MODEL) {
-            SHOW_MODEL_ROUND -> drawRound(canvas!!)
+            SHOW_MODEL_ROUND -> drawRound(canvas)
+            SHOW_MODEL_TRIANGLE -> drawTriangle(canvas)
+            SHOW_MODEL_SQUARE -> drawSquare(canvas)
+            else -> {
+            }
         }
+    }
 
+    private fun drawSquare(canvas: Canvas) {
+        canvas.drawPoint(pointX, pointY, paintPoint!!)
+    }
+
+    private fun drawTriangle(canvas: Canvas) {
 
     }
 
     private fun drawRound(canvas: Canvas) {
-        paint.style = Paint.Style.STROKE
-        paint.color = Color.parseColor("#2D283C")
-        paint.strokeWidth = mGridLinestrokeWidth
-        paint.isAntiAlias = true
-        paint.strokeCap = Paint.Cap.ROUND
-        val x = ((width - height / 2) / 2).toFloat()
-        val y = (height / 4).toFloat()
-        round = RectF(x, y,
-                width - x, height - y)
-        canvas.drawArc(round,
-                315f,
-                270f,
-                false,
-                paint
-        )
+        canvas.drawArc(roundRF!!, startAngle, swipeAngle, false, paintLine!!)
+        canvas.drawPoint(pointX, pointY, paintPoint!!)
     }
-
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    interface OnAnimationUpdatePLView {
+        fun onUpdate(step: Int, fraction: Float)
     }
-
 
 }

@@ -18,7 +18,6 @@ class WvActivity : AppCompatActivity() {
 
     }
 
-
     private fun initViewsAndEvents() {
     }
 

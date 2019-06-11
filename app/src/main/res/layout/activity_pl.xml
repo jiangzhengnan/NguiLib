@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ng.nguilib.java.PolygonLoadViewJ
+    <com.ng.nguilib.PolygonLoadView
         android:id="@+id/pl"
         android:layout_width="80dp"
         android:layout_height="80dp"
