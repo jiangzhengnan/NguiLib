@@ -103,11 +103,11 @@ class PolygonLoadView : View {
 
 
         //point
-        pointX = mHalfSH / 3 + thickness
-        pointY = mHalfSH / 2
+        pointX = mHalfSH / 2 + thickness
+        pointY = mHalfSH
         // startAnimTriangle
         /**
-         * x ->  width/3  -  width/2  - width*2/3 - width/3
+         * x ->  mHalfSH/2 - mHalfSH - mHalfSH*3/2 - mHalfSH/2
          * y ->  width/2   -   0  -  width/2 - width/2
          * startAngle ->        315f 225f 135f 45f -45f
          */
@@ -115,22 +115,21 @@ class PolygonLoadView : View {
             override fun onUpdate(step: Int, fraction: Float) {
                 when (step) {
                     1 -> {
-                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
-                        pointY = thickness + fraction * (mHalfSH - thickness)
+                        pointX = mHalfSH / 2 + thickness + fraction * (mHalfSH / 2 - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
                     }
                     2 -> {
-                        pointX = thickness + fraction * (mHalfSH - thickness)
+                        pointX = mHalfSH + fraction * (mHalfSH / 2)
                         pointY = mHalfSH + fraction * (mHalfSH - thickness)
                     }
                     3 -> {
-                        pointX = mHalfSH + fraction * (mHalfSH - thickness)
+                        pointX = mHalfSH * 3 / 2 - thickness - fraction * (mHalfSH - 2 * thickness)
                         pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
                     }
                 }
             }
         })
     }
-
 
 
     private fun initRound() {
@@ -150,31 +149,21 @@ class PolygonLoadView : View {
         paintPoint!!.strokeWidth = mGridLinestrokeWidth
         paintPoint!!.strokeCap = Paint.Cap.ROUND
 
-
         //point
         pointX = mHalfSH
-        pointY = thickness
+        pointY = mHalfSH * 2 - thickness
+        startAngle = 225f
 
         // startAnimRound()
         startAnimByStep(4, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
                 when (step) {
                     1 -> {
-                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
-                        pointY = thickness + fraction * (mHalfSH - thickness)
-                        startAngle = 315f - fraction * 90
-                    }
-                    2 -> {
-                        pointX = thickness + fraction * (mHalfSH - thickness)
-                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
-                        startAngle = 225f - fraction * 90
-                    }
-                    3 -> {
                         pointX = mHalfSH + fraction * (mHalfSH - thickness)
                         pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
                         startAngle = 135f - fraction * 90
                     }
-                    4 -> {
+                    2 -> {
                         pointX = mSideLenght - fraction * (mHalfSH - thickness) - thickness
                         pointY = mHalfSH - fraction * (mHalfSH - thickness)
                         startAngle = if (startAngle > 0) {
@@ -182,6 +171,18 @@ class PolygonLoadView : View {
                         } else {
                             405 - fraction * 90
                         }
+                    }
+                    3 -> {
+
+                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
+                        pointY = thickness + fraction * (mHalfSH - thickness)
+                        startAngle = 315f - fraction * 90
+                    }
+                    4 -> {
+
+                        pointX = thickness + fraction * (mHalfSH - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+                        startAngle = 225f - fraction * 90
                     }
                 }
             }
@@ -212,7 +213,6 @@ class PolygonLoadView : View {
         })
         animatorSet!!.start()
     }
-
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

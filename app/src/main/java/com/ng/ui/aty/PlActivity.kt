@@ -28,7 +28,7 @@ class PlActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         pl.post {
-            pl.setModel(pl.SHOW_MODEL_TRIANGLE)
+            pl.setModel(pl.SHOW_MODEL_ROUND)
         }
     }
 
