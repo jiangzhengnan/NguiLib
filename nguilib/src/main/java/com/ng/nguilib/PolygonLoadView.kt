@@ -119,12 +119,12 @@ class PolygonLoadView : View {
                         pointY = mHalfSH + fraction * (mHalfSH - thickness)
                     }
                     2 -> {
-                        pointX = mHalfSH + fraction * (mHalfSH / 2)
-                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+                        pointX = mHalfSH + fraction * (mHalfSH / 2 - thickness)
+                        pointY = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
                     }
                     3 -> {
                         pointX = mHalfSH * 3 / 2 - thickness - fraction * (mHalfSH - 2 * thickness)
-                        pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
+                        pointY = mHalfSH
                     }
                 }
             }
@@ -224,7 +224,6 @@ class PolygonLoadView : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         when (SHOW_MODEL) {
             SHOW_MODEL_ROUND -> drawRound(canvas)
             SHOW_MODEL_TRIANGLE -> drawTriangle(canvas)
