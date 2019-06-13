@@ -105,57 +105,33 @@ class PolygonLoadView : View {
         //point
         pointX = mHalfSH / 3 + thickness
         pointY = mHalfSH / 2
-        startAnimTriangle()
-    }
-
-    /**
-     * x ->  width/3  -  width/2  - width*2/3 - width/3
-     * y ->  width/2   -   0  -  width/2 - width/2
-     * startAngle ->        315f 225f 135f 45f -45f
-     */
-    private fun startAnimTriangle() {
-        val interpolator = AccelerateInterpolator(1f)
-        val pointAnimator1 = ValueAnimator.ofFloat(0f, 100f)
-        pointAnimator1.duration = TIME_CIRCLE / 3
-        pointAnimator1.interpolator = interpolator
-        pointAnimator1.startDelay = 30//制造停顿感
-        pointAnimator1.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = mHalfSH - temp * (mHalfSH - thickness)
-            pointY = thickness + temp * (mHalfSH - thickness)
-            invalidate()
-        }
-
-        val pointAnimator2 = ValueAnimator.ofFloat(0f, 100f)
-        pointAnimator2.duration = TIME_CIRCLE / 3
-        pointAnimator2.interpolator = interpolator
-        pointAnimator2.startDelay = 30
-
-        pointAnimator2.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = thickness + temp * (mHalfSH - thickness)
-            pointY = mHalfSH + temp * (mHalfSH - thickness)
-            invalidate()
-        }
-        val pointAnimator3 = ValueAnimator.ofFloat(0f, 100f)
-        pointAnimator3.duration = TIME_CIRCLE / 3
-        pointAnimator3.interpolator = interpolator
-        pointAnimator3.startDelay = 30
-
-        pointAnimator3.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = mHalfSH + temp * (mHalfSH - thickness)
-            pointY = mSideLenght - thickness - temp * (mHalfSH - thickness)
-            invalidate()
-        }
-        animatorSet!!.playSequentially(pointAnimator1, pointAnimator2, pointAnimator3)
-        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                animatorSet!!.start()
+        // startAnimTriangle
+        /**
+         * x ->  width/3  -  width/2  - width*2/3 - width/3
+         * y ->  width/2   -   0  -  width/2 - width/2
+         * startAngle ->        315f 225f 135f 45f -45f
+         */
+        startAnimByStep(3, object : OnAnimationUpdatePLView {
+            override fun onUpdate(step: Int, fraction: Float) {
+                when (step) {
+                    1 -> {
+                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
+                        pointY = thickness + fraction * (mHalfSH - thickness)
+                    }
+                    2 -> {
+                        pointX = thickness + fraction * (mHalfSH - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+                    }
+                    3 -> {
+                        pointX = mHalfSH + fraction * (mHalfSH - thickness)
+                        pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
+                    }
+                }
             }
         })
-        animatorSet!!.start()
     }
+
+
 
     private fun initRound() {
         //paint
@@ -180,7 +156,6 @@ class PolygonLoadView : View {
         pointY = thickness
 
         // startAnimRound()
-
         startAnimByStep(4, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
                 when (step) {
@@ -238,76 +213,6 @@ class PolygonLoadView : View {
         animatorSet!!.start()
     }
 
-    /**
-     * x ->  width/2  -  0  - width/2 - width - width/2
-     * y ->  0       -   height/2   - height  - height/2 - 0
-     * startAngle ->        315f 225f 135f 45f -45f
-     */
-    private fun startAnimRound() {
-        val interpolator = AccelerateInterpolator(1f)
-        val pointAnimator1 = ValueAnimator.ofFloat(0f, 100f)
-        pointAnimator1.duration = TIME_CIRCLE / 4
-        pointAnimator1.interpolator = interpolator
-        pointAnimator1.startDelay = 30//制造停顿感
-        pointAnimator1.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = mHalfSH - temp * (mHalfSH - thickness)
-            pointY = thickness + temp * (mHalfSH - thickness)
-            startAngle = 315f - temp * 90
-            invalidate()
-        }
-
-        val pointAnimator2 = ValueAnimator.ofFloat(0f, 100F)
-        pointAnimator2.duration = TIME_CIRCLE / 4
-        pointAnimator2.interpolator = interpolator
-        pointAnimator2.startDelay = 30
-
-        pointAnimator2.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = thickness + temp * (mHalfSH - thickness)
-            pointY = mHalfSH + temp * (mHalfSH - thickness)
-            startAngle = 225f - temp * 90
-            invalidate()
-        }
-        val pointAnimator3 = ValueAnimator.ofFloat(0f, 100F)
-        pointAnimator3.duration = TIME_CIRCLE / 4
-        pointAnimator3.interpolator = interpolator
-        pointAnimator3.startDelay = 30
-
-        pointAnimator3.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = mHalfSH + temp * (mHalfSH - thickness)
-            pointY = mSideLenght - thickness - temp * (mHalfSH - thickness)
-            startAngle = 135f - temp * 90
-            invalidate()
-        }
-        val pointAnimator4 = ValueAnimator.ofFloat(0f, 100F)
-        pointAnimator4.duration = TIME_CIRCLE / 4
-        pointAnimator4.interpolator = interpolator
-        pointAnimator4.startDelay = 30
-        pointAnimator4.addUpdateListener { animation ->
-            val temp = animation.animatedFraction
-            pointX = mSideLenght - temp * (mHalfSH - thickness) - thickness
-            pointY = mHalfSH - temp * (mHalfSH - thickness)
-            startAngle = if (startAngle > 0) {
-                45 - temp * 90
-            } else {
-                405 - temp * 90
-            }
-            invalidate()
-        }
-        //        animatorSet.play(pointAnimator1);
-        //        animatorSet.play(pointAnimator2).after(pointAnimator1);
-        //        animatorSet.play(pointAnimator3).after(pointAnimator2);
-        //        animatorSet.play(pointAnimator4).after(pointAnimator3);
-        animatorSet!!.playSequentially(pointAnimator1, pointAnimator2, pointAnimator3, pointAnimator4)
-        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                animatorSet!!.start()
-            }
-        })
-        animatorSet!!.start()
-    }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -334,6 +239,7 @@ class PolygonLoadView : View {
     }
 
     private fun drawTriangle(canvas: Canvas) {
+        canvas.drawPoint(pointX, pointY, paintPoint!!)
 
     }
 
