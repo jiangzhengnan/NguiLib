@@ -6,8 +6,8 @@
 
     <com.ng.nguilib.PolygonLoadView
         android:id="@+id/pl"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="86dp"
         android:layout_centerInParent="true" />
 
 </RelativeLayout>

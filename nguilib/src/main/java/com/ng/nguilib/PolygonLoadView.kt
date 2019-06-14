@@ -4,26 +4,21 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.annotation.TargetApi
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.OvershootInterpolator
-import android.view.animation.RotateAnimation
 
-class PolygonLoadView : View {
+class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+
     //common
-    private var paintLine: Paint? = null
-    private var paintPoint: Paint? = null
+    private lateinit var paintLine: Paint
+    private lateinit var paintPoint: Paint
 
-    private var roundRF: RectF? = null
+    private lateinit var roundRF: RectF
     private val mGridLinestrokeWidth = 30f
 
     private var SHOW_MODEL = 0
@@ -34,7 +29,7 @@ class PolygonLoadView : View {
     val TIME_CIRCLE: Long = 2200
 
     private var animatorSet: AnimatorSet? = null
-    private var mSideLenght: Float = 0.toFloat()
+    private var mSideLength: Float = 0.toFloat()
     private var mHalfSH: Float = 0.toFloat()
     private var thickness: Float = 0.toFloat()
 
@@ -43,9 +38,13 @@ class PolygonLoadView : View {
     private var pointY: Float = 0.toFloat()
     private var startAngle: Float = 0.toFloat()
     private val swipeAngle = 270f
-    //triangle
+    //triangle square
+    private lateinit var path: Path
+    private var startLineX: Float = 0.toFloat()
+    private var startLineY: Float = 0.toFloat()
+    private var endLineX: Float = 0.toFloat()
+    private var endLineY: Float = 0.toFloat()
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     fun setModel(model: Int) {
         if (SHOW_MODEL == SHOW_MODEL_ROUND || SHOW_MODEL == SHOW_MODEL_TRIANGLE || SHOW_MODEL == SHOW_MODEL_SQUARE) {
@@ -66,7 +65,7 @@ class PolygonLoadView : View {
         paintLine = Paint()
         paintPoint = Paint()
         animatorSet = AnimatorSet()
-        mHalfSH = mSideLenght / 2
+        mHalfSH = mSideLength / 2
         thickness = mGridLinestrokeWidth / 2
         when (SHOW_MODEL) {
             SHOW_MODEL_ROUND -> initRound()
@@ -77,54 +76,95 @@ class PolygonLoadView : View {
     }
 
     private fun initSquare() {
-        startAnimSquare()
+        //startAnimSquare
     }
 
-    private fun startAnimSquare() {
-
-    }
 
     private fun initTriangle() {
         //paint
-        paintLine!!.style = Paint.Style.STROKE
-        paintLine!!.color = Color.parseColor("#2D283C")
-        paintLine!!.strokeWidth = mGridLinestrokeWidth
-        paintLine!!.isAntiAlias = true
-        paintLine!!.strokeCap = Paint.Cap.ROUND
+        paintLine.style = Paint.Style.STROKE
+        paintLine.color = Color.parseColor("#2D283C")
+        paintLine.strokeWidth = mGridLinestrokeWidth
+        paintLine.isAntiAlias = true
+        paintLine.strokeCap = Paint.Cap.ROUND
+        paintLine.strokeJoin = Paint.Join.ROUND
+
         roundRF = RectF(0 + mGridLinestrokeWidth / 2,
                 0 + mGridLinestrokeWidth / 2,
-                mSideLenght - mGridLinestrokeWidth / 2,
-                mSideLenght - mGridLinestrokeWidth / 2)
-        paintPoint!!.isAntiAlias = true
-        paintPoint!!.color = Color.parseColor("#4A22EA")
-        paintPoint!!.style = Paint.Style.STROKE
-        paintPoint!!.strokeWidth = mGridLinestrokeWidth
-        paintPoint!!.strokeCap = Paint.Cap.ROUND
-
+                mSideLength - mGridLinestrokeWidth / 2,
+                mSideLength - mGridLinestrokeWidth / 2)
+        paintPoint.isAntiAlias = true
+        paintPoint.color = Color.parseColor("#4A22EA")
+        paintPoint.style = Paint.Style.STROKE
+        paintPoint.strokeWidth = mGridLinestrokeWidth
+        paintPoint.strokeCap = Paint.Cap.ROUND
 
         //point
-        pointX = mHalfSH / 2 + thickness
-        pointY = mHalfSH
+        pointX = mHalfSH
+        pointY = 2 * mHalfSH - thickness
+
+        //line
+        path = Path()
+        startLineX = thickness
+        startLineY = mHalfSH * 2 - thickness
+        endLineX = mHalfSH * 2 - thickness
+        endLineY = mHalfSH * 2 - thickness
+        path.moveTo(startLineX, startLineY)
+        path.lineTo(mHalfSH, thickness)
+        path.lineTo(endLineX, endLineY)
+
         // startAnimTriangle
         /**
          * x ->  mHalfSH/2 - mHalfSH - mHalfSH*3/2 - mHalfSH/2
          * y ->  width/2   -   0  -  width/2 - width/2
-         * startAngle ->        315f 225f 135f 45f -45f
          */
         startAnimByStep(3, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
+                path.reset()
                 when (step) {
                     1 -> {
-                        pointX = mHalfSH / 2 + thickness + fraction * (mHalfSH / 2 - thickness)
-                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
-                    }
-                    2 -> {
                         pointX = mHalfSH + fraction * (mHalfSH / 2 - thickness)
                         pointY = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
+
+                        //line
+                        startLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        startLineY = mHalfSH * 2 - thickness
+                        endLineX = mHalfSH * 2 - thickness - fraction * (mHalfSH - thickness)
+                        endLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(mHalfSH, thickness)
+                        path.lineTo(endLineX, endLineY)
                     }
-                    3 -> {
+                    2 -> {
                         pointX = mHalfSH * 3 / 2 - thickness - fraction * (mHalfSH - 2 * thickness)
                         pointY = mHalfSH
+
+                        //line
+                        startLineX = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
+                        startLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineX = mHalfSH - fraction * (mHalfSH - thickness)
+                        endLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(endLineX, endLineY)
+
+                    }
+                    3 -> {
+                        pointX = mHalfSH / 2 + thickness + fraction * (mHalfSH / 2 - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+
+                        //line
+                        startLineX = mHalfSH - fraction * (mHalfSH - thickness)
+                        startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineX = thickness + fraction * (mHalfSH * 2 - 2 * thickness)
+                        endLineY = mHalfSH * 2 - thickness
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(mHalfSH, thickness)
+                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(endLineX, endLineY)
+
                     }
                 }
             }
@@ -134,37 +174,35 @@ class PolygonLoadView : View {
 
     private fun initRound() {
         //paint
-        paintLine!!.style = Paint.Style.STROKE
-        paintLine!!.color = Color.parseColor("#2D283C")
-        paintLine!!.strokeWidth = mGridLinestrokeWidth
-        paintLine!!.isAntiAlias = true
-        paintLine!!.strokeCap = Paint.Cap.ROUND
+        paintLine.style = Paint.Style.STROKE
+        paintLine.color = Color.parseColor("#2D283C")
+        paintLine.strokeWidth = mGridLinestrokeWidth
+        paintLine.isAntiAlias = true
+        paintLine.strokeCap = Paint.Cap.ROUND
         roundRF = RectF(0 + mGridLinestrokeWidth / 2,
                 0 + mGridLinestrokeWidth / 2,
-                mSideLenght - mGridLinestrokeWidth / 2,
-                mSideLenght - mGridLinestrokeWidth / 2)
-        paintPoint!!.isAntiAlias = true
-        paintPoint!!.color = Color.parseColor("#4A22EA")
-        paintPoint!!.style = Paint.Style.STROKE
-        paintPoint!!.strokeWidth = mGridLinestrokeWidth
-        paintPoint!!.strokeCap = Paint.Cap.ROUND
-
+                mSideLength - mGridLinestrokeWidth / 2,
+                mSideLength - mGridLinestrokeWidth / 2)
+        paintPoint.isAntiAlias = true
+        paintPoint.color = Color.parseColor("#4A22EA")
+        paintPoint.style = Paint.Style.STROKE
+        paintPoint.strokeWidth = mGridLinestrokeWidth
+        paintPoint.strokeCap = Paint.Cap.ROUND
         //point
         pointX = mHalfSH
         pointY = mHalfSH * 2 - thickness
         startAngle = 225f
-
         // startAnimRound()
         startAnimByStep(4, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
                 when (step) {
                     1 -> {
                         pointX = mHalfSH + fraction * (mHalfSH - thickness)
-                        pointY = mSideLenght - thickness - fraction * (mHalfSH - thickness)
+                        pointY = mSideLength - thickness - fraction * (mHalfSH - thickness)
                         startAngle = 135f - fraction * 90
                     }
                     2 -> {
-                        pointX = mSideLenght - fraction * (mHalfSH - thickness) - thickness
+                        pointX = mSideLength - fraction * (mHalfSH - thickness) - thickness
                         pointY = mHalfSH - fraction * (mHalfSH - thickness)
                         startAngle = if (startAngle > 0) {
                             45 - fraction * 90
@@ -173,13 +211,11 @@ class PolygonLoadView : View {
                         }
                     }
                     3 -> {
-
                         pointX = mHalfSH - fraction * (mHalfSH - thickness)
                         pointY = thickness + fraction * (mHalfSH - thickness)
                         startAngle = 315f - fraction * 90
                     }
                     4 -> {
-
                         pointX = thickness + fraction * (mHalfSH - thickness)
                         pointY = mHalfSH + fraction * (mHalfSH - thickness)
                         startAngle = 225f - fraction * 90
@@ -217,9 +253,9 @@ class PolygonLoadView : View {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        mSideLenght = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
+        mSideLength = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
         //宽必须等于高
-        LogUtils.d("宽： $mSideLenght  高：  $mSideLenght")
+        LogUtils.d("宽： $mSideLength  高：  $mSideLength")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -234,17 +270,17 @@ class PolygonLoadView : View {
     }
 
     private fun drawSquare(canvas: Canvas) {
-        canvas.drawPoint(pointX, pointY, paintPoint!!)
+        canvas.drawPoint(pointX, pointY, paintPoint)
     }
 
     private fun drawTriangle(canvas: Canvas) {
-        canvas.drawPoint(pointX, pointY, paintPoint!!)
-
+        canvas.drawPath(path, paintLine)
+        canvas.drawPoint(pointX, pointY, paintPoint)
     }
 
     private fun drawRound(canvas: Canvas) {
-        canvas.drawArc(roundRF!!, startAngle, swipeAngle, false, paintLine!!)
-        canvas.drawPoint(pointX, pointY, paintPoint!!)
+        canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
+        canvas.drawPoint(pointX, pointY, paintPoint)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -255,4 +291,42 @@ class PolygonLoadView : View {
         fun onUpdate(step: Int, fraction: Float)
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        startAnimation()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        stopAnimation()
+    }
+
+    override fun setVisibility(visibility: Int) {
+        val currentVisibility = getVisibility()
+        super.setVisibility(visibility)
+        if (visibility != currentVisibility) {
+            if (visibility == View.VISIBLE) {
+                startAnimation()
+            } else if (visibility == View.GONE || visibility == View.INVISIBLE) {
+                stopAnimation()
+            }
+        }
+    }
+
+    //应该绑定activity生命周期
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    fun stopAnimation() {
+        LogUtils.d("stopAnimation")
+        if (animatorSet != null) {
+            animatorSet?.cancel()
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    fun startAnimation() {
+        LogUtils.d("startAnimation")
+        if (animatorSet != null && !animatorSet!!.isStarted && !animatorSet!!.isRunning) {
+            animatorSet!!.start()
+        }
+    }
 }

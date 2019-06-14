@@ -11,7 +11,7 @@ import com.ng.nguilib.LogUtils
 import com.ng.nguilib.utils.DensityUtil.dip2px
 import java.util.*
 
-class EcgShowView : View {
+class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     var SHOW_MODEL = 0
     val SHOW_MODEL_ALL = 0x00
@@ -50,9 +50,8 @@ class EcgShowView : View {
     private var mGridstrokeWidthAndHeight: Float = 0.toFloat()
 
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    init {
         init()
-
     }
 
     private fun init() {
@@ -61,23 +60,19 @@ class EcgShowView : View {
     }
 
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-    }
-
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         mWidth = measuredWidth.toFloat()
         mHeight = measuredHeight.toFloat()
-        mGridLinestrokeWidth = dip2px(context,GRID_LINE_STROKE_WIDTH).toFloat()
-        mGridstrokeWidthAndHeight = dip2px(context,GRID_WIDTH_AND_HEIGHT).toFloat()
+        mGridLinestrokeWidth = dip2px(context, GRID_LINE_STROKE_WIDTH).toFloat()
+        mGridstrokeWidthAndHeight = dip2px(context, GRID_WIDTH_AND_HEIGHT).toFloat()
 
         column = (mWidth / mGridstrokeWidthAndHeight).toInt()
         intervalColumn = mWidth / column
         row = (mHeight / mGridstrokeWidthAndHeight).toInt()
         intervalRow = mHeight / row
 
-        mHeartLinestrokeWidth = dip2px(context,HEART_LINE_STROKE_WIDTH).toFloat()
+        mHeartLinestrokeWidth = dip2px(context, HEART_LINE_STROKE_WIDTH).toFloat()
         initData()
     }
 
@@ -114,20 +109,16 @@ class EcgShowView : View {
         paint!!.isAntiAlias = true
         path!!.moveTo(0f, mHeight / 2)
 
-        //LogUtils.d("2:   " + refreshList.toString());
-
-        //LogUtils.d("3:   " + refreshList.get(0));
-
         val nowIndex = if (refreshList == null) 0 else refreshList!!.size
 
         if (nowIndex == 0) {
             return
         }
 
-        if (nowIndex < intervalNumHeart) {
-            showIndex = nowIndex - 1
+        showIndex = if (nowIndex < intervalNumHeart) {
+            nowIndex - 1
         } else {
-            showIndex = (nowIndex - 1) % intervalNumHeart
+            (nowIndex - 1) % intervalNumHeart
         }
 
 
@@ -136,14 +127,14 @@ class EcgShowView : View {
                 break
             }
             if (nowIndex <= intervalNumHeart) {
-                this!!.data!![i] = refreshList!![i]
+                this.data!![i] = refreshList!![i]
             } else {
                 val times = (nowIndex - 1) / intervalNumHeart
 
                 val temp = times * intervalNumHeart + i
 
                 if (temp < nowIndex) {
-                    this!!.data!![i] = refreshList!![temp]
+                    this.data!![i] = refreshList!![temp]
                 }
             }
         }
@@ -188,7 +179,7 @@ class EcgShowView : View {
     }
 
     private fun drawHeartScroll(canvas: Canvas) {
-        if (data == null || data!!.size == 0) {
+        if (data == null || data!!.isEmpty()) {
             return
         }
         paint!!.reset()
@@ -199,12 +190,8 @@ class EcgShowView : View {
         paint!!.isAntiAlias = true
         path!!.moveTo(0f, mHeight / 2)
 
-        var scrollStartIndex = 0
-        var scrollEndIndex = 0
-
-        scrollEndIndex = scrollIndex
-
-        scrollStartIndex = scrollEndIndex - intervalNumHeart
+        val scrollEndIndex = scrollIndex
+        var scrollStartIndex = scrollEndIndex - intervalNumHeart
         if (scrollStartIndex < 0) {
             scrollStartIndex = 0
         }
@@ -226,7 +213,6 @@ class EcgShowView : View {
             }
             nowY = mHeight / 2 - dataValue * intervalColumnHeart
             path!!.lineTo(nowX, nowY)
-            LogUtils.d("drawHeartScroll $nowX $nowY")
         }
 
         canvas.drawPath(path!!, paint!!)
@@ -235,7 +221,7 @@ class EcgShowView : View {
     }
 
     private fun drawHeartAll(canvas: Canvas) {
-        if (data == null || data!!.size == 0) {
+        if (data == null || data!!.isEmpty()) {
             return
         }
         paint!!.reset()
@@ -287,7 +273,6 @@ class EcgShowView : View {
     fun setData(dataStr: String?, model: Int) {
         if (dataStr != null)
             dataStrList = dataStr.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        //当前模式
         this.SHOW_MODEL = model
         initData()
     }
@@ -345,7 +330,7 @@ class EcgShowView : View {
                 }
             }
         }
-        timer!!.schedule(timerTask, 0, 50)
+        timer.schedule(timerTask, 0, 50)
     }
 
 

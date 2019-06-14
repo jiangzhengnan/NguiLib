@@ -2,8 +2,6 @@ package com.ng.ui.aty
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ng.nguilib.PolygonLoadView
-import com.ng.nguilib.java.PolygonLoadViewJ
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.activity_pl.*
 
@@ -30,6 +28,16 @@ class PlActivity : AppCompatActivity() {
         pl.post {
             pl.setModel(pl.SHOW_MODEL_TRIANGLE)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+            pl.stopAnimation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        pl.startAnimation()
     }
 
 
