@@ -17,17 +17,13 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     //common
     private lateinit var paintLine: Paint
     private lateinit var paintPoint: Paint
-
     private lateinit var roundRF: RectF
     private val mGridLinestrokeWidth = 30f
-
     private var SHOW_MODEL = 0
     val SHOW_MODEL_ROUND = 0x00
     val SHOW_MODEL_TRIANGLE = 0x01
     val SHOW_MODEL_SQUARE = 0x02
-
-    val TIME_CIRCLE: Long = 2200
-
+    val TIME_CIRCLE: Long = 2500
     private var animatorSet: AnimatorSet? = null
     private var mSideLength: Float = 0.toFloat()
     private var mHalfSH: Float = 0.toFloat()
@@ -40,6 +36,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     private val swipeAngle = 270f
     //triangle square
     private lateinit var path: Path
+    private var mHalfHeifht: Float = 0.toFloat()
     private var startLineX: Float = 0.toFloat()
     private var startLineY: Float = 0.toFloat()
     private var endLineX: Float = 0.toFloat()
@@ -76,7 +73,102 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private fun initSquare() {
+        //paint
+        paintLine.style = Paint.Style.STROKE
+        paintLine.color = Color.parseColor("#2D283C")
+        paintLine.strokeWidth = mGridLinestrokeWidth
+        paintLine.isAntiAlias = true
+        paintLine.strokeCap = Paint.Cap.ROUND
+        paintLine.strokeJoin = Paint.Join.ROUND
+        roundRF = RectF(0 + mGridLinestrokeWidth / 2,
+                0 + mGridLinestrokeWidth / 2,
+                mSideLength - mGridLinestrokeWidth / 2,
+                mSideLength - mGridLinestrokeWidth / 2)
+        paintPoint.isAntiAlias = true
+        paintPoint.color = Color.parseColor("#4A22EA")
+        paintPoint.style = Paint.Style.STROKE
+        paintPoint.strokeWidth = mGridLinestrokeWidth
+        paintPoint.strokeCap = Paint.Cap.ROUND
+        //point
+        pointX = mHalfSH
+        pointY = 2 * mHalfSH - thickness
+        //line
+        path = Path()
+        startLineX = thickness
+        startLineY = mHalfSH * 2 - thickness
+        endLineX = mHalfSH * 2 - thickness
+        endLineY = mHalfSH * 2 - thickness
+        path.moveTo(startLineX, startLineY)
+        path.lineTo(thickness, thickness)
+        path.lineTo(mHalfSH * 2 - thickness, thickness)
+        path.lineTo(endLineX, endLineY)
         //startAnimSquare
+        startAnimByStep(4, object : OnAnimationUpdatePLView {
+            override fun onUpdate(step: Int, fraction: Float) {
+                path.reset()
+                when (step) {
+                    1 -> {
+                        pointX = mHalfSH + fraction * (mHalfSH - thickness)
+                        pointY = mSideLength - thickness - fraction * (mHalfSH - thickness)
+
+                        startLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        startLineY = mHalfSH * 2 - thickness
+                        endLineX = mHalfSH * 2 - thickness
+                        endLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(thickness, thickness)
+                        path.lineTo(mHalfSH * 2 - thickness, thickness)
+                        path.lineTo(endLineX, endLineY)
+                    }
+                    2 -> {
+                        pointX = mSideLength - fraction * (mHalfSH - thickness) - thickness
+                        pointY = mHalfSH - fraction * (mHalfSH - thickness)
+
+                        startLineX = 2 * mHalfSH - thickness
+                        startLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineX = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineY = thickness
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(thickness, thickness)
+                        path.lineTo(endLineX, endLineY)
+                    }
+                    3 -> {
+                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
+                        pointY = thickness + fraction * (mHalfSH - thickness)
+
+                        //start 右上往左 end 左上往下
+                        startLineX = 2 * mHalfSH - thickness - fraction * (2 * mHalfSH - 2 * thickness)
+                        startLineY = thickness
+                        endLineX = thickness
+                        endLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(mHalfSH * 2 - thickness, thickness)
+                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(endLineX, endLineY)
+                    }
+                    4 -> {
+                        pointX = thickness + fraction * (mHalfSH - thickness)
+                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
+
+                        // start 左上往下   end 左下往右
+                        startLineX = thickness
+                        startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineX =  thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineY = 2 * mHalfSH - thickness
+                        path.moveTo(startLineX, startLineY)
+                        path.lineTo(thickness, thickness)
+                        path.lineTo(mHalfSH * 2 - thickness, thickness)
+                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
+                        path.lineTo(endLineX, endLineY)
+
+                    }
+                }
+            }
+        })
     }
 
 
@@ -88,7 +180,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         paintLine.isAntiAlias = true
         paintLine.strokeCap = Paint.Cap.ROUND
         paintLine.strokeJoin = Paint.Join.ROUND
-
         roundRF = RectF(0 + mGridLinestrokeWidth / 2,
                 0 + mGridLinestrokeWidth / 2,
                 mSideLength - mGridLinestrokeWidth / 2,
@@ -98,11 +189,10 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         paintPoint.style = Paint.Style.STROKE
         paintPoint.strokeWidth = mGridLinestrokeWidth
         paintPoint.strokeCap = Paint.Cap.ROUND
-
         //point
         pointX = mHalfSH
         pointY = 2 * mHalfSH - thickness
-
+        mHalfHeifht = (mHalfSH * 0.87).toFloat()
         //line
         path = Path()
         startLineX = thickness
@@ -112,12 +202,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         path.moveTo(startLineX, startLineY)
         path.lineTo(mHalfSH, thickness)
         path.lineTo(endLineX, endLineY)
-
         // startAnimTriangle
-        /**
-         * x ->  mHalfSH/2 - mHalfSH - mHalfSH*3/2 - mHalfSH/2
-         * y ->  width/2   -   0  -  width/2 - width/2
-         */
         startAnimByStep(3, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
                 path.reset()
@@ -125,8 +210,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
                     1 -> {
                         pointX = mHalfSH + fraction * (mHalfSH / 2 - thickness)
                         pointY = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
-
-                        //line
                         startLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
                         startLineY = mHalfSH * 2 - thickness
                         endLineX = mHalfSH * 2 - thickness - fraction * (mHalfSH - thickness)
@@ -139,8 +222,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
                     2 -> {
                         pointX = mHalfSH * 3 / 2 - thickness - fraction * (mHalfSH - 2 * thickness)
                         pointY = mHalfSH
-
-                        //line
                         startLineX = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
                         startLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
                         endLineX = mHalfSH - fraction * (mHalfSH - thickness)
@@ -154,8 +235,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
                     3 -> {
                         pointX = mHalfSH / 2 + thickness + fraction * (mHalfSH / 2 - thickness)
                         pointY = mHalfSH + fraction * (mHalfSH - thickness)
-
-                        //line
                         startLineX = mHalfSH - fraction * (mHalfSH - thickness)
                         startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
                         endLineX = thickness + fraction * (mHalfSH * 2 - 2 * thickness)
@@ -170,7 +249,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
             }
         })
     }
-
 
     private fun initRound() {
         //paint
@@ -225,7 +303,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         })
     }
 
-
     private fun startAnimByStep(step: Int, listener: OnAnimationUpdatePLView) {
         val interpolator = AccelerateInterpolator(1f)
         val pointAnimList = mutableListOf<Animator>()
@@ -250,7 +327,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         animatorSet!!.start()
     }
 
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         mSideLength = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
@@ -270,6 +346,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private fun drawSquare(canvas: Canvas) {
+        canvas.drawPath(path, paintLine)
         canvas.drawPoint(pointX, pointY, paintPoint)
     }
 
@@ -281,10 +358,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     private fun drawRound(canvas: Canvas) {
         canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
         canvas.drawPoint(pointX, pointY, paintPoint)
-    }
-
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
     }
 
     interface OnAnimationUpdatePLView {
