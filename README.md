@@ -16,7 +16,7 @@ repositories {
 ...
 
 dependencies {
-    api 'ng.ngui.ngbase:nguilib:0.0.1'
+    api 'ng.ngui.ngbase:nguilib:0.0.2'
 }
 ```
 <br/>
