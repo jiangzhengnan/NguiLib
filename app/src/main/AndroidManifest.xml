@@ -13,15 +13,19 @@
 
         </activity>
 
-        <activity android:name=".aty.WvActivity"></activity>
-        <activity android:name=".aty.CtbActivity"></activity>
-        <activity android:name=".aty.EcgActivity"></activity>
-        <activity android:name=".aty.PlActivity">
+        <activity android:name=".test.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".aty.WvActivity"></activity>
+        <activity android:name=".aty.CtbActivity"></activity>
+        <activity android:name=".aty.EcgActivity"></activity>
+        <activity android:name=".aty.PlActivity">
+
         </activity>
 
     </application>

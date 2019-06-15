@@ -154,7 +154,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
                         pointX = thickness + fraction * (mHalfSH - thickness)
                         pointY = mHalfSH + fraction * (mHalfSH - thickness)
 
-                        // start 左上往下   end 左下往右
                         startLineX = thickness
                         startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
                         endLineX =  thickness + fraction * (2 * mHalfSH - 2 * thickness)
