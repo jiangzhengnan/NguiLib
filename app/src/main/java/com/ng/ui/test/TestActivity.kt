@@ -32,6 +32,7 @@ class TestActivity : AppCompatActivity() {
     private fun initViewsAndEvents() {
         fb_test.setOnClickListener {
             LogUtils.d("点击")
+            fb_test.switchLineState(fb_test.lineMorphingState,true)
         }
     }
 

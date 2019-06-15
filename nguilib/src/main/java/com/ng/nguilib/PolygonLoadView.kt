@@ -11,6 +11,8 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import com.ng.nguilib.utils.LogUtils
+
 
 class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -156,7 +158,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
 
                         startLineX = thickness
                         startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineX =  thickness + fraction * (2 * mHalfSH - 2 * thickness)
+                        endLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
                         endLineY = 2 * mHalfSH - thickness
                         path.moveTo(startLineX, startLineY)
                         path.lineTo(thickness, thickness)
@@ -307,7 +309,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         val pointAnimList = mutableListOf<Animator>()
         for (index in 1..step) {
             val pointAnimatorTemp = ValueAnimator.ofFloat(0f, 100f)
-            pointAnimatorTemp.duration = TIME_CIRCLE / 4
+            pointAnimatorTemp.duration = this.TIME_CIRCLE / 4
             pointAnimatorTemp.interpolator = interpolator
             pointAnimatorTemp.startDelay = 30//制造停顿感
             pointAnimatorTemp.addUpdateListener { animation ->
@@ -382,6 +384,24 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
             } else if (visibility == View.GONE || visibility == View.INVISIBLE) {
                 stopAnimation()
             }
+        }
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            startAnimation()
+        } else {
+            stopAnimation()
+        }
+    }
+
+    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
+        if (gainFocus) {
+            startAnimation()
+        } else {
+            stopAnimation()
         }
     }
 
