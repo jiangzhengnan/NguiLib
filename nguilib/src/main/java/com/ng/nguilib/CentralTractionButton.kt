@@ -151,7 +151,7 @@ class CentralTractionButton : RadioButton {
         bianKuanPaint.strokeWidth = 2f
         bianKuanPaint.style = Paint.Style.STROKE
         bianKuanPaint.color = resources.getColor(R.color.black)
-        canvas.drawRect(0f, 0f, this.width.toFloat(), this.height.toFloat(), bianKuanPaint)
+        //canvas.drawRect(0f, 0f, this.width.toFloat(), this.height.toFloat(), bianKuanPaint)
 
 
         //绘制默认状态下背景图
