@@ -25,20 +25,17 @@ class PlActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        pl.post {
-            pl.setModel(pl.SHOW_MODEL_SQUARE)
+        pl1.post {
+            pl1.setModel(pl1.SHOW_MODEL_ROUND)
+        }
+        pl2.post {
+            pl2.setModel(pl1.SHOW_MODEL_TRIANGLE)
+        }
+        pl3.post {
+            pl3.setModel(pl1.SHOW_MODEL_SQUARE)
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-            pl.stopAnimation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        pl.startAnimation()
-    }
 
 
 }

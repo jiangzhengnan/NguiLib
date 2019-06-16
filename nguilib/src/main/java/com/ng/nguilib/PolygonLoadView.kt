@@ -17,13 +17,13 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     //common
     private lateinit var paintLine: Paint
     private lateinit var paintPoint: Paint
-    private lateinit var roundRF: RectF
+    private   var roundRF: RectF? = null
     private val mGridLinestrokeWidth = 30f
     private var SHOW_MODEL = 0
     val SHOW_MODEL_ROUND = 0x00
     val SHOW_MODEL_TRIANGLE = 0x01
     val SHOW_MODEL_SQUARE = 0x02
-    val TIME_CIRCLE: Long = 2500
+    val TIME_CIRCLE: Long = 3000
     private var animatorSet: AnimatorSet? = null
     private var mSideLength: Float = 0.toFloat()
     private var mHalfSH: Float = 0.toFloat()
@@ -356,6 +356,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private fun drawRound(canvas: Canvas) {
+        if (roundRF==null) return
         canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
         canvas.drawPoint(pointX, pointY, paintPoint)
     }
