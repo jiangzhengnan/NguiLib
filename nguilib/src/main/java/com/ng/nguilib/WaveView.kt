@@ -10,7 +10,6 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
-import com.ng.nguilib.LogUtils
 import com.ng.nguilib.R
 
 class WaveView : View {
@@ -45,7 +44,6 @@ class WaveView : View {
             xOffsetAnimator?.duration = 1500
             xOffsetAnimator?.repeatCount = ValueAnimator.INFINITE
         }
-        LogUtils.d("开始动画")
         xOffsetAnimator?.start()
     }
 

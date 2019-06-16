@@ -16,7 +16,7 @@ repositories {
 ...
 
 dependencies {
-    api 'ng.ngui.ngbase:nguilib:0.0.1'
+    api 'ng.ngui.ngbase:nguilib:0.0.2'
 }
 ```
 <br/>
@@ -30,8 +30,10 @@ Information: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695
 Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90139954">贝塞尔曲线的水波浪效果实现</a><br />
 3.EcgView. ECG display <br />
 Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90679481">ECG心电图的绘制实现</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" />
-
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" /><br />
+4.PolygonLoadView. A Cool Load View<br />
+Inspiration : <a href="https://dribbble.com/shots/5878367-Loaders">https://dribbble.com/shots/5878367-Loaders</a><br />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/pl_show.gif" /><br />
  
 
 

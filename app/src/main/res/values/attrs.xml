@@ -1,28 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<declare-styleable name="ctattrs">-->
-    <!--<attr name="android:text" />-->
-    <!--<attr name="centerbackground" format="reference" />-->
-    <!--</declare-styleable>-->
-
-
-    <declare-styleable name="ctattrs">
-        <attr name="text" format="string" />
-        <attr name="textdimension" format="dimension" />
-        <attr name="normalinsidebackground" format="reference" />
-        <attr name="normalexternalbackground" format="reference" />
-        <attr name="selectedinsidebackground" format="reference" />
-        <attr name="selectedexternalbackground" format="reference" />
-    </declare-styleable>
-    <declare-styleable name="MotiveCircleView">
-        <attr name="MotiveCircleView_color" format="color"/>
-        <attr name="MotiveCircleView_progress" format="integer"/>
-        <attr name="MotiveCircleView_thick" format="dimension"/>
-        <attr name="MotiveCircleView_textSize" format="dimension"/>
-        <attr name="MotiveCircleView_textColor" format="color"/>
-    </declare-styleable>
-
-    <declare-styleable name="WaveView">
-        <attr name="WaveView_color" format="color"/>
-    </declare-styleable>
 </resources>

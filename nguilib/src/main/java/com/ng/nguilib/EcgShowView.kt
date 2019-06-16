@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.ng.nguilib.LogUtils
 import com.ng.nguilib.utils.DensityUtil.dip2px
 import java.util.*
 
@@ -279,7 +278,6 @@ class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
 
     private fun initData() {
-        LogUtils.d(Thread.currentThread().name + "initData: " + SHOW_MODEL)
         var dataLength: Int
         when (SHOW_MODEL) {
             SHOW_MODEL_ALL -> {
