@@ -1,6 +1,7 @@
 package com.ng.ui.test;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,10 +21,23 @@ public class TestFbButton extends View {
 
     public TestFbButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
+    private void init() {
+
+        mIcon = new TestDrawable();
+     }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        mIcon.draw(canvas);
+    }
 
     public void switchLineState(int state, boolean animation) {
+        ((TestDrawable) mIcon).start();
+
 
     }
 
