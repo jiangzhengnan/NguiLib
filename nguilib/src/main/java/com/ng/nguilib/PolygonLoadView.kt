@@ -357,7 +357,9 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private fun drawRound(canvas: Canvas) {
-        if (roundRF==null) return
+        if (roundRF==null) {
+            return
+        }
         canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
         canvas.drawPoint(pointX, pointY, paintPoint)
     }
