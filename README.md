@@ -34,7 +34,7 @@ Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90679481
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" />
 4.PolygonLoadView. A Cool Load View<br />
 Inspiration : <a href="https://dribbble.com/shots/5878367-Loaders">https://dribbble.com/shots/5878367-Loaders</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/pl_show.gif" />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/pl_show.gif" /> 
  
 
 
