@@ -4,32 +4,30 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
 
         </activity>
 
         <activity android:name=".test.TestActivity">
+        </activity>
+
+        <activity android:name=".aty.WvActivity"></activity>
+        <activity android:name=".aty.CtbActivity"></activity>
+        <activity android:name=".aty.EcgActivity"></activity>
+        <activity android:name=".aty.PlActivity"></activity>
+
+        <activity android:name=".aty.AiActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".aty.WvActivity"></activity>
-        <activity android:name=".aty.CtbActivity">
-
-        </activity>
-        <activity android:name=".aty.EcgActivity"></activity>
-        <activity android:name=".aty.PlActivity">
-
-        </activity>
-
     </application>
 
 </manifest>
