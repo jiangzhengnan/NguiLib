@@ -1,5 +1,9 @@
 package com.ng.nguilib
 
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+
 /**
  * @ProjectName: NguiLib
  * @Package: com.ng.nguilib
@@ -7,6 +11,6 @@ package com.ng.nguilib
  * @Author: Eden
  * @CreateDate: 2019/6/24 16:54
  */
-class ArrowInteractionView {
+class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
 }

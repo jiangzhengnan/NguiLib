@@ -44,7 +44,6 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     private var endLineX: Float = 0.toFloat()
     private var endLineY: Float = 0.toFloat()
 
-
     fun setModel(model: Int) {
         if (SHOW_MODEL == SHOW_MODEL_ROUND || SHOW_MODEL == SHOW_MODEL_TRIANGLE || SHOW_MODEL == SHOW_MODEL_SQUARE) {
             this.SHOW_MODEL = model
