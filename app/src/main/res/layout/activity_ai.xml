@@ -12,15 +12,15 @@
 
         <com.ng.nguilib.ArrowInteractionView
             android:id="@+id/aiview_left"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_centerInParent="true"
-            android:layout_marginRight="100dp" />
+            android:layout_marginRight="50dp" />
 
         <com.ng.nguilib.ArrowInteractionView
             android:id="@+id/aiview_right"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_centerInParent="true" />
     </LinearLayout>
 </RelativeLayout>

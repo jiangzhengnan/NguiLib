@@ -44,7 +44,7 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
     private val animSteps = arrayListOf(ANIM_STEP_1, ANIM_STEP_2, ANIM_STEP_3, ANIM_STEP_4)
 
 
-    val TIME_STEP: Long = 275
+    val TIME_STEP: Long = 400
     private var animatorSet: AnimatorSet? = null
     private var mSideLength: Float = 0.toFloat()
     private var mRadius: Float = 0.toFloat()
@@ -87,7 +87,7 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
         paintBg = Paint()
         this.animatorSet = AnimatorSet()
         mRadius = mSideLength / 2
-        mCircleWidth = DensityUtil.dip2pxFloat(context, 5f)
+        mCircleWidth = DensityUtil.dip2pxFloat(context, 3f)
         roundRF = RectF(0 + mCircleWidth / 2,
                 0 + mCircleWidth / 2,
                 mSideLength - mCircleWidth / 2,
