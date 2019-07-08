@@ -294,7 +294,6 @@ class ArrowInteractionView : View {
         }
     }
 
-
     interface OnAnimationUpdatePLView {
         fun onUpdate(step: Int, fraction: Float)
     }
@@ -323,7 +322,7 @@ class ArrowInteractionView : View {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
+        if (visibility ==  VISIBLE) {
             startAnimation()
         } else {
             stopAnimation()
