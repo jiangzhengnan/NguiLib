@@ -30,6 +30,8 @@ class ArrowInteractionView : View {
 
     private lateinit var paintCircle: Paint
 
+    private lateinit var paintBg: Paint
+
     private var mCircleWidth: Float = 0.0f
 
     private var SHOW_MODEL = 0
@@ -83,6 +85,7 @@ class ArrowInteractionView : View {
         LogUtils.d("init")
         paintLine = Paint()
         paintCircle = Paint()
+        paintBg = Paint()
         animatorSet = AnimatorSet()
         mRadius = mSideLength / 2
         mCircleWidth = DensityUtil.dip2pxFloat(context, 5f)
@@ -224,12 +227,21 @@ class ArrowInteractionView : View {
     }
 
     private fun drawCircle(canvas: Canvas) {
+        //2452FEpaintBg
+        paintBg.isAntiAlias = true
+        paintBg.color = Color.parseColor("#2452FE")
+        paintBg.style = Paint.Style.FILL
+        paintBg.strokeWidth = mRadius
+        canvas.drawCircle(mRadius, mRadius, mRadius, paintBg)
+
         paintCircle.isAntiAlias = true
         paintCircle.color = Color.parseColor("#66ffffff")
         paintCircle.style = Paint.Style.STROKE
         paintCircle.strokeWidth = mCircleWidth
         paintCircle.strokeCap = Paint.Cap.ROUND
         canvas.drawCircle(mRadius, mRadius, mRadius - mCircleWidth / 2, paintCircle)
+
+
     }
 
     private fun drawLeft(canvas: Canvas) {
