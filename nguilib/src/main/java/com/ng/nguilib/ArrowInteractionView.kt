@@ -1,6 +1,7 @@
 package com.ng.nguilib
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.annotation.TargetApi
@@ -20,10 +21,7 @@ import com.ng.nguilib.utils.LogUtils
  * @Author: Eden
  * @CreateDate: 2019/6/24 16:54
  */
-class ArrowInteractionView : View {
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-    }
+class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
     //common
     private lateinit var paintLine: Paint
@@ -39,11 +37,11 @@ class ArrowInteractionView : View {
     val SHOW_MODEL_RIGHT = 0x01
 
     private var ANIM_STEP = 0x01
-    val ANIM_STEP_1 = 0x01
-    val ANIM_STEP_2 = 0x02
-    val ANIM_STEP_3 = 0x03
-    val ANIM_STEP_4 = 0x04
-    val animSteps = arrayListOf(ANIM_STEP_1, ANIM_STEP_2, ANIM_STEP_3, ANIM_STEP_4)
+    private val ANIM_STEP_1 = 0x01
+    private val ANIM_STEP_2 = 0x02
+    private val ANIM_STEP_3 = 0x03
+    private val ANIM_STEP_4 = 0x04
+    private val animSteps = arrayListOf(ANIM_STEP_1, ANIM_STEP_2, ANIM_STEP_3, ANIM_STEP_4)
 
 
     val TIME_STEP: Long = 275
@@ -66,6 +64,7 @@ class ArrowInteractionView : View {
     private var swipeAngle2: Float = 0.toFloat()
 
     private var hadInit: Boolean = false
+    private var isPlaying: Boolean = false
 
     fun setModel(model: Int) {
         if (SHOW_MODEL == SHOW_MODEL_LEFT || SHOW_MODEL == SHOW_MODEL_RIGHT) {
@@ -86,7 +85,7 @@ class ArrowInteractionView : View {
         paintLine = Paint()
         paintCircle = Paint()
         paintBg = Paint()
-        animatorSet = AnimatorSet()
+        this.animatorSet = AnimatorSet()
         mRadius = mSideLength / 2
         mCircleWidth = DensityUtil.dip2pxFloat(context, 5f)
         roundRF = RectF(0 + mCircleWidth / 2,
@@ -110,6 +109,8 @@ class ArrowInteractionView : View {
     }
 
     fun startAnim() {
+        if (isPlaying) return
+        isPlaying = true
         when (SHOW_MODEL) {
             SHOW_MODEL_LEFT -> initLeft()
             SHOW_MODEL_RIGHT -> initRight()
@@ -199,6 +200,11 @@ class ArrowInteractionView : View {
             }
             pointAnimList.add(pointAnimatorTemp)
         }
+        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                isPlaying = false
+            }
+        })
         animatorSet!!.playSequentially(pointAnimList)
         animatorSet!!.start()
     }
@@ -312,9 +318,9 @@ class ArrowInteractionView : View {
         val currentVisibility = getVisibility()
         super.setVisibility(visibility)
         if (visibility != currentVisibility) {
-            if (visibility == View.VISIBLE) {
+            if (visibility == VISIBLE) {
                 startAnimation()
-            } else if (visibility == View.GONE || visibility == View.INVISIBLE) {
+            } else if (visibility == GONE || visibility == INVISIBLE) {
                 stopAnimation()
             }
         }
@@ -322,7 +328,7 @@ class ArrowInteractionView : View {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility ==  VISIBLE) {
+        if (visibility == VISIBLE) {
             startAnimation()
         } else {
             stopAnimation()
