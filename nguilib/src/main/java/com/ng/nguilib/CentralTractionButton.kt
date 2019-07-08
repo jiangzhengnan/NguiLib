@@ -69,9 +69,6 @@ class CentralTractionButton : RadioButton {
         init()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-    }
 
     //轨迹圆外径的半径mR = ob
     var mR: Float = 0.toFloat()
@@ -134,10 +131,10 @@ class CentralTractionButton : RadioButton {
         bmPaint!!.style = Paint.Style.FILL//设置填充样式   Style.FILL/Style.FILL_AND_STROKE/Style.STROKE
     }
 
-    internal var mExternalSrcRect: Rect? = null
-    internal var mExternalDestRect: Rect? = null
-    internal var mInsideSrcRect: Rect? = null
-    internal var mInsideDestRect: Rect? = null
+    private var mExternalSrcRect: Rect? = null
+    private var mExternalDestRect: Rect? = null
+    private var mInsideSrcRect: Rect? = null
+    private var mInsideDestRect: Rect? = null
 
 
     var externalBD: BitmapDrawable? = null
@@ -260,7 +257,7 @@ class CentralTractionButton : RadioButton {
 
 
     //得到两点之间的距离
-    fun getDistanceTwoPoint(x1: Float, y1: Float, x2: Float, y2: Float): Float {
+    private fun getDistanceTwoPoint(x1: Float, y1: Float, x2: Float, y2: Float): Float {
         return Math.sqrt((Math.pow((x1 - x2).toDouble(), 2.toDouble()) +
                 Math.pow((y1 - y2).toDouble(), 2.toDouble()))).toFloat()
     }

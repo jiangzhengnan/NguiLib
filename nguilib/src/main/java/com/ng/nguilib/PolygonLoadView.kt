@@ -19,7 +19,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     //common
     private lateinit var paintLine: Paint
     private lateinit var paintPoint: Paint
-    private   var roundRF: RectF? = null
+    private var roundRF: RectF? = null
     private val mGridLinestrokeWidth = 30f
     private var SHOW_MODEL = 0
     val SHOW_MODEL_ROUND = 0x00
@@ -310,7 +310,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
             val pointAnimatorTemp = ValueAnimator.ofFloat(0f, 100f)
             pointAnimatorTemp.duration = this.TIME_CIRCLE / 4
             pointAnimatorTemp.interpolator = interpolator
-            pointAnimatorTemp.startDelay = 30//制造停顿感
+            pointAnimatorTemp.startDelay = 30
             pointAnimatorTemp.addUpdateListener { animation ->
                 val temp = animation.animatedFraction
                 listener.onUpdate(index, temp)
@@ -356,7 +356,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private fun drawRound(canvas: Canvas) {
-        if (roundRF==null) {
+        if (roundRF == null) {
             return
         }
         canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
@@ -381,9 +381,9 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         val currentVisibility = getVisibility()
         super.setVisibility(visibility)
         if (visibility != currentVisibility) {
-            if (visibility == View.VISIBLE) {
+            if (visibility == VISIBLE) {
                 startAnimation()
-            } else if (visibility == View.GONE || visibility == View.INVISIBLE) {
+            } else if (visibility == GONE || visibility == INVISIBLE) {
                 stopAnimation()
             }
         }
@@ -391,7 +391,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
+        if (visibility == VISIBLE) {
             startAnimation()
         } else {
             stopAnimation()

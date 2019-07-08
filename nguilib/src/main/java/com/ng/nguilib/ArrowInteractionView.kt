@@ -1,7 +1,6 @@
 package com.ng.nguilib
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.annotation.TargetApi
@@ -10,7 +9,8 @@ import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import com.ng.nguilib.utils.DensityUtil
 import com.ng.nguilib.utils.LogUtils
 
 /**
@@ -20,42 +20,54 @@ import com.ng.nguilib.utils.LogUtils
  * @Author: Eden
  * @CreateDate: 2019/6/24 16:54
  */
-class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+class ArrowInteractionView : View {
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    }
 
     //common
     private lateinit var paintLine: Paint
 
     private lateinit var paintCircle: Paint
 
-    private var roundRF: RectF? = null
-    private val mGridLinestrokeWidth = 30f
+    private var mCircleWidth: Float = 0.0f
+
     private var SHOW_MODEL = 0
     val SHOW_MODEL_LEFT = 0x00
     val SHOW_MODEL_RIGHT = 0x01
 
-    val TIME_CIRCLE: Long = 3000
+    private var ANIM_STEP = 0x01
+    val ANIM_STEP_1 = 0x01
+    val ANIM_STEP_2 = 0x02
+    val ANIM_STEP_3 = 0x03
+    val ANIM_STEP_4 = 0x04
+    val animSteps = arrayListOf(ANIM_STEP_1, ANIM_STEP_2, ANIM_STEP_3, ANIM_STEP_4)
+
+
+    val TIME_STEP: Long = 275
     private var animatorSet: AnimatorSet? = null
     private var mSideLength: Float = 0.toFloat()
-    private var mHalfSH: Float = 0.toFloat()
-    private var thickness: Float = 0.toFloat()
+    private var mRadius: Float = 0.toFloat()
 
-    //round
+
+    //triangle
     private var pointX: Float = 0.toFloat()
     private var pointY: Float = 0.toFloat()
-    private var startAngle: Float = 0.toFloat()
-    private val swipeAngle = 270f
-    //triangle square
+    private var mTriangleSideLength: Float = 0.toFloat()
     private lateinit var path: Path
-    private var mHalfHeifht: Float = 0.toFloat()
-    private var startLineX: Float = 0.toFloat()
-    private var startLineY: Float = 0.toFloat()
-    private var endLineX: Float = 0.toFloat()
-    private var endLineY: Float = 0.toFloat()
+
+    //circle
+    private var roundRF: RectF? = null
+    private var startAngle1: Float = 0.toFloat()
+    private var swipeAngle1: Float = 0.toFloat()
+    private var startAngle2: Float = 0.toFloat()
+    private var swipeAngle2: Float = 0.toFloat()
+
+    private var hadInit: Boolean = false
 
     fun setModel(model: Int) {
         if (SHOW_MODEL == SHOW_MODEL_LEFT || SHOW_MODEL == SHOW_MODEL_RIGHT) {
             this.SHOW_MODEL = model
-            init()
             postInvalidate()
         } else {
             try {
@@ -63,115 +75,70 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
         }
     }
 
     private fun init() {
+        hadInit = true
+        LogUtils.d("init")
         paintLine = Paint()
         paintCircle = Paint()
         animatorSet = AnimatorSet()
-        mHalfSH = mSideLength / 2
-        thickness = mGridLinestrokeWidth / 2
+        mRadius = mSideLength / 2
+        mCircleWidth = DensityUtil.dip2pxFloat(context, 5f)
+        roundRF = RectF(0 + mCircleWidth / 2,
+                0 + mCircleWidth / 2,
+                mSideLength - mCircleWidth / 2,
+                mSideLength - mCircleWidth / 2)
+        //paint
+        paintLine.style = Paint.Style.STROKE
+        paintLine.color = Color.parseColor("#ffffff")
+        paintLine.strokeWidth = mCircleWidth
+        paintLine.isAntiAlias = true
+        paintLine.strokeCap = Paint.Cap.ROUND
+        paintLine.strokeJoin = Paint.Join.ROUND
+        //triangle
+        pointX = mRadius
+        pointY = mRadius
+        mTriangleSideLength = mRadius / 6
+        path = Path()
+
+        postInvalidate()
+    }
+
+    fun startAnim() {
         when (SHOW_MODEL) {
             SHOW_MODEL_LEFT -> initLeft()
             SHOW_MODEL_RIGHT -> initRight()
         }
-
     }
 
     private fun initLeft() {
-        //paint
-        paintLine.style = Paint.Style.STROKE
-        paintLine.color = Color.parseColor("#2D283C")
-        paintLine.strokeWidth = mGridLinestrokeWidth
-        paintLine.isAntiAlias = true
-        paintLine.strokeCap = Paint.Cap.ROUND
-        paintLine.strokeJoin = Paint.Join.ROUND
-        roundRF = RectF(0 + mGridLinestrokeWidth / 2,
-                0 + mGridLinestrokeWidth / 2,
-                mSideLength - mGridLinestrokeWidth / 2,
-                mSideLength - mGridLinestrokeWidth / 2)
-        paintCircle.isAntiAlias = true
-        paintCircle.color = Color.parseColor("#4A22EA")
-        paintCircle.style = Paint.Style.STROKE
-        paintCircle.strokeWidth = mGridLinestrokeWidth
-        paintCircle.strokeCap = Paint.Cap.ROUND
-        //point
-        pointX = mHalfSH
-        pointY = 2 * mHalfSH - thickness
-        //line
-        path = Path()
-        startLineX = thickness
-        startLineY = mHalfSH * 2 - thickness
-        endLineX = mHalfSH * 2 - thickness
-        endLineY = mHalfSH * 2 - thickness
-        path.moveTo(startLineX, startLineY)
-        path.lineTo(thickness, thickness)
-        path.lineTo(mHalfSH * 2 - thickness, thickness)
-        path.lineTo(endLineX, endLineY)
         //startAnimSquare
         startAnimByStep(4, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
+                ANIM_STEP = animSteps[step - 1]
                 path.reset()
                 when (step) {
                     1 -> {
-                        pointX = mHalfSH + fraction * (mHalfSH - thickness)
-                        pointY = mSideLength - thickness - fraction * (mHalfSH - thickness)
-
-                        startLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        startLineY = mHalfSH * 2 - thickness
-                        endLineX = mHalfSH * 2 - thickness
-                        endLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(thickness, thickness)
-                        path.lineTo(mHalfSH * 2 - thickness, thickness)
-                        path.lineTo(endLineX, endLineY)
+                        pointX = mRadius * (1 - fraction)
+                        mTriangleSideLength = mRadius / 6 * (1 - fraction)
                     }
                     2 -> {
-                        pointX = mSideLength - fraction * (mHalfSH - thickness) - thickness
-                        pointY = mHalfSH - fraction * (mHalfSH - thickness)
-
-                        startLineX = 2 * mHalfSH - thickness
-                        startLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineX = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineY = thickness
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(thickness, thickness)
-                        path.lineTo(endLineX, endLineY)
+                        startAngle1 = 180f
+                        swipeAngle1 = 180f * fraction
+                        startAngle2 = 180f
+                        swipeAngle2 = -180f * fraction
                     }
                     3 -> {
-                        pointX = mHalfSH - fraction * (mHalfSH - thickness)
-                        pointY = thickness + fraction * (mHalfSH - thickness)
-
-                        //start 右上往左 end 左上往下
-                        startLineX = 2 * mHalfSH - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        startLineY = thickness
-                        endLineX = thickness
-                        endLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(mHalfSH * 2 - thickness, thickness)
-                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(endLineX, endLineY)
+                        startAngle1 = 180f + 180 * fraction
+                        swipeAngle1 = 180f * (1 - fraction)
+                        startAngle2 = 180f - 180 * fraction
+                        swipeAngle2 = -180f * (1 - fraction)
                     }
                     4 -> {
-                        pointX = thickness + fraction * (mHalfSH - thickness)
-                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
-
-                        startLineX = thickness
-                        startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineY = 2 * mHalfSH - thickness
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(thickness, thickness)
-                        path.lineTo(mHalfSH * 2 - thickness, thickness)
-                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(endLineX, endLineY)
-
+                        pointX = mSideLength - mRadius * fraction
+                        mTriangleSideLength = mRadius / 6 * fraction
                     }
                 }
             }
@@ -180,77 +147,33 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
 
 
     private fun initRight() {
-        //paint
-        paintLine.style = Paint.Style.STROKE
-        paintLine.color = Color.parseColor("#2D283C")
-        paintLine.strokeWidth = mGridLinestrokeWidth
-        paintLine.isAntiAlias = true
-        paintLine.strokeCap = Paint.Cap.ROUND
-        paintLine.strokeJoin = Paint.Join.ROUND
-        roundRF = RectF(0 + mGridLinestrokeWidth / 2,
-                0 + mGridLinestrokeWidth / 2,
-                mSideLength - mGridLinestrokeWidth / 2,
-                mSideLength - mGridLinestrokeWidth / 2)
-        paintCircle.isAntiAlias = true
-        paintCircle.color = Color.parseColor("#4A22EA")
-        paintCircle.style = Paint.Style.STROKE
-        paintCircle.strokeWidth = mGridLinestrokeWidth
-        paintCircle.strokeCap = Paint.Cap.ROUND
-        //point
-        pointX = mHalfSH
-        pointY = 2 * mHalfSH - thickness
-        mHalfHeifht = (mHalfSH * 0.87).toFloat()
-        //line
-        path = Path()
-        startLineX = thickness
-        startLineY = mHalfSH * 2 - thickness
-        endLineX = mHalfSH * 2 - thickness
-        endLineY = mHalfSH * 2 - thickness
-        path.moveTo(startLineX, startLineY)
-        path.lineTo(mHalfSH, thickness)
-        path.lineTo(endLineX, endLineY)
-        // startAnimTriangle
-        startAnimByStep(3, object : OnAnimationUpdatePLView {
+        startAngle1 = 0f
+        startAngle2 = 0f
+        //startAnimSquare
+        startAnimByStep(4, object : OnAnimationUpdatePLView {
             override fun onUpdate(step: Int, fraction: Float) {
+                ANIM_STEP = animSteps[step - 1]
                 path.reset()
                 when (step) {
                     1 -> {
-                        pointX = mHalfSH + fraction * (mHalfSH / 2 - thickness)
-                        pointY = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
-                        startLineX = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        startLineY = mHalfSH * 2 - thickness
-                        endLineX = mHalfSH * 2 - thickness - fraction * (mHalfSH - thickness)
-                        endLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(mHalfSH, thickness)
-                        path.lineTo(endLineX, endLineY)
+                        pointX = mRadius + mRadius * fraction
+                        mTriangleSideLength = mRadius / 6 * (1 - fraction)
                     }
                     2 -> {
-                        pointX = mHalfSH * 3 / 2 - thickness - fraction * (mHalfSH - 2 * thickness)
-                        pointY = mHalfSH
-                        startLineX = 2 * mHalfSH - thickness - fraction * (mHalfSH - thickness)
-                        startLineY = mHalfSH * 2 - thickness - fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineX = mHalfSH - fraction * (mHalfSH - thickness)
-                        endLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(endLineX, endLineY)
-
+                        startAngle1 = 0f
+                        swipeAngle1 = 180f * fraction
+                        startAngle2 = 0f
+                        swipeAngle2 = -180f * fraction
                     }
                     3 -> {
-                        pointX = mHalfSH / 2 + thickness + fraction * (mHalfSH / 2 - thickness)
-                        pointY = mHalfSH + fraction * (mHalfSH - thickness)
-                        startLineX = mHalfSH - fraction * (mHalfSH - thickness)
-                        startLineY = thickness + fraction * (2 * mHalfSH - 2 * thickness)
-                        endLineX = thickness + fraction * (mHalfSH * 2 - 2 * thickness)
-                        endLineY = mHalfSH * 2 - thickness
-                        path.moveTo(startLineX, startLineY)
-                        path.lineTo(mHalfSH, thickness)
-                        path.lineTo(mHalfSH * 2 - thickness, mHalfSH * 2 - thickness)
-                        path.lineTo(endLineX, endLineY)
-
+                        startAngle1 = 0f + 180 * fraction
+                        swipeAngle1 = 180f * (1 - fraction)
+                        startAngle2 = 0f - 180 * fraction
+                        swipeAngle2 = -180f * (1 - fraction)
+                    }
+                    4 -> {
+                        pointX = mRadius * fraction
+                        mTriangleSideLength = mRadius / 6 * fraction
                     }
                 }
             }
@@ -259,13 +182,13 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
 
 
     private fun startAnimByStep(step: Int, listener: OnAnimationUpdatePLView) {
-        val interpolator = AccelerateInterpolator(1f)
+        val interpolator = DecelerateInterpolator(1f)
         val pointAnimList = mutableListOf<Animator>()
         for (index in 1..step) {
             val pointAnimatorTemp = ValueAnimator.ofFloat(0f, 100f)
-            pointAnimatorTemp.duration = this.TIME_CIRCLE / 4
+            pointAnimatorTemp.duration = this.TIME_STEP
             pointAnimatorTemp.interpolator = interpolator
-            pointAnimatorTemp.startDelay = 30//制造停顿感
+            pointAnimatorTemp.startDelay = 30
             pointAnimatorTemp.addUpdateListener { animation ->
                 val temp = animation.animatedFraction
                 listener.onUpdate(index, temp)
@@ -274,11 +197,6 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
             pointAnimList.add(pointAnimatorTemp)
         }
         animatorSet!!.playSequentially(pointAnimList)
-        animatorSet!!.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                animatorSet!!.start()
-            }
-        })
         animatorSet!!.start()
     }
 
@@ -291,6 +209,12 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+        if (!hadInit) {
+            init()
+        }
+
+        drawCircle(canvas)
         when (SHOW_MODEL) {
             SHOW_MODEL_LEFT -> drawLeft(canvas)
             SHOW_MODEL_RIGHT -> drawRight(canvas)
@@ -299,14 +223,63 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
         }
     }
 
+    private fun drawCircle(canvas: Canvas) {
+        paintCircle.isAntiAlias = true
+        paintCircle.color = Color.parseColor("#66ffffff")
+        paintCircle.style = Paint.Style.STROKE
+        paintCircle.strokeWidth = mCircleWidth
+        paintCircle.strokeCap = Paint.Cap.ROUND
+        canvas.drawCircle(mRadius, mRadius, mRadius - mCircleWidth / 2, paintCircle)
+    }
+
     private fun drawLeft(canvas: Canvas) {
-        canvas.drawPath(path, paintLine)
-        canvas.drawPoint(pointX, pointY, paintCircle)
+        when (ANIM_STEP) {
+            ANIM_STEP_1 -> {
+                path.moveTo(pointX + mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
+                path.lineTo(pointX - mTriangleSideLength, pointY)
+                path.lineTo(pointX + mTriangleSideLength, pointY + mTriangleSideLength * 1.4f)
+                canvas.drawPath(path, paintLine)
+            }
+            ANIM_STEP_2 -> {
+                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
+                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+            }
+            ANIM_STEP_3 -> {
+                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
+                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+            }
+            ANIM_STEP_4 -> {
+                path.moveTo(pointX + mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
+                path.lineTo(pointX - mTriangleSideLength, pointY)
+                path.lineTo(pointX + mTriangleSideLength, pointY + mTriangleSideLength * 1.4f)
+                canvas.drawPath(path, paintLine)
+            }
+        }
     }
 
     private fun drawRight(canvas: Canvas) {
-        canvas.drawPath(path, paintLine)
-        canvas.drawPoint(pointX, pointY, paintCircle)
+        when (ANIM_STEP) {
+            ANIM_STEP_1 -> {
+                path.moveTo(pointX - mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
+                path.lineTo(pointX + mTriangleSideLength, pointY)
+                path.lineTo(pointX - mTriangleSideLength, pointY + mTriangleSideLength * 1.4f)
+                canvas.drawPath(path, paintLine)
+            }
+            ANIM_STEP_2 -> {
+                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
+                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+            }
+            ANIM_STEP_3 -> {
+                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
+                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+            }
+            ANIM_STEP_4 -> {
+                path.moveTo(pointX - mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
+                path.lineTo(pointX + mTriangleSideLength, pointY)
+                path.lineTo(pointX - mTriangleSideLength, pointY + mTriangleSideLength * 1.4f)
+                canvas.drawPath(path, paintLine)
+            }
+        }
     }
 
 
@@ -357,7 +330,6 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
     //应该绑定activity生命周期
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun stopAnimation() {
-        LogUtils.d("stopAnimation")
         if (animatorSet != null) {
             animatorSet?.cancel()
         }
@@ -365,7 +337,6 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun startAnimation() {
-        LogUtils.d("startAnimation")
         if (animatorSet != null && !animatorSet!!.isStarted && !animatorSet!!.isRunning) {
             animatorSet!!.start()
         }
