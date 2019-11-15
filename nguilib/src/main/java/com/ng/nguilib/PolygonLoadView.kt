@@ -20,7 +20,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     private lateinit var paintLine: Paint
     private lateinit var paintPoint: Paint
     private var roundRF: RectF? = null
-    private val mGridLinestrokeWidth = 30f
+    private val mGridLinestrokeWidth = 23f
     private var SHOW_MODEL = 0
     val SHOW_MODEL_ROUND = 0x00
     val SHOW_MODEL_TRIANGLE = 0x01
