@@ -1,13 +1,12 @@
 package com.ng.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import butterknife.ButterKnife
-import com.ng.ui.aty.CtbActivity
-import com.ng.ui.aty.EcgActivity
-import com.ng.ui.aty.PlActivity
-import com.ng.ui.aty.WvActivity
+import com.ng.nguilib.utils.LogUtils
+import com.ng.ui.aty.*
 import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndEvents() {
+        LogUtils.d("initViewsAndEvents")
+
         //cbt
         addIntentBtn(CtbActivity().javaClass,"CentralTractionButton")
         //wv
@@ -33,13 +34,20 @@ class MainActivity : AppCompatActivity() {
         addIntentBtn(EcgActivity().javaClass,"EcgView")
         //pl
         addIntentBtn(PlActivity().javaClass,"PolygonLoadView")
-
+        //ai
+        addIntentBtn(AiActivity().javaClass,"ArrowInteractionView")
     }
 
     private fun addIntentBtn(target: Class<AppCompatActivity>,txt:String) {
+        LogUtils.d("addIntentBtn")
+
         val button = Button(this)
         button.text = txt
-        button.setOnClickListener { startActivity(intent.setClass(this, target)) }
+        button.setOnClickListener {
+            LogUtils.d("a:" + target.name)
+            var intent = Intent()
+            intent.setClass(this, target)
+            startActivity(intent) }
         ll_main.addView(button)
     }
 

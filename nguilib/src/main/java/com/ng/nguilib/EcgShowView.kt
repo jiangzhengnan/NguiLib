@@ -334,9 +334,12 @@ class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (SHOW_MODEL== SHOW_MODEL_DYNAMIC_SCROLL) {
-            timer.cancel()
+        when (SHOW_MODEL) {
+            SHOW_MODEL_DYNAMIC_SCROLL -> {
+                timer.cancel()
+            }
         }
+
     }
 
 }
