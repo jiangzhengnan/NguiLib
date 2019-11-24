@@ -1,37 +1,31 @@
-package com.ng.ui.test
+package com.ng.ui.aty
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.widget.ImageView
-import butterknife.ButterKnife
 import com.ng.ui.R
 
 /**
- * @ProjectName: NguiLib
- * @Package: com.ng.ui.test
+ * @ProjectName: NGUI
+ * @Package: com.ng.ui.aty
  * @Description:
- * @Author: Eden
- * @CreateDate: 2019/6/15 11:46
+ * @Author: Pumpkin
+ * @CreateDate: 2019/11/24
  */
-class TestActivity : AppCompatActivity() {
 
+class BvActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getContentViewLayoutID())
-        ButterKnife.bind(this)
         initViewsAndEvents()
-
-
     }
 
     private fun getContentViewLayoutID(): Int {
-        return R.layout.activity_test
+        return R.layout.activity_bv
+
     }
 
     private fun initViewsAndEvents() {
-        val imageView = findViewById<View>(R.id.img_test) as ImageView
     }
 
 

@@ -30,7 +30,7 @@ android {
 
 }
 
-version = "0.0.2" //版本
+version = "0.0.3" //版本
 
 def siteUrl = 'https://github.com/jiangzhengnan/UI'    // 项目主页
 def gitUrl = 'https://github.com/jiangzhengnan/UI' //  git
