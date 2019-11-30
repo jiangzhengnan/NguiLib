@@ -19,7 +19,7 @@
 
         </activity>
 
-        <activity android:name=".aty.BvActivity">
+        <activity android:name=".aty.CdActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

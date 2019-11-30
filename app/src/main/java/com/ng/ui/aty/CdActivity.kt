@@ -12,7 +12,7 @@ import com.ng.ui.R
  * @CreateDate: 2019/11/24
  */
 
-class BvActivity : AppCompatActivity() {
+class CdActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class BvActivity : AppCompatActivity() {
     }
 
     private fun getContentViewLayoutID(): Int {
-        return R.layout.activity_bv
+        return R.layout.activity_cd
 
     }
 

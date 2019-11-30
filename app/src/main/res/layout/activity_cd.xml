@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ng.nguilib.ball.BallView
+    <com.ng.ui.testyuanzhu.PieView
         android:layout_centerInParent="true"
         android:layout_width="300dp"
         android:layout_height="300dp" />

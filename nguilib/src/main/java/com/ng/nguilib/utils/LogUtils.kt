@@ -10,8 +10,8 @@ import android.util.Log
  * @CreateDate: 2019/6/15 11:45
  */
 object LogUtils {
-    private val TAG = "nangua"
-    fun d(msg: String?) {
+    val TAG = "nangua"
+    fun  d(msg: String?) {
         if (msg != null) {
             Log.d(TAG, msg)
         }
