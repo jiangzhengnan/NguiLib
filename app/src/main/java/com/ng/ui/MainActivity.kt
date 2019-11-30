@@ -2,8 +2,8 @@ package com.ng.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import com.ng.nguilib.utils.LogUtils
 import com.ng.ui.aty.*
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         addIntentBtn(AiActivity().javaClass,"ArrowInteractionView")
     }
 
-    private fun addIntentBtn(target: Class<AppCompatActivity>,txt:String) {
+    private fun addIntentBtn(target: Class<AppCompatActivity>, txt:String) {
         LogUtils.d("addIntentBtn")
 
         val button = Button(this)

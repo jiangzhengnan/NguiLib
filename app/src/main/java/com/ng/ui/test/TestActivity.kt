@@ -1,9 +1,9 @@
 package com.ng.ui.test
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import com.ng.ui.R
 

@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NGUI.iml" filepath="$PROJECT_DIR$/NGUI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/NguiLib.iml" filepath="$PROJECT_DIR$/NguiLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/NguiLib-app.iml" filepath="$PROJECT_DIR$/app/NguiLib-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nguilib/NguiLib-nguilib.iml" filepath="$PROJECT_DIR$/nguilib/NguiLib-nguilib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nguilib/nguilib.iml" filepath="$PROJECT_DIR$/nguilib/nguilib.iml" />
     </modules>
