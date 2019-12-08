@@ -3,6 +3,7 @@ package com.ng.ui.aty
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.activity_cd.*
 
 /**
  * @ProjectName: NGUI
@@ -26,6 +27,8 @@ class CdActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndEvents() {
+
+        clv.setData(arrayListOf(60f, 100f, 130f))
     }
 
 

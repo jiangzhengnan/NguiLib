@@ -153,7 +153,7 @@ public class PieView extends View {
 
 
                 //画笔的颜色
-                mainPaint.setColor(shade_colors[j]);
+                mainPaint.setColor(colors[j]);
                 //坐标点 start end
                 RectF rectF = new RectF(areaX, areaY - i, areaX + areaWidth, areaHight - i);
                 //画弧

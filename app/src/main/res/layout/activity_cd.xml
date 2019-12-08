@@ -16,6 +16,8 @@
         android:background="@color/black"></View>
 
     <com.ng.nguilib.CylinderView
+        android:id="@+id/clv"
+        android:clickable="true"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
