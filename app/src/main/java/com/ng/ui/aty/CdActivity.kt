@@ -28,7 +28,7 @@ class CdActivity : AppCompatActivity() {
 
     private fun initViewsAndEvents() {
 
-        clv.setData(arrayListOf(60f, 100f, 130f))
+        clv.setData(arrayListOf(20f, 40f, 30f, 70f, 60f, 100f, 90f))
     }
 
 

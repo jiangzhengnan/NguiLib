@@ -125,6 +125,11 @@ public class CylinderView extends View {
             mainPaint.setStyle(Paint.Style.FILL);
             mainPaint.setColor(colors[i]);
 
+            if (percent.size() == 0) {
+                break;
+            }
+
+
             float tempAngle = percent.get(0);
 
             float halfAngle = tempAngle / 2;
@@ -139,13 +144,13 @@ public class CylinderView extends View {
              */
             if (i == 0) {
                 leftAngle = 270f - halfAngle;
-
-
                 rightAngle = 270f + halfAngle;
                 if (rightAngle >= 360) {
                     rightAngle -= 360f;
                 }
                 NOW_TAG = LEFT;
+                percent.remove(0);
+                LogUtils.INSTANCE.d("第一次绘制： " + tempAngle + " " + percent.size() + "   具體的： " + percent.toString());
 
             } else {
                 //1.找到当前小的边
@@ -154,23 +159,28 @@ public class CylinderView extends View {
                     //左边比右边大，取右边
                     NOW_TAG = RIGHT;
                     tempAngle = getNextAngle(getDistanceToCenter(rightAngle, RIGHT));
-                    rightAngle += rightAngle;
-
-                    LogUtils.INSTANCE.d("放右边： " + tempAngle);
+                    rightAngle += tempAngle;
+                    if (rightAngle >= 360) {
+                        rightAngle -= 360f;
+                    }
+                    LogUtils.INSTANCE.d("放右边： " + tempAngle + " " + rightAngle + " " + percent.size());
 
                 } else {
                     //右边比左边大，取左边
                     NOW_TAG = LEFT;
                     tempAngle = getNextAngle(getDistanceToCenter(leftAngle, LEFT));
 
-                    leftAngle += tempAngle;
+                    leftAngle -= tempAngle;
 
-
-                    LogUtils.INSTANCE.d("放左边： " + tempAngle);
+                    LogUtils.INSTANCE.d("放左边： " + tempAngle + " " + leftAngle + " " + percent.size());
 
                 }
 
             }
+
+
+            LogUtils.INSTANCE.d("END----第：" + i + " 次绘制" + tempAngle + " " + percent.size() + "   " + leftAngle + "  " + rightAngle);
+
 
 
             //绘制各个弧度
@@ -182,18 +192,29 @@ public class CylinderView extends View {
                     mainPaint.setColor(Color.rgb(255, 255, 255));
                 }
 
-                switch (NOW_TAG) {
-                    case LEFT:
-                        canvas.drawArc(tempRectF, leftAngle + tempAngle, tempAngle, true, mainPaint);
-                        break;
-                    case RIGHT:
-                        canvas.drawArc(tempRectF, rightAngle, tempAngle, true, mainPaint);
+                if (i == 0) {
+                    canvas.drawArc(tempRectF, leftAngle, tempAngle, true, mainPaint);
+                } else {
 
-                        break;
+                    switch (NOW_TAG) {
+                        case LEFT:
+                            LogUtils.INSTANCE.d("左邊 ");
+                            LogUtils.INSTANCE.d("startAngle " + (leftAngle + tempAngle));
+                            LogUtils.INSTANCE.d("sweepAngle " + (tempAngle));
+                            canvas.drawArc(tempRectF, leftAngle , tempAngle, true, mainPaint);
+                            break;
+                        case RIGHT:
+                            canvas.drawArc(tempRectF, rightAngle-tempAngle, tempAngle, true, mainPaint);
+                            LogUtils.INSTANCE.d("右邊 ");
+                            LogUtils.INSTANCE.d("startAngle " + (rightAngle));
+                            LogUtils.INSTANCE.d("sweepAngle " + (tempAngle));
+                            break;
+                    }
                 }
+
             }
 
-            percent.remove(0);
+            //percent.remove(0);
         }
 
 
@@ -209,72 +230,74 @@ public class CylinderView extends View {
 
         if (percent.size() == 1) {
             percent.remove(0);
-            return tempAngle;
         } else {
 
             float allAngle = tempAngle + distanceAngle;
             if (allAngle <= 180f) {
                 //如果加起来不大于180f
                 percent.remove(0);
-                return tempAngle;
             } else {
                 //如果加起来大于180f，则一直找，找到不大于的位置
                 int tempindex = 0;
 
-                while ( tempindex < percent.size() ) {
-                     tempindex ++;
+                while (tempindex < percent.size()) {
+                    tempindex++;
 
-                     if (percent.get(tempindex) + distanceAngle <= 180f) {
-                            return percent.get(tempindex);
-                     }
+
+                    if (tempindex < percent.size() && percent.get(tempindex) + distanceAngle <= 180f) {
+                        tempAngle = percent.get(tempindex);
+                        percent.remove(tempindex);
+                    }
                 }
-
-                return percent.get(0);
-
-
-
+                percent.remove(0);
             }
-
-
         }
-
-
+        return tempAngle;
     }
 
     //得到相对中心位置的绝对距离
     private float getDistanceToCenter(float angle, int type) {
 
+        float result = 0;
         switch (type) {
             case LEFT:
                 if (90f <= angle && angle <= 270f) {
                     //90-270
-                    return 270f - angle;
+                    result = 270f - angle;
+                    break;
                 }
 
                 if (angle <= 360f) {
                     //270-360
-                    return 270f + (angle - 270f);
+                    result = 270f + (angle - 270f);
+                    break;
                 } else {
                     //0 - 90
-                    return 180f + (90f - angle);
+                    result = 180f + (90f - angle);
+                    break;
                 }
 
             case RIGHT:
+
                 if (90f <= angle && angle <= 270f) {
                     //90-270
-                    return angle + 90f;
+                    result = angle + 90f;
+                    break;
                 }
 
-                if (angle <= 360f) {
-                    //270-360
-                    return angle - 270f;
-                } else {
+                if (angle <= 90f) {
                     //0 - 90
-                    return angle + 90f;
+                    result = angle + 90f;
+                    break;
+                } else {
+                    //270-360
+                    result = angle - 270f;
+                    break;
                 }
         }
 
-        return 0f;
+
+        return result;
 
     }
 
