@@ -4,9 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ng.ui.R
-import kotlinx.android.synthetic.main.activity_pl.*
 import kotlinx.android.synthetic.main.activity_ptl.*
-import kotlinx.android.synthetic.main.activity_wv.*
 
 /**
  * 描述:
@@ -20,9 +18,9 @@ class PtlActivity : AppCompatActivity() {
         setContentView(getContentViewLayoutID())
         initViewsAndEvents()
 
-//        ptl.setColor(Color.parseColor("#ffffff"),
-//                Color.parseColor("#99A6C7")
-//        )
+        ptl.setColor(Color.parseColor("#ffffff"),
+                Color.parseColor("#99A6C7")
+        )
     }
 
     private fun getContentViewLayoutID(): Int {

@@ -36,11 +36,11 @@ class MainActivity : AppCompatActivity() {
         addIntentBtn(PlActivity().javaClass,"PolygonLoadView")
         //ai
         addIntentBtn(AiActivity().javaClass,"ArrowInteractionView")
+        //ptl
+        addIntentBtn(PtlActivity().javaClass,"PointLoadingView")
     }
 
     private fun addIntentBtn(target: Class<AppCompatActivity>, txt:String) {
-        LogUtils.d("addIntentBtn")
-
         val button = Button(this)
         button.text = txt
         button.setOnClickListener {

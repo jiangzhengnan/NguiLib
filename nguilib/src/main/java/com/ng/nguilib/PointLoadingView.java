@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ng.nguilib.utils.DensityUtil;
-import com.ng.nguilib.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +47,12 @@ public class PointLoadingView extends View {
 
     //R of point
     private static int mPointDiameter;
+    private static final float POINT_DIAMETER = 12f;
+
 
     //default point size
     private static final int POINT_SIZE = 3;
+
 
     //tools
     private Paint mPointPaint;
@@ -81,7 +83,7 @@ public class PointLoadingView extends View {
 
     private void init(Context context) {
         mAnimState = STATE_STOP;
-        mPointDiameter = DensityUtil.INSTANCE.dip2px(context, 6f);
+        mPointDiameter = DensityUtil.INSTANCE.dip2px(context, POINT_DIAMETER);
         mPointHeight = new float[POINT_SIZE];
         initPaint();
     }
