@@ -20,6 +20,10 @@
         </activity>
 
         <activity android:name=".aty.CdActivity">
+
+        </activity>
+
+        <activity android:name=".aty.PtlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
