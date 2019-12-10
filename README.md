@@ -36,7 +36,8 @@ Inspiration : <a href="https://dribbble.com/shots/5878367-Loaders">https://dribb
 4.ArrowInteractionView. A Load Animation Button<br />
 Inspiration : <a href="https://dribbble.com/shots/6201452-Arrow-micro-interaction">https://dribbble.com/shots/6201452-Arrow-micro-interaction</a><br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ai_show.gif" /> 
-
+5.PointLoadingView. A Point Load Animation View<br />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ptl_show.gif" /> 
 
 ## License
 
