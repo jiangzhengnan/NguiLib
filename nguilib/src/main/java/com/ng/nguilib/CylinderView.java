@@ -27,31 +27,15 @@ public class CylinderView extends View {
 
 
     //区域百分比
-    private ArrayList<Float> percent;
+    private ArrayList<Entry> mEntries;
 
     //饼图的paint
     private Paint mainPaint;
-
 
     //点击事件的计算
     private float centerX;
     private float centerY;
 
-    //颜色数组
-    private int[] colors = new int[]{
-            Color.rgb(54, 217, 169), Color.rgb(0, 171, 255),
-            Color.rgb(80, 195, 252), Color.rgb(13, 142, 207),
-            Color.rgb(2, 211, 21), Color.rgb(176, 222, 9),
-            Color.rgb(248, 255, 1), Color.rgb(252, 210, 2),
-            Color.rgb(255, 159, 13), Color.rgb(255, 100, 0),
-            Color.rgb(234, 14, 0),
-    };
-    //阴影数组
-    private int[] shade_colors = new int[]{
-            Color.rgb(26, 164, 123), Color.rgb(0, 154, 230), Color.rgb(21, 178, 255), Color.rgb(5, 102, 153),
-            Color.rgb(3, 147, 15), Color.rgb(124, 158, 8), Color.rgb(212, 218, 2), Color.rgb(219, 183, 6),
-            Color.rgb(214, 135, 5), Color.rgb(210, 90, 13), Color.rgb(199, 13, 1),
-    };
 
     public CylinderView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -70,10 +54,10 @@ public class CylinderView extends View {
         mainPaint.setAntiAlias(true);
     }
 
-    public void setData(ArrayList<Float> data) {
-        this.percent = data;
-        Collections.sort(percent, new MyCompare());
-        LogUtils.INSTANCE.d("****传入的数据: " + percent.toString());
+    public void setData(ArrayList<Entry> data) {
+        mEntries = data;
+        Collections.sort(mEntries, new MyCompare());
+        LogUtils.INSTANCE.d("****传入的数据: " + mEntries.toString());
         postInvalidate();
     }
 
@@ -109,7 +93,7 @@ public class CylinderView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (percent == null) {
+        if (mEntries == null) {
             return;
         }
 
@@ -117,20 +101,20 @@ public class CylinderView extends View {
         rightAngle = 0;
 
         RectF tempRectF = new RectF(areaX, areaY, areaX + areaWidth, areaHight);
-        int max = percent.size();
+        int max = mEntries.size();
         for (int i = 0; i < max; i++) {
-            Collections.sort(percent, new MyCompare());
+            Collections.sort(mEntries, new MyCompare());
 
 
             mainPaint.setStyle(Paint.Style.FILL);
-            mainPaint.setColor(colors[i]);
 
-            if (percent.size() == 0) {
+            if (mEntries.size() == 0) {
                 break;
             }
 
 
-            float tempAngle = percent.get(0);
+            float tempAngle = mEntries.get(0).percent;
+            mainPaint.setColor(mEntries.get(0).color);
 
             float halfAngle = tempAngle / 2;
 
@@ -149,8 +133,7 @@ public class CylinderView extends View {
                     rightAngle -= 360f;
                 }
                 NOW_TAG = LEFT;
-                percent.remove(0);
-                LogUtils.INSTANCE.d("第一次绘制： " + tempAngle + " " + percent.size() + "   具體的： " + percent.toString());
+                mEntries.remove(0);
 
             } else {
                 //1.找到当前小的边
@@ -163,7 +146,6 @@ public class CylinderView extends View {
                     if (rightAngle >= 360) {
                         rightAngle -= 360f;
                     }
-                    LogUtils.INSTANCE.d("放右边： " + tempAngle + " " + rightAngle + " " + percent.size());
 
                 } else {
                     //右边比左边大，取左边
@@ -172,14 +154,10 @@ public class CylinderView extends View {
 
                     leftAngle -= tempAngle;
 
-                    LogUtils.INSTANCE.d("放左边： " + tempAngle + " " + leftAngle + " " + percent.size());
 
                 }
 
             }
-
-
-            LogUtils.INSTANCE.d("END----第：" + i + " 次绘制" + tempAngle + " " + percent.size() + "   " + leftAngle + "  " + rightAngle);
 
 
 
@@ -187,34 +165,39 @@ public class CylinderView extends View {
             int perThickness = (int) ((tempAngle / 360f) * thickness);
             for (int j = 0; j <= perThickness; j++) {
                 tempRectF = new RectF(areaX, areaY - j, areaX + areaWidth, areaHight - j);
-                if (j == perThickness) {
-                    mainPaint.setStyle(Paint.Style.STROKE);
-                    mainPaint.setColor(Color.rgb(255, 255, 255));
-                }
 
                 if (i == 0) {
                     canvas.drawArc(tempRectF, leftAngle, tempAngle, true, mainPaint);
+                    if (j == perThickness) {
+                        mainPaint.setStyle(Paint.Style.STROKE);
+                        mainPaint.setColor(Color.rgb(255, 255, 255));
+                        tempRectF = new RectF(areaX, areaY - j, areaX + areaWidth, areaHight - j);
+                    }
                 } else {
 
                     switch (NOW_TAG) {
                         case LEFT:
-                            LogUtils.INSTANCE.d("左邊 ");
-                            LogUtils.INSTANCE.d("startAngle " + (leftAngle + tempAngle));
-                            LogUtils.INSTANCE.d("sweepAngle " + (tempAngle));
-                            canvas.drawArc(tempRectF, leftAngle , tempAngle, true, mainPaint);
+                            canvas.drawArc(tempRectF, leftAngle, tempAngle, true, mainPaint);
+
+                            if (j == perThickness) {
+                                mainPaint.setStyle(Paint.Style.STROKE);
+                                mainPaint.setColor(Color.rgb(255, 255, 255));
+                                canvas.drawArc(tempRectF, leftAngle, tempAngle, true, mainPaint);
+                            }
                             break;
                         case RIGHT:
-                            canvas.drawArc(tempRectF, rightAngle-tempAngle, tempAngle, true, mainPaint);
-                            LogUtils.INSTANCE.d("右邊 ");
-                            LogUtils.INSTANCE.d("startAngle " + (rightAngle));
-                            LogUtils.INSTANCE.d("sweepAngle " + (tempAngle));
+                            canvas.drawArc(tempRectF, rightAngle - tempAngle, tempAngle, true, mainPaint);
+                            if (j == perThickness) {
+                                mainPaint.setStyle(Paint.Style.STROKE);
+                                mainPaint.setColor(Color.rgb(255, 255, 255));
+                                canvas.drawArc(tempRectF, rightAngle - tempAngle, tempAngle, true, mainPaint);
+                            }
                             break;
                     }
                 }
 
             }
 
-            //percent.remove(0);
         }
 
 
@@ -223,33 +206,33 @@ public class CylinderView extends View {
     private float getNextAngle(float distanceAngle) {
 
         float tempAngle;
-        if (percent.size() == 0) {
+        if (mEntries.size() == 0) {
             return 0;
         }
-        tempAngle = percent.get(0);
+        tempAngle = mEntries.get(0).percent;
 
-        if (percent.size() == 1) {
-            percent.remove(0);
+        if (mEntries.size() == 1) {
+            mEntries.remove(0);
         } else {
 
             float allAngle = tempAngle + distanceAngle;
             if (allAngle <= 180f) {
                 //如果加起来不大于180f
-                percent.remove(0);
+                mEntries.remove(0);
             } else {
                 //如果加起来大于180f，则一直找，找到不大于的位置
                 int tempindex = 0;
 
-                while (tempindex < percent.size()) {
+                while (tempindex < mEntries.size()) {
                     tempindex++;
 
 
-                    if (tempindex < percent.size() && percent.get(tempindex) + distanceAngle <= 180f) {
-                        tempAngle = percent.get(tempindex);
-                        percent.remove(tempindex);
+                    if (tempindex < mEntries.size() && mEntries.get(tempindex).percent + distanceAngle <= 180f) {
+                        tempAngle = mEntries.get(tempindex).percent;
+                        mEntries.remove(tempindex);
                     }
                 }
-                percent.remove(0);
+                mEntries.remove(0);
             }
         }
         return tempAngle;
@@ -301,13 +284,29 @@ public class CylinderView extends View {
 
     }
 
-    class MyCompare implements Comparator<Float> {
+    class MyCompare implements Comparator<Entry> {
 
         @Override
-        public int compare(Float o1, Float o2) {
-            return o1 > o2 ? -1 : (o1 == o2 ? 0 : 1);
+        public int compare(Entry o1, Entry o2) {
+            return Float.compare(o2.percent, o1.percent);
+        }
+    }
+
+    public static class Entry {
+        float percent;
+        int color;
+
+        public Entry(float percent, int color) {
+            this.percent = percent;
+            this.color = color;
         }
 
-
+        @Override
+        public String toString() {
+            return "Entry{" +
+                    "percent=" + percent +
+                    ", color=" + color +
+                    '}';
+        }
     }
 }
