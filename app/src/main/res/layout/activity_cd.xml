@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent">
-
-    <com.ng.ui.testyuanzhu.PieView
-        android:background="#FC5C5C5C"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"></View>
 
     <com.ng.nguilib.CylinderView
         android:id="@+id/clv"
-        android:clickable="true"
+        android:background="#6F6F6F"
+        android:layout_width="150dp"
+        android:layout_height="205dp"
         android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1
-"/>
+        />
 
-</LinearLayout>
+</RelativeLayout>

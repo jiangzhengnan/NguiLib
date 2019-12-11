@@ -36,9 +36,9 @@ class CdActivity : AppCompatActivity() {
                 CylinderView.Entry(30f, Color.YELLOW),
                 CylinderView.Entry(40f, Color.BLUE),
                 CylinderView.Entry(50f, Color.GREEN),
-                CylinderView.Entry(60f, Color.GRAY),
-                CylinderView.Entry(160f, Color.MAGENTA)
-                ))
+                CylinderView.Entry(90f, Color.GRAY),
+                CylinderView.Entry(130f, Color.MAGENTA)
+        ))
     }
 
 
