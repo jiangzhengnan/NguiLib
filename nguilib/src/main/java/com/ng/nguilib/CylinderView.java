@@ -44,12 +44,12 @@ public class CylinderView extends View {
     //饼图的宽-平面视角下
     private int area2DWidth = 0;
     //饼图的高-平面视角下
-    private int area2DHeight = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
+    private int area2DHeight = 0;
 
     //饼图的3d视觉高度
     private int area3DHight = 0;
 
-    private int thickness = DensityUtil.INSTANCE.dip2px(getContext(), 100f);
+    private int thickness = DensityUtil.INSTANCE.dip2px(getContext(), 200f);
     // x =  y + sinα * R
     //  R圆的直径
     //  y是厚度
@@ -149,42 +149,96 @@ public class CylinderView extends View {
             int perThickness = (int) ((tempAngle / 360f) * thickness * (maxSize / 2));
             float drawTempStartAngle = 0f;
             RectF tempRectF;
-            float verticalLinePointY = 0f;
+
+            float lineStartX = 0f;
+            float lineStartY = 0f;
+            float lineEndX = 0f;
+            float lineEndY = 0f;
+
+            float oX = centerX;
+            float oY;
+            float R = centerX;
+
+            float bilv = ((float) (area3DHight - area2DHeight) )/ ((float)area2DHeight);
+
+            LogUtils.INSTANCE.d("?????????????????: " + bilv);
+
             for (int j = 0; j <= perThickness; j++) {
                 tempRectF = new RectF(0, area2DHeight - j, area2DWidth, area3DHight - j);
+                oY = (area2DHeight + area3DHight) / 2 - j;
                 switch (NOW_TAG) {
                     case CENTER:
                         drawTempStartAngle = leftAngle;
-                        verticalLinePointY = (area2DHeight + area3DHight) / 2 - j;
+
+                        lineStartX = oX;
+                        lineEndX = oX;
+                        lineStartY = (area2DHeight + area3DHight) / 2;
+                        lineEndY = oY;
                         break;
                     case LEFT:
                         drawTempStartAngle = leftAngle;
-                        /*
-                        半径r,角度θ,圆弧中心(a,b),起点坐标(x0,y0)
-                        a,b请根据起点坐标折算成中心坐标
-                        下边的公式利用的是○的参数方程
-                        x=a+rcosθ
-                        y=b+rsinθ
+                        /**
+                         * 左边夹角tempAngle   0< tempAngle < 180
+                         *         90 <drawTempStartAngle <270
+                         * 1.0-90
+                         *
                          */
-                        verticalLinePointY = 0;
+
+                        LogUtils.INSTANCE.d("开始: " + drawTempStartAngle + " " + tempAngle);
+
+                        if (drawTempStartAngle <= 180) {
+                            //startAngle 90-180
+                            lineStartX = oX - (float) (R * Math.cos(drawTempStartAngle));
+                            lineEndX = lineStartX;
+                            lineStartY = oY + (float) (R * Math.sin(drawTempStartAngle));
+                            lineEndY = lineStartY - j;
+
+                        } else {
+                            //startAngle 180-270
+                            lineStartX = oX - (float) (R * Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
+
+                            LogUtils.INSTANCE.d("11: " + Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
+
+                            lineEndX = lineStartX;
+
+
+                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
+
+                            LogUtils.INSTANCE.d("22: " + Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
+                            LogUtils.INSTANCE.d("22 R: " + R);
+                            LogUtils.INSTANCE.d("22 bilv: " + bilv);
+
+
+
+                            LogUtils.INSTANCE.d("22:lineStartY  " + lineStartY);
+
+                            lineEndY = lineStartY - j;
+                        }
+
+                        LogUtils.INSTANCE.d("lineStartX: " + lineStartX);
+                        LogUtils.INSTANCE.d("lineEndX: " + lineEndX);
+                        LogUtils.INSTANCE.d("lineStartY: " + lineStartY);
+                        LogUtils.INSTANCE.d("lineEndY: " + lineEndY);
+
                         break;
                     case RIGHT:
                         drawTempStartAngle = rightAngle - tempAngle;
-                        verticalLinePointY = 0;
                         break;
                 }
 
 
                 //弧形
                 mainPaint.setColor(tempColor);
-                canvas.drawArc(tempRectF, drawTempStartAngle, tempAngle, true, mainPaint);
+                // canvas.drawArc(tempRectF, drawTempStartAngle, tempAngle, true, mainPaint);
                 if (j == perThickness) {
                     drawTopLine(canvas, tempRectF, drawTempStartAngle, tempAngle);
                 }
 
                 //竖直线
                 mainPaint.setColor(Color.WHITE);
-                canvas.drawPoint(centerX, verticalLinePointY, mainPaint);
+                canvas.drawLine(lineStartX, lineStartY,
+                        lineEndX, lineEndY,
+                        mainPaint);
             }
         }
     }
@@ -279,8 +333,13 @@ public class CylinderView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         area2DWidth = getMeasuredWidth();
+        area2DHeight = getMeasuredWidth();
+
         area3DHight = getMeasuredHeight();
         LogUtils.INSTANCE.d("宽：" + area2DWidth + "高：" + area2DHeight + " 3d高: " + area3DHight + "厚：" + thickness);
+
         centerX = area2DWidth / 2;
+        LogUtils.INSTANCE.d("初始圆心坐标 x：" + centerX + "y：" + ((area2DHeight + area3DHight) / 2) + " R: " + centerX);
+
     }
 }

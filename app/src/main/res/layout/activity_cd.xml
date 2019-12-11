@@ -6,8 +6,8 @@
     <com.ng.nguilib.CylinderView
         android:id="@+id/clv"
         android:background="#6F6F6F"
-        android:layout_width="150dp"
-        android:layout_height="205dp"
+        android:layout_width="300dp"
+        android:layout_height="410dp"
         android:layout_centerInParent="true"
         />
 
