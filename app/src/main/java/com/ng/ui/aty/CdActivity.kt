@@ -32,20 +32,24 @@ class CdActivity : AppCompatActivity() {
 
     private fun initViewsAndEvents() {
         clv.setData(arrayListOf(
-                CylinderView.Entry(50f, Color.RED),
-                CylinderView.Entry(30f, Color.YELLOW)
-//                CylinderView.Entry(50f, Color.BLUE),
-//                CylinderView.Entry(60f, Color.GREEN),
-//                CylinderView.Entry(90f, Color.GRAY),
-//                CylinderView.Entry(110f, Color.MAGENTA)
+                CylinderView.Entry(15f, Color.RED),
+                CylinderView.Entry(30f, Color.YELLOW),
+                CylinderView.Entry(40f, Color.BLUE),
+                CylinderView.Entry(60f, Color.GREEN),
+                CylinderView.Entry(90f, Color.GRAY),
+                CylinderView.Entry(125f, Color.MAGENTA)
         ))
+
+        btn1.setOnClickListener {
+            clv.startUpAllAnim()
+        }
     }
 
 
     /**
      * 获取十六进制的颜色代码.例如  "#5A6677"
      * 分别取R、G、B的随机值，然后加起来即可
-     *
+     *／
      * @return String
      */
     fun getRandColor(): String {

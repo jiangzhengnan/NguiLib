@@ -1,13 +1,20 @@
 package com.ng.nguilib;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.Nullable;
 
@@ -28,14 +35,18 @@ import java.util.Comparator;
  * @CreateDate: 2019/11/24
  */
 public class CylinderView extends View {
-
+    int max;
     //区域百分比
+    private ArrayList<Entry> mEntrySourceList;
+
     private ArrayList<Entry> mEntries;
 
     private int maxSize;
 
     //饼图的paint
     private Paint mainPaint;
+    private Paint mBitMapPaint;
+
 
     //点击事件的计算
     private float centerX;
@@ -76,44 +87,78 @@ public class CylinderView extends View {
         initPaint();
     }
 
+    private boolean isAnimRunning = false;
+
+    //anim
+    public void startUpAllAnim() {
+        if (!isAnimRunning) {
+            isAnimRunning = true;
+            ValueAnimator upAllAnim = ValueAnimator.ofInt(0, thickness);
+            upAllAnim.setDuration(2000);
+            upAllAnim.setInterpolator(new DecelerateInterpolator());
+            upAllAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    thickness = (int) animation.getAnimatedValue();
+                    postInvalidate();
+                }
+            });
+            upAllAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    isAnimRunning = false;
+                }
+            });
+            upAllAnim.start();
+        }
+    }
+
     //初始化 画笔
     private void initPaint() {
         mainPaint = new Paint();
         mainPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mainPaint.setAntiAlias(true);
+
+
+        mBitMapPaint = new Paint();
+        mBitMapPaint.setAntiAlias(true);
+        mBitMapPaint.setFilterBitmap(false);
+        mBitMapPaint.setStyle(Paint.Style.FILL);
     }
 
     public void setData(ArrayList<Entry> data) {
-        mEntries = data;
-        maxSize = data.size();
-        Collections.sort(mEntries, new MyCompare());
+        mEntrySourceList = data;
+        max = mEntrySourceList.size();
+        maxSize = mEntrySourceList.size();
+        Collections.sort(mEntrySourceList, new MyCompare());
         postInvalidate();
     }
+
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        canvas.drawBitmap(drawCylinder(), 0, 0, null);
+
+    }
+
+    private Bitmap drawCylinder() {
+        Bitmap bm = Bitmap.createBitmap(area2DWidth, area3DHight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bm);//绘制遮罩层
         leftAngle = 0;
         rightAngle = 0;
-        int max = mEntries.size();
+        mEntries = (ArrayList<Entry>) mEntrySourceList.clone();
         for (int i = 0; i < max; i++) {
             Collections.sort(mEntries, new MyCompare());
-
-
             mainPaint.setStyle(Paint.Style.FILL);
-
             if (mEntries.size() == 0) {
                 break;
             }
-
-
-            float tempAngle = mEntries.get(0).percent;
-            int tempColor = mEntries.get(0).color;
-
-
-            float halfAngle = tempAngle / 2;
-
+            Entry tempEntry = mEntries.get(0);
+            float halfAngle = tempEntry.percent / 2;
             /*
               1.算法，先绘制最大的一块，居中
               2.剩下的 优先记录左边和右边的坐标值
@@ -132,115 +177,121 @@ public class CylinderView extends View {
                 if (getDistanceToCenter(leftAngle, LEFT) > getDistanceToCenter(rightAngle, RIGHT)) {
                     //左边比右边大，取右边
                     NOW_TAG = RIGHT;
-                    tempAngle = getNextAngle(getDistanceToCenter(rightAngle, RIGHT));
-                    rightAngle += tempAngle;
+                    tempEntry = getNextAngle(getDistanceToCenter(rightAngle, RIGHT));
+                    rightAngle += tempEntry.percent;
                     if (rightAngle >= 360) {
                         rightAngle -= 360f;
                     }
                 } else {
                     //右边比左边大，取左边
                     NOW_TAG = LEFT;
-                    tempAngle = getNextAngle(getDistanceToCenter(leftAngle, LEFT));
-                    leftAngle -= tempAngle;
+                    tempEntry = getNextAngle(getDistanceToCenter(leftAngle, LEFT));
+                    leftAngle -= tempEntry.percent;
                 }
             }
 
             //绘制各个弧度
-            int perThickness = (int) ((tempAngle / 360f) * thickness * (maxSize / 2));
+            int perThickness = (int) ((tempEntry.percent / 360f) * thickness * (maxSize / 2));
             float drawTempStartAngle = 0f;
             RectF tempRectF;
-
             float lineStartX = 0f;
             float lineStartY = 0f;
             float lineEndX = 0f;
             float lineEndY = 0f;
-
             float oX = centerX;
-            float oY;
+            float oY = (area2DHeight + area3DHight) / 2;
             float R = centerX;
-
-            float bilv = ((float) (area3DHight - area2DHeight) )/ ((float)area2DHeight);
-
-            LogUtils.INSTANCE.d("?????????????????: " + bilv);
-
+            //y轴2d3d缩放比例
+            float bilv = ((float) (area3DHight - area2DHeight)) / ((float) area2DHeight);
             for (int j = 0; j <= perThickness; j++) {
                 tempRectF = new RectF(0, area2DHeight - j, area2DWidth, area3DHight - j);
-                oY = (area2DHeight + area3DHight) / 2 - j;
                 switch (NOW_TAG) {
                     case CENTER:
                         drawTempStartAngle = leftAngle;
-
                         lineStartX = oX;
                         lineEndX = oX;
                         lineStartY = (area2DHeight + area3DHight) / 2;
-                        lineEndY = oY;
+                        lineEndY = oY - j;
                         break;
                     case LEFT:
                         drawTempStartAngle = leftAngle;
-                        /**
-                         * 左边夹角tempAngle   0< tempAngle < 180
-                         *         90 <drawTempStartAngle <270
-                         * 1.0-90
-                         *
+                        /*
+                          左边夹角tempAngle   0< tempAngle < 180
+                                  90 <drawTempStartAngle <270
                          */
-
-                        LogUtils.INSTANCE.d("开始: " + drawTempStartAngle + " " + tempAngle);
-
                         if (drawTempStartAngle <= 180) {
                             //startAngle 90-180
-                            lineStartX = oX - (float) (R * Math.cos(drawTempStartAngle));
+                            lineStartX = oX - (float) (R * Math.sin(Math.toRadians(drawTempStartAngle - 90f)));
                             lineEndX = lineStartX;
-                            lineStartY = oY + (float) (R * Math.sin(drawTempStartAngle));
+                            lineStartY = oY + (float) (bilv * R * Math.cos(Math.toRadians(drawTempStartAngle - 90f)));
                             lineEndY = lineStartY - j;
 
                         } else {
                             //startAngle 180-270
                             lineStartX = oX - (float) (R * Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
-
-                            LogUtils.INSTANCE.d("11: " + Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
-
                             lineEndX = lineStartX;
-
-
                             lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
-
-                            LogUtils.INSTANCE.d("22: " + Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
-                            LogUtils.INSTANCE.d("22 R: " + R);
-                            LogUtils.INSTANCE.d("22 bilv: " + bilv);
-
-
-
-                            LogUtils.INSTANCE.d("22:lineStartY  " + lineStartY);
-
                             lineEndY = lineStartY - j;
                         }
-
-                        LogUtils.INSTANCE.d("lineStartX: " + lineStartX);
-                        LogUtils.INSTANCE.d("lineEndX: " + lineEndX);
-                        LogUtils.INSTANCE.d("lineStartY: " + lineStartY);
-                        LogUtils.INSTANCE.d("lineEndY: " + lineEndY);
-
                         break;
                     case RIGHT:
-                        drawTempStartAngle = rightAngle - tempAngle;
+                        drawTempStartAngle = rightAngle - tempEntry.percent;
+                          /*
+                          右边夹角tempAngle   0< tempAngle < 180
+                                  90 <drawTempStartAngle <270
+                         */
+                        if (drawTempStartAngle <= 360) {
+                            //startAngle 270-360
+                            lineStartX = oX + (float) (R * Math.cos(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
+                            lineEndX = lineStartX;
+                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
+                            lineEndY = lineStartY - j;
+
+                        } else {
+                            //startAngle 0-90
+                            lineStartX = oX + (float) (R * Math.cos(Math.toRadians(drawTempStartAngle)));
+                            lineEndX = lineStartX;
+                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle)));
+                            lineEndY = lineStartY - j;
+                        }
                         break;
                 }
-
-
                 //弧形
-                mainPaint.setColor(tempColor);
-                // canvas.drawArc(tempRectF, drawTempStartAngle, tempAngle, true, mainPaint);
+                mainPaint.setColor(tempEntry.color);
+                canvas.drawArc(tempRectF, drawTempStartAngle, tempEntry.percent, true, mainPaint);
                 if (j == perThickness) {
-                    drawTopLine(canvas, tempRectF, drawTempStartAngle, tempAngle);
+                    drawTopLine(canvas, tempRectF, drawTempStartAngle, tempEntry.percent);
                 }
-
                 //竖直线
                 mainPaint.setColor(Color.WHITE);
-                canvas.drawLine(lineStartX, lineStartY,
-                        lineEndX, lineEndY,
-                        mainPaint);
+                if (NOW_TAG == CENTER) {
+                    canvas.drawLine(lineStartX, lineStartY,
+                            lineEndX, lineEndY,
+                            mainPaint);
+                    //还需要画左右两边的竖直线
+                    float xOffset = (float) (R * Math.sin(Math.toRadians(tempEntry.percent / 2)));
+                    float yOffset = (float) (bilv * R * Math.cos(Math.toRadians(tempEntry.percent / 2)));
+                    canvas.drawLine(
+                            oX - xOffset,
+                            oY - yOffset,
+                            oX - xOffset,
+                            oY - yOffset - j,
+                            mainPaint);
+                    canvas.drawLine(
+                            oX + xOffset,
+                            oY - yOffset,
+                            oX + xOffset,
+                            oY - yOffset - j,
+                            mainPaint);
+                } else {
+                    canvas.drawLine(lineStartX, lineStartY,
+                            lineEndX, lineEndY,
+                            mainPaint);
+                }
             }
         }
+
+        return bm;
     }
 
     //绘制顶部轮廓线
@@ -251,16 +302,16 @@ public class CylinderView extends View {
     }
 
 
-    private float getNextAngle(float distanceAngle) {
-        float tempAngle;
+    private Entry getNextAngle(float distanceAngle) {
+        Entry tempEntry;
         if (mEntries.size() == 0) {
-            return 0;
+            return null;
         }
-        tempAngle = mEntries.get(0).percent;
+        tempEntry = mEntries.get(0);
         if (mEntries.size() == 1) {
             mEntries.remove(0);
         } else {
-            float allAngle = tempAngle + distanceAngle;
+            float allAngle = tempEntry.percent + distanceAngle;
             if (allAngle <= 180f) {
                 //如果加起来不大于180f
                 mEntries.remove(0);
@@ -268,16 +319,17 @@ public class CylinderView extends View {
                 //如果加起来大于180f，则一直找，找到不大于的位置
                 int tempindex = 0;
                 while (tempindex < mEntries.size()) {
-                    tempindex++;
                     if (tempindex < mEntries.size() && mEntries.get(tempindex).percent + distanceAngle <= 180f) {
-                        tempAngle = mEntries.get(tempindex).percent;
+                        tempEntry = mEntries.get(tempindex);
                         mEntries.remove(tempindex);
+                        return tempEntry;
                     }
+                    tempindex++;
                 }
                 mEntries.remove(0);
             }
         }
-        return tempAngle;
+        return tempEntry;
     }
 
     //得到相对中心位置的绝对距离
@@ -330,16 +382,20 @@ public class CylinderView extends View {
     }
 
     @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         area2DWidth = getMeasuredWidth();
         area2DHeight = getMeasuredWidth();
-
         area3DHight = getMeasuredHeight();
-        LogUtils.INSTANCE.d("宽：" + area2DWidth + "高：" + area2DHeight + " 3d高: " + area3DHight + "厚：" + thickness);
-
+        //LogUtils.INSTANCE.d("宽：" + area2DWidth + "高：" + area2DHeight + " 3d高: " + area3DHight + "厚：" + thickness);
         centerX = area2DWidth / 2;
-        LogUtils.INSTANCE.d("初始圆心坐标 x：" + centerX + "y：" + ((area2DHeight + area3DHight) / 2) + " R: " + centerX);
+        //LogUtils.INSTANCE.d("初始圆心坐标 x：" + centerX + "y：" + ((area2DHeight + area3DHight) / 2) + " R: " + centerX);
 
     }
 }
