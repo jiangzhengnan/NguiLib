@@ -5,23 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 
 import com.ng.nguilib.utils.DensityUtil;
 import com.ng.nguilib.utils.LogUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,21 +28,32 @@ import java.util.Comparator;
  * @Package: com.ng.nguilib.ball
  * @Description:
  * @Author: Pumpkin
+ * <p>
+ * 优化方向：
+ * 1.先计算出数组绘制顺序
+ * 2.然后根据顺序进行绘制
  * @CreateDate: 2019/11/24
  */
 public class CylinderView extends View {
-    int max;
+    public static final int ANIM_STATE_ALL = 0x1;
+    public static final int ANIM_STATE_SINGLE = 0x2;
+    private int singleAnimValue = 0;
+    private int singleAnimIndex = 0;
+
+    public static final int ANIM_STATE_CHANGGE = 0x3;
+
+    public static int ANIM_STATE = ANIM_STATE_ALL;
+
+
+    private int max;
     //区域百分比
     private ArrayList<Entry> mEntrySourceList;
 
     private ArrayList<Entry> mEntries;
 
-    private int maxSize;
 
     //饼图的paint
     private Paint mainPaint;
-    private Paint mBitMapPaint;
-
 
     //点击事件的计算
     private float centerX;
@@ -60,20 +67,18 @@ public class CylinderView extends View {
     //饼图的3d视觉高度
     private int area3DHight = 0;
 
-    private int thickness = DensityUtil.INSTANCE.dip2px(getContext(), 200f);
-    // x =  y + sinα * R
-    //  R圆的直径
-    //  y是厚度
-    //  x是视觉高度 即areaHight
-    // 这里 指定直径R = 150dp   厚度Y = 100dp 角度=45度
-    //则 areaHight =   100 + sin45 * 150
-    // = 100 + 0.7*150 = 205
-    //所以宽为150的时候，高必须为205，才满足45度角的条件
-
+    private int thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
+    // x =  y  + sinα * R  直接加Y因为视觉上厚度是一样的
+    //  R 圆的直径  布局宽度
+    //  y 是厚度
+    //  x 是视觉高度 即areaHight 布局高度
+    // 这里 指定直径R = 250   厚度Y = 150dp 角度=45度
+    //则 areaHight =   100 + sin45 * 250
+    // = 150 + 0.7*250 = 325
+    //所以宽为250的时候，高必须为325，才满足45度角的条件
     private static final int LEFT = 0x01;
     private static final int RIGHT = 0x02;
     private static final int CENTER = 0x03;
-    private int NOW_TAG = LEFT;
     float leftAngle = 0;
     float rightAngle = 0;
 
@@ -89,74 +94,125 @@ public class CylinderView extends View {
 
     private boolean isAnimRunning = false;
 
-    //anim
+    ValueAnimator mAnimator;
+
     public void startUpAllAnim() {
         if (!isAnimRunning) {
+            LogUtils.INSTANCE.d("startUpAllAnim");
+            thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
+            ANIM_STATE = ANIM_STATE_ALL;
             isAnimRunning = true;
-            ValueAnimator upAllAnim = ValueAnimator.ofInt(0, thickness);
-            upAllAnim.setDuration(2000);
-            upAllAnim.setInterpolator(new DecelerateInterpolator());
-            upAllAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            mAnimator = ValueAnimator.ofInt(0, thickness);
+            mAnimator.setDuration(2500);
+            mAnimator.setInterpolator(new DecelerateInterpolator());
+            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     thickness = (int) animation.getAnimatedValue();
+                    //LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue());
                     postInvalidate();
                 }
             });
-            upAllAnim.addListener(new AnimatorListenerAdapter() {
+            mAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     isAnimRunning = false;
                 }
             });
-            upAllAnim.start();
+            mAnimator.start();
+        }
+    }
+
+    public void startSingleAnim() {
+        if (!isAnimRunning) {
+            LogUtils.INSTANCE.d("startSingleAnim");
+            singleAnimValue = 0;
+            singleAnimIndex = 0;
+            ANIM_STATE = ANIM_STATE_SINGLE;
+            isAnimRunning = true;
+            mAnimator = ValueAnimator.ofInt(0, max * 100);
+            mAnimator.setDuration(max * 1000);
+            mAnimator.setInterpolator(new LinearInterpolator());
+            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    singleAnimValue = (int) animation.getAnimatedValue();
+                    singleAnimIndex = singleAnimValue / 100;
+
+                    thickness = singleAnimValue%100;
+                    LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue() + " b:" + singleAnimIndex +" c:" + (singleAnimValue%100));
+
+                    postInvalidate();
+                }
+            });
+            mAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    isAnimRunning = false;
+                }
+            });
+            mAnimator.start();
+        }
+
+    }
+
+    public void startChangeAnim() {
+        if (!isAnimRunning) {
+            LogUtils.INSTANCE.d("startChangeAnim");
+            ANIM_STATE = ANIM_STATE_CHANGGE;
+            isAnimRunning = true;
+            mAnimator = ValueAnimator.ofInt(0, thickness);
+            mAnimator.setDuration(2500);
+            mAnimator.setInterpolator(new DecelerateInterpolator());
+            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    thickness = (int) animation.getAnimatedValue();
+                    LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue());
+                    postInvalidate();
+                }
+            });
+            mAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    isAnimRunning = false;
+                }
+            });
+            mAnimator.start();
         }
     }
 
     //初始化 画笔
     private void initPaint() {
         mainPaint = new Paint();
-        mainPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mainPaint.setStyle(Paint.Style.FILL);
         mainPaint.setAntiAlias(true);
-
-
-        mBitMapPaint = new Paint();
-        mBitMapPaint.setAntiAlias(true);
-        mBitMapPaint.setFilterBitmap(false);
-        mBitMapPaint.setStyle(Paint.Style.FILL);
     }
 
     public void setData(ArrayList<Entry> data) {
+        ANIM_STATE = ANIM_STATE_ALL;
+        thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
+
         mEntrySourceList = data;
-        max = mEntrySourceList.size();
-        maxSize = mEntrySourceList.size();
         Collections.sort(mEntrySourceList, new MyCompare());
+        max = mEntrySourceList.size();
+        mEntries = mEntrySourceList;
+        computationOrder();
+        LogUtils.INSTANCE.d("排序后: " + mEntrySourceList.toString());
         postInvalidate();
     }
 
-
-    @SuppressLint("DrawAllocation")
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        canvas.drawBitmap(drawCylinder(), 0, 0, null);
-
-    }
-
-    private Bitmap drawCylinder() {
-        Bitmap bm = Bitmap.createBitmap(area2DWidth, area3DHight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);//绘制遮罩层
+    //计算出绘制顺序
+    private void computationOrder() {
+        ArrayList<Entry> tempOrderList = new ArrayList<>();
         leftAngle = 0;
         rightAngle = 0;
-        mEntries = (ArrayList<Entry>) mEntrySourceList.clone();
         for (int i = 0; i < max; i++) {
+
             Collections.sort(mEntries, new MyCompare());
-            mainPaint.setStyle(Paint.Style.FILL);
-            if (mEntries.size() == 0) {
-                break;
-            }
             Entry tempEntry = mEntries.get(0);
             float halfAngle = tempEntry.percent / 2;
             /*
@@ -170,128 +226,167 @@ public class CylinderView extends View {
                 if (rightAngle >= 360) {
                     rightAngle -= 360f;
                 }
-                NOW_TAG = CENTER;
+                tempEntry.tag = CENTER;
+                tempEntry.startAngle = leftAngle;
                 mEntries.remove(0);
             } else {
                 //1.找到当前小的边
                 if (getDistanceToCenter(leftAngle, LEFT) > getDistanceToCenter(rightAngle, RIGHT)) {
                     //左边比右边大，取右边
-                    NOW_TAG = RIGHT;
                     tempEntry = getNextAngle(getDistanceToCenter(rightAngle, RIGHT));
+                    tempEntry.tag = RIGHT;
+
                     rightAngle += tempEntry.percent;
                     if (rightAngle >= 360) {
                         rightAngle -= 360f;
                     }
+                    tempEntry.startAngle = rightAngle;
                 } else {
                     //右边比左边大，取左边
-                    NOW_TAG = LEFT;
                     tempEntry = getNextAngle(getDistanceToCenter(leftAngle, LEFT));
+                    tempEntry.tag = LEFT;
+
                     leftAngle -= tempEntry.percent;
+                    tempEntry.startAngle = leftAngle;
                 }
             }
+            tempOrderList.add(tempEntry);
+        }
+        mEntrySourceList = tempOrderList;
+    }
 
-            //绘制各个弧度
-            int perThickness = (int) ((tempEntry.percent / 360f) * thickness * (maxSize / 2));
-            float drawTempStartAngle = 0f;
-            RectF tempRectF;
-            float lineStartX = 0f;
-            float lineStartY = 0f;
-            float lineEndX = 0f;
-            float lineEndY = 0f;
-            float oX = centerX;
-            float oY = (area2DHeight + area3DHight) / 2;
-            float R = centerX;
-            //y轴2d3d缩放比例
-            float bilv = ((float) (area3DHight - area2DHeight)) / ((float) area2DHeight);
-            for (int j = 0; j <= perThickness; j++) {
-                tempRectF = new RectF(0, area2DHeight - j, area2DWidth, area3DHight - j);
-                switch (NOW_TAG) {
-                    case CENTER:
-                        drawTempStartAngle = leftAngle;
-                        lineStartX = oX;
-                        lineEndX = oX;
-                        lineStartY = (area2DHeight + area3DHight) / 2;
-                        lineEndY = oY - j;
-                        break;
-                    case LEFT:
-                        drawTempStartAngle = leftAngle;
+
+    @SuppressLint("DrawAllocation")
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        switch (ANIM_STATE) {
+            case ANIM_STATE_ALL:
+                for (int i = 0; i < mEntrySourceList.size(); i++) {
+                    Entry tempEntry = mEntrySourceList.get(i);
+                    drawCylinder(canvas, tempEntry);
+                }
+                break;
+            case ANIM_STATE_SINGLE:
+
+                if (singleAnimIndex < mEntrySourceList.size()) {
+                    //drawCylinder(canvas, mEntrySourceList.get(singleAnimIndex));
+                    for (int i = 0; i <singleAnimIndex; i++) {
+                        Entry tempEntry = mEntrySourceList.get(i);
+                        drawCylinder(canvas, tempEntry);
+                    }
+                }
+
+                break;
+            case ANIM_STATE_CHANGGE:
+
+                break;
+        }
+    }
+
+
+    private void drawCylinder(Canvas canvas, Entry tempEntry) {
+        mainPaint.setStyle(Paint.Style.FILL);
+        //绘制各个弧度
+        int perThickness = (int) ((tempEntry.percent / 360f) * thickness * (max * 0.5f));
+        float drawTempStartAngle = 0f;
+        RectF tempRectF;
+        float lineStartX = 0f;
+        float lineStartY = 0f;
+        float lineEndX = 0f;
+        float lineEndY = 0f;
+        float oX = centerX;
+        float oY = (area2DHeight + area3DHight) / 2;
+        float R = centerX;
+        //y轴2d3d缩放比例
+        float bilv = ((float) (area3DHight - area2DHeight)) / ((float) area2DHeight);
+        for (int j = 0; j <= perThickness; j++) {
+            tempRectF = new RectF(0, area2DHeight - j, area2DWidth, area3DHight - j);
+            switch (tempEntry.tag) {
+                case CENTER:
+                    drawTempStartAngle = tempEntry.startAngle;
+                    lineStartX = oX;
+                    lineEndX = oX;
+                    lineStartY = (area2DHeight + area3DHight) / 2;
+                    lineEndY = oY - j;
+                    break;
+                case LEFT:
+                    drawTempStartAngle = tempEntry.startAngle;
                         /*
                           左边夹角tempAngle   0< tempAngle < 180
                                   90 <drawTempStartAngle <270
                          */
-                        if (drawTempStartAngle <= 180) {
-                            //startAngle 90-180
-                            lineStartX = oX - (float) (R * Math.sin(Math.toRadians(drawTempStartAngle - 90f)));
-                            lineEndX = lineStartX;
-                            lineStartY = oY + (float) (bilv * R * Math.cos(Math.toRadians(drawTempStartAngle - 90f)));
-                            lineEndY = lineStartY - j;
+                    if (drawTempStartAngle <= 180) {
+                        //startAngle 90-180
+                        lineStartX = oX - (float) (R * Math.sin(Math.toRadians(drawTempStartAngle - 90f)));
+                        lineEndX = lineStartX;
+                        lineStartY = oY + (float) (bilv * R * Math.cos(Math.toRadians(drawTempStartAngle - 90f)));
+                        lineEndY = lineStartY - j;
 
-                        } else {
-                            //startAngle 180-270
-                            lineStartX = oX - (float) (R * Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
-                            lineEndX = lineStartX;
-                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
-                            lineEndY = lineStartY - j;
-                        }
-                        break;
-                    case RIGHT:
-                        drawTempStartAngle = rightAngle - tempEntry.percent;
+                    } else {
+                        //startAngle 180-270
+                        lineStartX = oX - (float) (R * Math.cos(Math.toRadians(drawTempStartAngle - 180f)));
+                        lineEndX = lineStartX;
+                        lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle - 180f)));
+                        lineEndY = lineStartY - j;
+                    }
+                    break;
+                case RIGHT:
+                    drawTempStartAngle = tempEntry.startAngle - tempEntry.percent;
                           /*
                           右边夹角tempAngle   0< tempAngle < 180
                                   90 <drawTempStartAngle <270
                          */
-                        if (drawTempStartAngle <= 360) {
-                            //startAngle 270-360
-                            lineStartX = oX + (float) (R * Math.cos(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
-                            lineEndX = lineStartX;
-                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
-                            lineEndY = lineStartY - j;
+                    if (drawTempStartAngle <= 360) {
+                        //startAngle 270-360
+                        lineStartX = oX + (float) (R * Math.cos(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
+                        lineEndX = lineStartX;
+                        lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(360f - drawTempStartAngle - tempEntry.percent)));
+                        lineEndY = lineStartY - j;
 
-                        } else {
-                            //startAngle 0-90
-                            lineStartX = oX + (float) (R * Math.cos(Math.toRadians(drawTempStartAngle)));
-                            lineEndX = lineStartX;
-                            lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle)));
-                            lineEndY = lineStartY - j;
-                        }
-                        break;
-                }
-                //弧形
-                mainPaint.setColor(tempEntry.color);
-                canvas.drawArc(tempRectF, drawTempStartAngle, tempEntry.percent, true, mainPaint);
-                if (j == perThickness) {
-                    drawTopLine(canvas, tempRectF, drawTempStartAngle, tempEntry.percent);
-                }
-                //竖直线
-                mainPaint.setColor(Color.WHITE);
-                if (NOW_TAG == CENTER) {
-                    canvas.drawLine(lineStartX, lineStartY,
-                            lineEndX, lineEndY,
-                            mainPaint);
-                    //还需要画左右两边的竖直线
-                    float xOffset = (float) (R * Math.sin(Math.toRadians(tempEntry.percent / 2)));
-                    float yOffset = (float) (bilv * R * Math.cos(Math.toRadians(tempEntry.percent / 2)));
-                    canvas.drawLine(
-                            oX - xOffset,
-                            oY - yOffset,
-                            oX - xOffset,
-                            oY - yOffset - j,
-                            mainPaint);
-                    canvas.drawLine(
-                            oX + xOffset,
-                            oY - yOffset,
-                            oX + xOffset,
-                            oY - yOffset - j,
-                            mainPaint);
-                } else {
-                    canvas.drawLine(lineStartX, lineStartY,
-                            lineEndX, lineEndY,
-                            mainPaint);
-                }
+                    } else {
+                        //startAngle 0-90
+                        lineStartX = oX + (float) (R * Math.cos(Math.toRadians(drawTempStartAngle)));
+                        lineEndX = lineStartX;
+                        lineStartY = oY - (float) (bilv * R * Math.sin(Math.toRadians(drawTempStartAngle)));
+                        lineEndY = lineStartY - j;
+                    }
+                    break;
+            }
+
+            //弧形
+            mainPaint.setColor(tempEntry.color);
+            canvas.drawArc(tempRectF, drawTempStartAngle, tempEntry.percent, true, mainPaint);
+            if (j == perThickness) {
+                drawTopLine(canvas, tempRectF, drawTempStartAngle, tempEntry.percent);
+            }
+            //竖直线
+            mainPaint.setColor(Color.WHITE);
+            if (tempEntry.tag == CENTER) {
+                canvas.drawLine(lineStartX, lineStartY,
+                        lineEndX, lineEndY,
+                        mainPaint);
+                //还需要画左右两边的竖直线
+                float xOffset = (float) (R * Math.sin(Math.toRadians(tempEntry.percent / 2)));
+                float yOffset = (float) (bilv * R * Math.cos(Math.toRadians(tempEntry.percent / 2)));
+                canvas.drawLine(
+                        oX - xOffset,
+                        oY - yOffset,
+                        oX - xOffset,
+                        oY - yOffset - j,
+                        mainPaint);
+                canvas.drawLine(
+                        oX + xOffset,
+                        oY - yOffset,
+                        oX + xOffset,
+                        oY - yOffset - j,
+                        mainPaint);
+            } else {
+                canvas.drawLine(lineStartX, lineStartY,
+                        lineEndX, lineEndY,
+                        mainPaint);
             }
         }
-
-        return bm;
     }
 
     //绘制顶部轮廓线
@@ -365,18 +460,22 @@ public class CylinderView extends View {
     public static class Entry {
         float percent;
         int color;
+        int tag;
+        float startAngle;
 
         public Entry(float percent, int color) {
             this.percent = percent;
             this.color = color;
         }
 
-        @NotNull
+
         @Override
         public String toString() {
             return "Entry{" +
                     "percent=" + percent +
                     ", color=" + color +
+                    ", tag=" + tag +
+                    ", startAngle=" + startAngle +
                     '}';
         }
     }

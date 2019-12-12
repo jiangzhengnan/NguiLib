@@ -213,7 +213,6 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         mSideLength = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
         //宽必须等于高
-        LogUtils.d("宽： $mSideLength  高：  $mSideLength")
     }
 
     override fun onDraw(canvas: Canvas) {

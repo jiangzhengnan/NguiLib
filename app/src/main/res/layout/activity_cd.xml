@@ -6,8 +6,8 @@
 
     <com.ng.nguilib.CylinderView
         android:id="@+id/clv"
-        android:layout_width="300dp"
-        android:layout_height="410dp"
+        android:layout_width="250dp"
+        android:layout_height="325dp"
         android:layout_centerInParent="true"
         />
 
@@ -26,6 +26,13 @@
         <androidx.appcompat.widget.AppCompatButton
             android:text="upSingleAnim"
             android:id="@+id/btn2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="changeAnim"
+            android:id="@+id/btn3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>

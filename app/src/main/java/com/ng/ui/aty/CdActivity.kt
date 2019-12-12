@@ -32,16 +32,22 @@ class CdActivity : AppCompatActivity() {
 
     private fun initViewsAndEvents() {
         clv.setData(arrayListOf(
-                CylinderView.Entry(15f, Color.RED),
-                CylinderView.Entry(30f, Color.YELLOW),
-                CylinderView.Entry(40f, Color.BLUE),
+                CylinderView.Entry(30f, Color.RED),
+                CylinderView.Entry(40f, Color.YELLOW),
+                CylinderView.Entry(50f, Color.BLUE),
                 CylinderView.Entry(60f, Color.GREEN),
-                CylinderView.Entry(90f, Color.GRAY),
-                CylinderView.Entry(125f, Color.MAGENTA)
+                CylinderView.Entry(70f, Color.GRAY),
+                CylinderView.Entry(110f, Color.MAGENTA)
         ))
 
         btn1.setOnClickListener {
             clv.startUpAllAnim()
+        }
+        btn2.setOnClickListener {
+            clv.startSingleAnim()
+        }
+        btn3.setOnClickListener {
+            clv.startChangeAnim()
         }
     }
 

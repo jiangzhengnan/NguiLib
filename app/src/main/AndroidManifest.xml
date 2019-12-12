@@ -19,16 +19,17 @@
 
         </activity>
 
-        <activity android:name=".aty.CdActivity">
-
-        </activity>
-
-        <activity android:name=".aty.PtlActivity">
+        <activity android:name=".aty.CdActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".aty.PtlActivity">
+
         </activity>
 
         <activity android:name=".aty.WvActivity" />
