@@ -1,4 +1,4 @@
-package com.ng.ui.test;
+package com.ng.ui.testchumo;
 
 public class ZHECGOffLineEcg implements java.io.Serializable {
 

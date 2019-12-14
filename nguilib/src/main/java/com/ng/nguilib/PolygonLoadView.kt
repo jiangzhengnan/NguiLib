@@ -359,7 +359,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         if (roundRF == null) {
             return
         }
-        canvas.drawArc(roundRF, startAngle, swipeAngle, false, paintLine)
+        canvas.drawArc(roundRF!!, startAngle, swipeAngle, false, paintLine)
         canvas.drawPoint(pointX, pointY, paintPoint)
     }
 
@@ -398,7 +398,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         }
     }
 
-    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect) {
+    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
         if (gainFocus) {
             startAnimation()

@@ -44,7 +44,7 @@ class CentralTractionButton : RadioButton {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ctattrs)
-        text = ta.getString(R.styleable.ctattrs_text)
+        text = ta.getString(R.styleable.ctattrs_text).toString()
         textdimension = ta.getDimension(R.styleable.ctattrs_textdimension, 1f)
         normalexternalbackground = ta.getResourceId(R.styleable.ctattrs_normalexternalbackground, 0)
         normalinsidebackground = ta.getResourceId(R.styleable.ctattrs_normalinsidebackground, 0)
@@ -153,16 +153,16 @@ class CentralTractionButton : RadioButton {
 
         //绘制默认状态下背景图
         val externalBM = externalBD!!.bitmap
-        canvas.drawBitmap(externalBM, mExternalSrcRect, mExternalDestRect, bmPaint)
+        mExternalDestRect?.let { canvas.drawBitmap(externalBM, mExternalSrcRect, it, bmPaint) }
 
 
         //绘制默认状态下中心图
         val insidelBM = insidelBD!!.bitmap
-        canvas.drawBitmap(insidelBM, mInsideSrcRect, mInsideDestRect, bmPaint)
+        mInsideDestRect?.let { canvas.drawBitmap(insidelBM, mInsideSrcRect, it, bmPaint) }
     }
 
 
-    override fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener) {
+    override fun setOnCheckedChangeListener(listener: OnCheckedChangeListener?) {
         super.setOnCheckedChangeListener(listener)
     }
 

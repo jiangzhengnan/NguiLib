@@ -1,4 +1,4 @@
-package com.ng.ui.test;
+package com.ng.ui.testchumo;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,7 +22,7 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ng.ui.test.AccumulationView.Direction.RIGHT;
+import static com.ng.ui.testchumo.AccumulationView.Direction.RIGHT;
 
 /**
  * @ProjectName: AccumulationHistogram

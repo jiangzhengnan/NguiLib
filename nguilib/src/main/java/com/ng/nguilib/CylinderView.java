@@ -30,8 +30,11 @@ import java.util.Comparator;
  * @Author: Pumpkin
  * <p>
  * 优化方向：
- * 1.先计算出数组绘制顺序
- * 2.然后根据顺序进行绘制
+ * 1.重叠绘制改成path绘制
+ * 2.
+ * <p>
+ * todo:
+ * 3d触碰
  * @CreateDate: 2019/11/24
  */
 public class CylinderView extends View {
@@ -129,6 +132,7 @@ public class CylinderView extends View {
             LogUtils.INSTANCE.d("startSingleAnim");
             singleAnimValue = 0;
             singleAnimIndex = 0;
+            thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
             ANIM_STATE = ANIM_STATE_SINGLE;
             isAnimRunning = true;
             mAnimator = ValueAnimator.ofInt(0, max * 100);
@@ -139,9 +143,9 @@ public class CylinderView extends View {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     singleAnimValue = (int) animation.getAnimatedValue();
                     singleAnimIndex = singleAnimValue / 100;
+                    thickness = singleAnimValue % 100;
 
-                    thickness = singleAnimValue%100;
-                    LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue() + " b:" + singleAnimIndex +" c:" + (singleAnimValue%100));
+                    LogUtils.INSTANCE.d("singleAnimValue: " + singleAnimValue +" singleAnimIndex: " + singleAnimIndex +" thickness: " + thickness);
 
                     postInvalidate();
                 }
@@ -264,16 +268,16 @@ public class CylinderView extends View {
             case ANIM_STATE_ALL:
                 for (int i = 0; i < mEntrySourceList.size(); i++) {
                     Entry tempEntry = mEntrySourceList.get(i);
-                    drawCylinder(canvas, tempEntry);
+                    drawCylinder(canvas, tempEntry, thickness);
                 }
                 break;
             case ANIM_STATE_SINGLE:
-
                 if (singleAnimIndex < mEntrySourceList.size()) {
-                    //drawCylinder(canvas, mEntrySourceList.get(singleAnimIndex));
-                    for (int i = 0; i <singleAnimIndex; i++) {
+                    for (int i = 0; i < singleAnimIndex; i++) {
                         Entry tempEntry = mEntrySourceList.get(i);
-                        drawCylinder(canvas, tempEntry);
+
+                        int tempThickNess = singleAnimValue - (i + 1) * 100;
+                        drawCylinder(canvas, tempEntry, tempThickNess);
                     }
                 }
 
@@ -285,7 +289,7 @@ public class CylinderView extends View {
     }
 
 
-    private void drawCylinder(Canvas canvas, Entry tempEntry) {
+    private void drawCylinder(Canvas canvas, Entry tempEntry, int thickness) {
         mainPaint.setStyle(Paint.Style.FILL);
         //绘制各个弧度
         int perThickness = (int) ((tempEntry.percent / 360f) * thickness * (max * 0.5f));

@@ -258,12 +258,12 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
                 canvas.drawPath(path, paintLine)
             }
             ANIM_STEP_2 -> {
-                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
-                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+                roundRF?.let { canvas.drawArc(it, startAngle1, swipeAngle1, false, paintLine) }
+                roundRF?.let { canvas.drawArc(it, startAngle2, swipeAngle2, false, paintLine) }
             }
             ANIM_STEP_3 -> {
-                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
-                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+                roundRF?.let { canvas.drawArc(it, startAngle1, swipeAngle1, false, paintLine) }
+                roundRF?.let { canvas.drawArc(it, startAngle2, swipeAngle2, false, paintLine) }
             }
             ANIM_STEP_4 -> {
                 path.moveTo(pointX + mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
@@ -283,12 +283,12 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
                 canvas.drawPath(path, paintLine)
             }
             ANIM_STEP_2 -> {
-                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
-                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+                roundRF?.let { canvas.drawArc(it, startAngle1, swipeAngle1, false, paintLine) }
+                roundRF?.let { canvas.drawArc(it, startAngle2, swipeAngle2, false, paintLine) }
             }
             ANIM_STEP_3 -> {
-                canvas.drawArc(roundRF, startAngle1, swipeAngle1, false, paintLine)
-                canvas.drawArc(roundRF, startAngle2, swipeAngle2, false, paintLine)
+                roundRF?.let { canvas.drawArc(it, startAngle1, swipeAngle1, false, paintLine) }
+                roundRF?.let { canvas.drawArc(it, startAngle2, swipeAngle2, false, paintLine) }
             }
             ANIM_STEP_4 -> {
                 path.moveTo(pointX - mTriangleSideLength, pointY - mTriangleSideLength * 1.4f)
@@ -334,7 +334,7 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
         }
     }
 
-    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect) {
+    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
         if (gainFocus) {
             startAnimation()
