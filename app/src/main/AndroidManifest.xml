@@ -15,12 +15,19 @@
 
         </activity>
 
-        <activity android:name=".test.TestActivity">
+        <activity android:name=".testchumo.TestActivity">
+        </activity>
+
+        <activity android:name=".testchumo.testjava">
 
         </activity>
 
         <activity android:name=".aty.CdActivity"
             >
+
+        </activity>
+
+        <activity android:name=".aty.SvActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

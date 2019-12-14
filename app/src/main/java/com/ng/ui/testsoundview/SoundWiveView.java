@@ -75,7 +75,7 @@ public class SoundWiveView extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         pathEffect = new DashPathEffect(new float[]{1, 2}, 2);
         pathEffect2 = new CornerPathEffect(80);
-        voiceLineColor = Color.parseColor("##45C3E5");
+        voiceLineColor = Color.parseColor("#45C3E5");
     }
 
     /**
@@ -109,7 +109,7 @@ public class SoundWiveView extends View {
         Log.e("tttsttt", "111start");
         lineChange();
         drawVoiceLine2(canvas, translateX);
-        drawVoiceLine2(canvas, translateX + 20);
+       // drawVoiceLine2(canvas, translateX + 20);
         Log.e("tttsttt", "111end");
     }
 
@@ -140,6 +140,7 @@ public class SoundWiveView extends View {
         for (float j = getWidth() * 11 / 12 - 1; j >= getWidth() / 12; j -= fineness) {
             float i = j - getWidth() / 12;
             //这边必须保证起始点和终点的时候amplitude = 0;
+            //amplitude 振幅
             amplitude = 4 * volume * i / getWidth() - 4 * volume * i / getWidth() * i / getWidth() * 12 / 10;
             for (int n = 1; n <= paths.size(); n++) {
                 float sin = amplitude * (float) Math.sin((i - Math.pow(1.22, n)) * Math.PI / 180 - x);

@@ -9,11 +9,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.dokka'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion 19
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -30,7 +30,7 @@ android {
 
 }
 
-version = "0.0.3" //版本
+version = "0.0.8" //版本
 
 def siteUrl = 'https://github.com/jiangzhengnan/UI'    // 项目主页
 def gitUrl = 'https://github.com/jiangzhengnan/UI' //  git
@@ -138,5 +138,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'androidx.appcompat:appcompat:1.1.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

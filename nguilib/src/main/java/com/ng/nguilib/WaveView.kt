@@ -84,6 +84,8 @@ class WaveView : View {
         path.rQuadTo(p6[0], p6[1], p7[0], p7[1])
         path.rQuadTo(p8[0], p8[1], p9[0], p9[1])
 
+
+
         path.lineTo(width.toFloat(), height.toFloat())
         path.lineTo(0f, height.toFloat())
         path.close()
