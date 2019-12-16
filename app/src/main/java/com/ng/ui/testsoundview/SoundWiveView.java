@@ -140,7 +140,7 @@ public class SoundWiveView extends View {
         for (float j = getWidth() * 11 / 12 - 1; j >= getWidth() / 12; j -= fineness) {
             float i = j - getWidth() / 12;
             //这边必须保证起始点和终点的时候amplitude = 0;
-            //amplitude 振幅
+            //amplitude 振幅  volume 0 - 10
             amplitude = 4 * volume * i / getWidth() - 4 * volume * i / getWidth() * i / getWidth() * 12 / 10;
             for (int n = 1; n <= paths.size(); n++) {
                 float sin = amplitude * (float) Math.sin((i - Math.pow(1.22, n)) * Math.PI / 180 - x);
