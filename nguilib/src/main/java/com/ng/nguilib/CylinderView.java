@@ -143,9 +143,12 @@ public class CylinderView extends View {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     singleAnimValue = (int) animation.getAnimatedValue();
                     singleAnimIndex = singleAnimValue / 100;
-                    thickness = singleAnimValue % 100;
 
-                    LogUtils.INSTANCE.d("singleAnimValue: " + singleAnimValue +" singleAnimIndex: " + singleAnimIndex +" thickness: " + thickness);
+                    if (singleAnimValue % 100 > 0) {
+                        thickness = singleAnimValue % 100;
+                    }
+
+                    LogUtils.INSTANCE.d("singleAnimValue: " + singleAnimValue + " singleAnimIndex: " + singleAnimIndex + " thickness: " + thickness + "  " + max);
 
                     postInvalidate();
                 }
@@ -272,13 +275,10 @@ public class CylinderView extends View {
                 }
                 break;
             case ANIM_STATE_SINGLE:
-                if (singleAnimIndex < mEntrySourceList.size()) {
-                    for (int i = 0; i < singleAnimIndex; i++) {
-                        Entry tempEntry = mEntrySourceList.get(i);
-
-                        int tempThickNess = singleAnimValue - (i + 1) * 100;
-                        drawCylinder(canvas, tempEntry, tempThickNess);
-                    }
+                for (int i = 0; i < singleAnimIndex; i++) {
+                    Entry tempEntry = mEntrySourceList.get(i);
+                    int tempThickNess = singleAnimValue - (i + 1) * 100;
+                    drawCylinder(canvas, tempEntry, tempThickNess);
                 }
 
                 break;
