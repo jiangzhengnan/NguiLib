@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ComposeShader;
@@ -11,12 +13,14 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -24,6 +28,7 @@ import android.view.animation.OvershootInterpolator;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.ng.nguilib.utils.DensityUtil;
 import com.ng.nguilib.utils.LogUtils;
 
 import java.util.Random;
@@ -47,10 +52,10 @@ public class SoundView extends View {
     }
 
     private void init() {
+        this.setLayerType(LAYER_TYPE_SOFTWARE, null);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);//消除锯齿
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.BLUE);
         mPaint.setStrokeWidth(dp2px(2));
         mPath = new Path();
     }
@@ -68,10 +73,21 @@ public class SoundView extends View {
     public void setVolume(int volume) {
         if (volume != 0) {
             this.maxVolume = volume;
+            if (volume < 5) {
+                chage = !chage;
+                peakValueIndex1 = new Random().nextInt(waveNumber / 3);
+                peakValueIndex2 = waveNumber / 3 + new Random().nextInt(waveNumber / 3);
+            }
+
+            //音量越大驼峰的差距越大
+            //chageBei = 1 + volume / 10;
+            //音量越大间距越小
+            jianjuBei = (100f - maxVolume) / 100f;
 
 
             postInvalidate();
         }
+
     }
 
     //总偏移量
@@ -106,7 +122,6 @@ public class SoundView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // LogUtils.INSTANCE.d("kashi~~~~~~~~~: " + "  all:" + amplitude);
 
         for (int i = 1; i <= waveNumber; i++) {
 
@@ -124,36 +139,37 @@ public class SoundView extends View {
                 disTop = i - peakValueIndex1;
                 disBot = peakValueIndex2 - i;
                 chaju = Math.min(disTop, disBot);
+            } else if (i > peakValueIndex2) {
+                chaju = i - peakValueIndex2;
             } else {
                 chaju = 0;
             }
-
-            chaju = chaju;
 
 
             tempAmplitude = (waveNumber - chaju) * amplitude / waveNumber;
 
 
-            tempAmplitude += amplitude / 5;
-
             //间距要越来越大
-            spaceX = dp2px(2) + i / 5;
+            spaceX = (int) (dp2px(2) + i / 5f * jianjuBei);
+
 
             //小球变大
             halfSide = 1 + ((float) i / (float) waveNumber) * 1f;
-            //LogUtils.INSTANCE.d(" side: " + halfSide);
 
             //透明度
             int alpha = 50 + 205 * i / waveNumber;
             mPaint.setAlpha(alpha);
 
+
             drawVoiceLine(canvas,
-                    allOffsetX + eachOffsetX * (waveNumber - i),
+                    (allOffsetX + eachOffsetX * (waveNumber - i)),
                     (int) (mWidth / 3 + i * spaceY),
                     tempAmplitude);
         }
 
+
     }
+
 
     /**
      * y=Asin(ωx+φ)+k
@@ -167,11 +183,9 @@ public class SoundView extends View {
         mPath.reset();
         mPath.moveTo(0, 0);
 
-        LogUtils.INSTANCE.d("xOffset: " + xOffset);
 
         while (index <= (int) mWidth) {
 
-            //这边必须保证起始点和终点的时候amplitude = 0;
             //amplitude 振幅  volume 0 - 10
             float singleTempAmp = ((mWidth - Math.abs((float) index - mWidth / 2)) / mWidth) * tempAmplitude;
             //LogUtils.INSTANCE.d("zhenfu: " + singleTempAmp);
@@ -190,7 +204,6 @@ public class SoundView extends View {
 
             mPath.addCircle(index, endY, halfSide, Path.Direction.CCW);
 
-            //透明度从中间向两边递减
 
             index += spaceX;
 
@@ -207,17 +220,19 @@ public class SoundView extends View {
         RadialGradient radialGradient = new RadialGradient(
                 centerX,
                 centerY,
-                centerY,
+                centerX,
                 topColor,
                 Color.TRANSPARENT,
                 Shader.TileMode.CLAMP);
 
-        ComposeShader composeShader = new ComposeShader(radialGradient, linearGradient,
-                PorterDuff.Mode.SRC_ATOP);
+        ComposeShader composeShader = new ComposeShader(linearGradient, radialGradient,
+                PorterDuff.Mode.DST_ATOP);
+        mPaint.setShader(composeShader);
 
-        mPaint.setShader(radialGradient);
+
+        //mPaint.setMaskFilter(new BlurMaskFilter(1, BlurMaskFilter.Blur.NORMAL));
+
         canvas.drawPath(mPath, mPaint);
-
     }
 
 
@@ -233,7 +248,6 @@ public class SoundView extends View {
         centerY = mHeight / 2;
         width = (int) mWidth;
         //waveNumber = (int) ((mWidth/3 - amplitude) / spaceY);
-        LogUtils.INSTANCE.d("几条: " + waveNumber + " amplitude： " + amplitude);
     }
 
     private boolean isAnimRunning = false;
@@ -242,22 +256,27 @@ public class SoundView extends View {
 
     boolean chage = true;
 
+    //间隔倍数
+    //int chageBei = 1;
+
+    //间距倍数
+    float jianjuBei = 1;
+
 
     //test 动画
     public void startAnim() {
         if (!isAnimRunning) {
-            LogUtils.INSTANCE.d("startSingleAnim");
             isAnimRunning = true;
             mAnimator = ValueAnimator.ofFloat
-                    (0f, 20f, 30f,20f,30f,40f,30f,50f,40f,70f,60f,90f,100f,0f);
-            mAnimator.setDuration(30 * 1000);
+                    (0f, 100f, 0f);
+            mAnimator.setDuration(10 * 1000);
             mAnimator.setRepeatCount(-1);
-            mAnimator.setInterpolator(new LinearInterpolator());
+            mAnimator.setInterpolator(new AccelerateInterpolator());
             mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
 
-                    volume = (float) animation.getAnimatedValue() * maxVolume / 10000f;
+                    volume = (float) animation.getAnimatedValue() * maxVolume / 100f / 100f;
 
                     allOffsetX += dp2px(5);
                     if (allOffsetX >= Integer.MAX_VALUE - 10000) {
@@ -268,7 +287,6 @@ public class SoundView extends View {
 
                     //LogUtils.INSTANCE.d("volue: " + volume + "   max: " + maxVolume + " am:" + amplitude);
 
-
                     postInvalidate();
                 }
             });
@@ -276,9 +294,7 @@ public class SoundView extends View {
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     super.onAnimationRepeat(animation);
-                    chage = !chage;
-                    peakValueIndex1 = new Random().nextInt(waveNumber / 2);
-                    peakValueIndex2 = waveNumber / 2 + new Random().nextInt(waveNumber / 2);
+                    chageWave();
                 }
 
                 @Override
@@ -289,6 +305,12 @@ public class SoundView extends View {
             });
             mAnimator.start();
         }
+    }
+
+    private void chageWave() {
+        chage = !chage;
+        peakValueIndex1 = new Random().nextInt(waveNumber / 3);
+        peakValueIndex2 = waveNumber / 3 + new Random().nextInt(waveNumber / 3);
     }
 
 
