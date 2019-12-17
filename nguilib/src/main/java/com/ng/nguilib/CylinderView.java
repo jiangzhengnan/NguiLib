@@ -127,15 +127,18 @@ public class CylinderView extends View {
         }
     }
 
+    boolean hadDrawBg = false;
+
     public void startSingleAnim() {
         if (!isAnimRunning) {
+            hadDrawBg = false;
             LogUtils.INSTANCE.d("startSingleAnim");
             singleAnimValue = 0;
             singleAnimIndex = 0;
             thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
             ANIM_STATE = ANIM_STATE_SINGLE;
             isAnimRunning = true;
-            mAnimator = ValueAnimator.ofInt(0, max * 100);
+            mAnimator = ValueAnimator.ofInt(0, (max + 1) * 100);
             mAnimator.setDuration(max * 1000);
             mAnimator.setInterpolator(new LinearInterpolator());
             mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -177,7 +180,7 @@ public class CylinderView extends View {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     thickness = (int) animation.getAnimatedValue();
-                    LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue());
+                    //LogUtils.INSTANCE.d("a: " + (int) animation.getAnimatedValue());
                     postInvalidate();
                 }
             });
@@ -271,14 +274,26 @@ public class CylinderView extends View {
             case ANIM_STATE_ALL:
                 for (int i = 0; i < mEntrySourceList.size(); i++) {
                     Entry tempEntry = mEntrySourceList.get(i);
-                    drawCylinder(canvas, tempEntry, thickness);
+                    drawCylinder(canvas, tempEntry, thickness,true);
                 }
                 break;
             case ANIM_STATE_SINGLE:
-                for (int i = 0; i < singleAnimIndex; i++) {
+                for (int i = 0; i < mEntrySourceList.size(); i++) {
                     Entry tempEntry = mEntrySourceList.get(i);
-                    int tempThickNess = singleAnimValue - (i + 1) * 100;
-                    drawCylinder(canvas, tempEntry, tempThickNess);
+                    drawCylinder(canvas, tempEntry, 1,false);
+                }
+
+                for (int i = 0; i < singleAnimIndex; i++) {
+                    if (i < mEntrySourceList.size()) {
+
+                        Entry tempEntry = mEntrySourceList.get(i);
+                        int tempThickNess = singleAnimValue - (i + 1) * 100;
+                        LogUtils.INSTANCE.d("tempThickNess: " + tempThickNess);
+
+                        tempThickNess = (int) ((tempEntry.percent / 360f) * tempThickNess * (max * 0.3f));
+
+                        drawCylinder(canvas, tempEntry, tempThickNess,false);
+                    }
                 }
 
                 break;
@@ -289,10 +304,11 @@ public class CylinderView extends View {
     }
 
 
-    private void drawCylinder(Canvas canvas, Entry tempEntry, int thickness) {
+    private void drawCylinder(Canvas canvas, Entry tempEntry, int thickness,boolean ifChangeThick) {
         mainPaint.setStyle(Paint.Style.FILL);
         //绘制各个弧度
-        int perThickness = (int) ((tempEntry.percent / 360f) * thickness * (max * 0.5f));
+
+        int perThickness =ifChangeThick? (int) ((tempEntry.percent / 360f) * thickness * (max * 0.5f)) : thickness;
         float drawTempStartAngle = 0f;
         RectF tempRectF;
         float lineStartX = 0f;
@@ -360,13 +376,15 @@ public class CylinderView extends View {
 
             //弧形
             mainPaint.setColor(tempEntry.color);
+
+
             canvas.drawArc(tempRectF, drawTempStartAngle, tempEntry.percent, true, mainPaint);
             if (j == perThickness) {
                 drawTopLine(canvas, tempRectF, drawTempStartAngle, tempEntry.percent);
             }
             //竖直线
             mainPaint.setColor(Color.WHITE);
-            if (tempEntry.tag == CENTER) {
+             if (tempEntry.tag == CENTER) {
                 canvas.drawLine(lineStartX, lineStartY,
                         lineEndX, lineEndY,
                         mainPaint);
