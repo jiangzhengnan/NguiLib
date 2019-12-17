@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#D1D1D1"
+    android:background="#F8F8F8"
     android:layout_height="match_parent">
 
     <com.ng.nguilib.CylinderView

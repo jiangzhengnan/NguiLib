@@ -106,7 +106,7 @@ public class CylinderView extends View {
             ANIM_STATE = ANIM_STATE_ALL;
             isAnimRunning = true;
             mAnimator = ValueAnimator.ofInt(0, thickness);
-            mAnimator.setDuration(2500);
+            mAnimator.setDuration(4800);
             mAnimator.setInterpolator(new DecelerateInterpolator());
             mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -139,7 +139,7 @@ public class CylinderView extends View {
             ANIM_STATE = ANIM_STATE_SINGLE;
             isAnimRunning = true;
             mAnimator = ValueAnimator.ofInt(0, (max + 1) * 100);
-            mAnimator.setDuration(max * 1000);
+            mAnimator.setDuration(max * 800);
             mAnimator.setInterpolator(new LinearInterpolator());
             mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -290,7 +290,7 @@ public class CylinderView extends View {
                         int tempThickNess = singleAnimValue - (i + 1) * 100;
                         LogUtils.INSTANCE.d("tempThickNess: " + tempThickNess);
 
-                        tempThickNess = (int) ((tempEntry.percent / 360f) * tempThickNess * (max * 0.3f));
+                        tempThickNess = (int) ((tempEntry.percent / 360f) * tempThickNess * (max * 0.33f));
 
                         drawCylinder(canvas, tempEntry, tempThickNess,false);
                     }
