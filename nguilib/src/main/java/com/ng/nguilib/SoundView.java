@@ -3,9 +3,8 @@ package com.ng.nguilib;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ComposeShader;
@@ -13,28 +12,16 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.ng.nguilib.utils.DensityUtil;
-import com.ng.nguilib.utils.LogUtils;
 
 import java.util.Random;
 
 /**
- * 描述:
+ * 描述:语音识别view
  *
  * @author Jzn
  * @date 2019-12-14
@@ -44,137 +31,168 @@ public class SoundView extends View {
     private float mHeight;
     private float mWidth;
     private Path mPath;
+    //总偏移量
+    private int mAllOffsetX = 0;
+    //每一条直线的偏移量
+    private int mEachOffsetX = dp2px(1);
+    //垂直方向间距
+    private float mSpaceY = dp2px(2);
+    //直线条数
+    private final static int WAVE_LINE_NUMBER = 20;
+    // 振幅
+    private int mAmplitude = dp2px(10);
+    //间距
+    private int mSpaceX = dp2px(5);
+    //小ball半径
+    private float mBallRadius = dp2px(1);
+    //上颜色
+    private int mTopColor = Color.parseColor("#00BFFF");
+    private int mBottomColor = Color.parseColor("#2126D4");
+    //两个峰值
+    private int mPeakValueIndex1 = 1;
+    private int mPeakValueIndex2 = 1;
+    //中心点坐标
+    private float mCenterX;
+    private float mCenterY;
+    private boolean isWaveAnimRunning = false;
+    private ValueAnimator mWaveAnimator;
+    //sin和cos的切换
+    private boolean mFunctionChangeTag = true;
+    //透明度遮罩
+    private RadialGradient mRadialGradient;
+    //间距倍数
+    private float mXSpaceMultiple = 1;
+    //音量
+    private float mVolume = 0;
+    private float mMaxVolume = 1;
+    //音量初始值and最低值
+    private final static int VOLUME_INIT = 15;
+    //音量间隔最大值
+    private final static int VOLUME_MAX = 10;
+    //音量间隔阈值
+    private final static int VOLUE_THRESHOLD = 5;
 
+    //添加切换的估值器
+    public void setVolume(int volume) {
+        if (volume < 0 || volume > 100) {
+            return;
+        }
+        mMaxVolume = VOLUME_INIT + volume;
+        //音量越大间距越小
+        //mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
+        postInvalidate();
+//        int disparity = (int) Math.abs(volume - mMaxVolume);
+//        if (disparity > VOLUE_THRESHOLD) {
+//            this.mMaxVolume = mMaxVolume < volume ? mMaxVolume + disparity / 2 : mMaxVolume - disparity / 2;
+//            if (mMaxVolume > 100) {
+//                mMaxVolume = 100;
+//            } else if (mMaxVolume < VOLUME_INIT) {
+//                mMaxVolume = VOLUME_INIT;
+//            }
+//            //音量越大间距越小
+//            mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
+//            postInvalidate();
+//        }
+    }
 
-    public SoundView(Context context, @Nullable AttributeSet attrs) {
+    public SoundView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     private void init() {
+        //关闭硬件加速，否则遮罩会有问题
         this.setLayerType(LAYER_TYPE_SOFTWARE, null);
+        //初始值
+        mMaxVolume = VOLUME_INIT;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);//消除锯齿
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(dp2px(2));
         mPath = new Path();
+        //anim
+        mWaveAnimator = ValueAnimator.ofFloat
+                (100f);
+        mWaveAnimator.setDuration(10 * 1000);
+        mWaveAnimator.setRepeatCount(-1);
+        mWaveAnimator.setInterpolator(new LinearInterpolator());
+        mWaveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mVolume = mMaxVolume / 100f;
+                mAllOffsetX += dp2px(5);
+                if (mAllOffsetX >= Integer.MAX_VALUE - 10000) {
+                    mAllOffsetX = 0;
+                }
+                mAmplitude = (int) (mHeight / 5 * mVolume);
+                postInvalidate();
+            }
+        });
+        mWaveAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                super.onAnimationRepeat(animation);
+                //chageWave();
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                isWaveAnimRunning = false;
+            }
+        });
+        mFunctionChangeTag = new Random().nextBoolean();
+        //other
+        mPeakValueIndex1 = new Random().nextInt(WAVE_LINE_NUMBER / 3);
+        mPeakValueIndex2 = WAVE_LINE_NUMBER / 3 + new Random().nextInt(WAVE_LINE_NUMBER / 3);
     }
 
-    public SoundView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SoundView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
-
-    //音量
-    private float volume = 0;
-    private float maxVolume = 1;
-
-
-    public void setVolume(int volume) {
-        if (volume != 0) {
-            this.maxVolume = volume;
-            if (volume < 5) {
-                chage = !chage;
-                peakValueIndex1 = new Random().nextInt(waveNumber / 3);
-                peakValueIndex2 = waveNumber / 3 + new Random().nextInt(waveNumber / 3);
-            }
-
-            //音量越大驼峰的差距越大
-            //chageBei = 1 + volume / 10;
-            //音量越大间距越小
-            jianjuBei = (100f - maxVolume) / 100f;
-
-
-            postInvalidate();
-        }
-
-    }
-
-    //总偏移量
-    private int allOffsetX = 0;
-    //每一条直线的偏移量
-    private int eachOffsetX = dp2px(1);
-
-    //垂直方向间距
-    private float spaceY = dp2px(2);
-    //直线条数
-    private int waveNumber = 24;
-
-    // 振幅
-    private int amplitude = dp2px(10);
-    // 波长
-    private int width;
-    //间距
-    private int spaceX = dp2px(3);
-    //小正方形边长/2
-    private float halfSide = dp2px(1);
-
-    //上颜色
-    private int topColor = Color.parseColor("#00BFFF");
-    private int bottomColor = Color.parseColor("#2126D4");
-
-
-    //三个峰值
-    int peakValueIndex1 = 1;
-    int peakValueIndex2 = 12;
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
-        for (int i = 1; i <= waveNumber; i++) {
-
-            eachOffsetX = dp2px(10) + dp2px(i);
-
-            int tempAmplitude = 0;
-
+        for (int i = 1; i <= WAVE_LINE_NUMBER; i++) {
+            mEachOffsetX = dp2px(10) + dp2px(i);
+            int tempAmplitude;
             //峰值中间最大两边递减
             int chaju;
             int disTop;
             int disBot;
-            if (i < peakValueIndex1) {
-                chaju = Math.abs(i - peakValueIndex1);
-            } else if (peakValueIndex1 < i && i < peakValueIndex2) {
-                disTop = i - peakValueIndex1;
-                disBot = peakValueIndex2 - i;
+            if (i < mPeakValueIndex1) {
+                chaju = Math.abs(i - mPeakValueIndex1);
+            } else if (mPeakValueIndex1 < i && i < mPeakValueIndex2) {
+                disTop = i - mPeakValueIndex1;
+                disBot = mPeakValueIndex2 - i;
                 chaju = Math.min(disTop, disBot);
-            } else if (i > peakValueIndex2) {
-                chaju = i - peakValueIndex2;
+            } else if (i > mPeakValueIndex2) {
+                chaju = i - mPeakValueIndex2;
             } else {
                 chaju = 0;
             }
-
-
-            tempAmplitude = (waveNumber - chaju) * amplitude / waveNumber;
-
-
+            tempAmplitude = (WAVE_LINE_NUMBER - chaju) * mAmplitude / WAVE_LINE_NUMBER;
             //间距要越来越大
-            spaceX = (int) (dp2px(2) + i / 5f * jianjuBei);
-
-
+            mSpaceX = (int) (dp2px(1) + i / 2f * mXSpaceMultiple);
             //小球变大
-            halfSide = 1 + ((float) i / (float) waveNumber) * 1f;
-
+            mBallRadius = 1 + ((float) i / (float) WAVE_LINE_NUMBER) * 1f;
             //透明度
-            int alpha = 50 + 205 * i / waveNumber;
+            int alpha = 25 + 230 * i / WAVE_LINE_NUMBER;
             mPaint.setAlpha(alpha);
-
-
             drawVoiceLine(canvas,
-                    (allOffsetX + eachOffsetX * (waveNumber - i)),
-                    (int) (mWidth / 3 + i * spaceY),
+                    (mAllOffsetX + mEachOffsetX * (WAVE_LINE_NUMBER - i)),
+                    (int) (mHeight / 3 + i * mSpaceY),
                     tempAmplitude);
         }
-
-
     }
 
 
     /**
      * y=Asin(ωx+φ)+k
      *
-     * @param canvas
+     * @param canvas    画板
      * @param xOffset   x轴偏移量
      * @param yLocation y轴坐标
      */
@@ -182,164 +200,90 @@ public class SoundView extends View {
         int index = 0;
         mPath.reset();
         mPath.moveTo(0, 0);
-
-
         while (index <= (int) mWidth) {
-
-            //amplitude 振幅  volume 0 - 10
             float singleTempAmp = ((mWidth - Math.abs((float) index - mWidth / 2)) / mWidth) * tempAmplitude;
-            //LogUtils.INSTANCE.d("zhenfu: " + singleTempAmp);
-
-            int endY = 0;
-            if (chage) {
+            int endY;
+            if (mFunctionChangeTag) {
                 endY = (int) (Math.sin(((float) index + (float) xOffset) / mWidth * 2f * Math.PI + 0)
                         * singleTempAmp + yLocation);
             } else {
                 endY = (int) (Math.cos(((float) index + (float) xOffset) / mWidth * 2f * Math.PI + 0)
                         * singleTempAmp + yLocation);
             }
-
             mPath.moveTo(index, endY);
-
-
-            mPath.addCircle(index, endY, halfSide, Path.Direction.CCW);
-
-
-            index += spaceX;
-
+            mPath.addCircle(index, endY, mBallRadius, Path.Direction.CCW);
+            index += mSpaceX;
         }
-
-
-        LinearGradient linearGradient = new LinearGradient(
-                centerX, yLocation - tempAmplitude - halfSide,
-                centerX, yLocation + tempAmplitude + halfSide,
-                topColor,
-                bottomColor,
+        //渐变 遮罩
+        LinearGradient mLinearGradient = new LinearGradient(
+                mCenterX, yLocation - tempAmplitude - mBallRadius,
+                mCenterX, yLocation + tempAmplitude + mBallRadius,
+                mTopColor,
+                mBottomColor,
                 Shader.TileMode.CLAMP);
-
-        RadialGradient radialGradient = new RadialGradient(
-                centerX,
-                centerY,
-                centerX,
-                topColor,
-                Color.TRANSPARENT,
-                Shader.TileMode.CLAMP);
-
-        ComposeShader composeShader = new ComposeShader(linearGradient, radialGradient,
+        ComposeShader mComposeShader = new ComposeShader(mLinearGradient, mRadialGradient,
                 PorterDuff.Mode.DST_ATOP);
-        mPaint.setShader(composeShader);
-
-
-        //mPaint.setMaskFilter(new BlurMaskFilter(1, BlurMaskFilter.Blur.NORMAL));
-
+        mPaint.setShader(mComposeShader);
         canvas.drawPath(mPath, mPaint);
     }
 
-
-    private float centerX;
-    private float centerY;
-
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         mHeight = getMeasuredHeight();
         mWidth = getMeasuredWidth();
-        centerX = mWidth / 2;
-        centerY = mHeight / 2;
-        width = (int) mWidth;
-        //waveNumber = (int) ((mWidth/3 - amplitude) / spaceY);
+        mCenterX = mWidth / 2;
+        mCenterY = mHeight / 2;
+
+        mRadialGradient = new RadialGradient(
+                mCenterX,
+                mCenterY,
+                mCenterX - dp2px(32),
+                mTopColor,
+                Color.TRANSPARENT,
+                Shader.TileMode.CLAMP);
     }
 
-    private boolean isAnimRunning = false;
-
-    ValueAnimator mAnimator;
-
-    boolean chage = true;
-
-    //间隔倍数
-    //int chageBei = 1;
-
-    //间距倍数
-    float jianjuBei = 1;
-
-
-    //test 动画
-    public void startAnim() {
-        if (!isAnimRunning) {
-            isAnimRunning = true;
-            mAnimator = ValueAnimator.ofFloat
-                    (0f, 100f, 0f);
-            mAnimator.setDuration(10 * 1000);
-            mAnimator.setRepeatCount(-1);
-            mAnimator.setInterpolator(new AccelerateInterpolator());
-            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-
-                    volume = (float) animation.getAnimatedValue() * maxVolume / 100f / 100f;
-
-                    allOffsetX += dp2px(5);
-                    if (allOffsetX >= Integer.MAX_VALUE - 10000) {
-                        allOffsetX = 0;
-                    }
-
-                    amplitude = (int) (mHeight / 6 * volume);
-
-                    //LogUtils.INSTANCE.d("volue: " + volume + "   max: " + maxVolume + " am:" + amplitude);
-
-                    postInvalidate();
-                }
-            });
-            mAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                    super.onAnimationRepeat(animation);
-                    chageWave();
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    isAnimRunning = false;
-                }
-            });
-            mAnimator.start();
+    //开始波浪 动画
+    public void startWaveAnim() {
+        if (!isWaveAnimRunning) {
+            isWaveAnimRunning = true;
+            mWaveAnimator.start();
         }
     }
 
-    private void chageWave() {
-        chage = !chage;
-        peakValueIndex1 = new Random().nextInt(waveNumber / 3);
-        peakValueIndex2 = waveNumber / 3 + new Random().nextInt(waveNumber / 3);
-    }
+//    private void chageWave() {
+//        mFunctionChangeTag = !mFunctionChangeTag;
+//        mPeakValueIndex1 = new Random().nextInt(WAVE_LINE_NUMBER / 3);
+//        mPeakValueIndex2 = WAVE_LINE_NUMBER / 3 + new Random().nextInt(WAVE_LINE_NUMBER / 3);
+//    }
 
-
-    public void stopAnim() {
-        isAnimRunning = false;
-        if (mAnimator != null) {
-            mAnimator.pause();
+    public void stopWaveAnim() {
+        isWaveAnimRunning = false;
+        if (mWaveAnimator != null) {
+            mWaveAnimator.pause();
         }
     }
-
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mAnimator != null) {
-            mAnimator.cancel();
-            mAnimator.end();
+        if (mWaveAnimator != null) {
+            stopWaveAnim();
+            mWaveAnimator.cancel();
+            mWaveAnimator.end();
         }
     }
 
     @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+    protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        if (visibility == VISIBLE) {
-            // startAnim();
+        if (visibility == INVISIBLE || visibility == GONE) {
+            stopWaveAnim();
         } else {
-            stopAnim();
+            startWaveAnim();
         }
-
     }
 
     private int dp2px(float dpValue) {

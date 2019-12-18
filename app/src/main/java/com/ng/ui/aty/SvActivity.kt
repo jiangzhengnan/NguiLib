@@ -3,7 +3,6 @@ package com.ng.ui.aty
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.ng.nguilib.utils.LogUtils
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.activity_sv.*
 
@@ -27,10 +26,10 @@ class SvActivity : AppCompatActivity() {
     private fun initViewsAndEvents() {
 
         button3.setOnClickListener {
-            mysc.startAnim()
+            mysc.startWaveAnim()
         }
         button4.setOnClickListener {
-            mysc.stopAnim()
+            mysc.stopWaveAnim()
         }
 
         yinliang.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -50,7 +49,7 @@ class SvActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         mysc.post {
-            mysc.startAnim()
+            mysc.startWaveAnim()
         }
     }
 
