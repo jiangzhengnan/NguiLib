@@ -14,4 +14,10 @@
             <enum name="play_model" value="2"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="GABottleLoadingView">
+
+        <attr name="bottle_color" format="color" />
+        <attr name="water_color" format="color" />
+    </declare-styleable>
 </resources>

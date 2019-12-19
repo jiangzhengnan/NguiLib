@@ -54,4 +54,9 @@ class SvActivity : AppCompatActivity() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        bottle_view_small.performAnimation()
+    }
+
 }

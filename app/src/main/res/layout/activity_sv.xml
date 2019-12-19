@@ -6,44 +6,62 @@
     android:background="#fff"
     android:orientation="vertical">
 
-
-    <com.ng.nguilib.SoundView
-        android:id="@+id/mysc"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_gravity="center_horizontal" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <Button
-            android:id="@+id/button3"
+        <com.ng.nguilib.SoundView
+            android:id="@+id/mysc"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:text="btn3" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:text="btn3" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="18dp"
+                android:text="btn4" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/yinliang"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="18dp"
-            android:text="btn4" />
+            android:layout_gravity="center"
+            android:background="#fff"
+            android:max="100" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/yinliang"
-        android:max="100"
-        android:layout_gravity="center"
-        android:background="#fff"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.ng.ui.testsoundview.GABottleLoadingView
+            android:id="@+id/bottle_view_small"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
 
 </LinearLayout>
