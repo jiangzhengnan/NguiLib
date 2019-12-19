@@ -31,6 +31,8 @@ public class SoundView extends View {
     private float mHeight;
     private float mWidth;
     private Path mPath;
+    //周期
+    private float T = 2f;
     //总偏移量
     private int mAllOffsetX = 0;
     //每一条直线的偏移量
@@ -63,10 +65,12 @@ public class SoundView extends View {
     //间距倍数
     private float mXSpaceMultiple = 1;
     //音量
+    private float mSourceVolume = 0;
+
     private float mVolume = 0;
     private float mMaxVolume = 1;
     //音量初始值and最低值
-    private final static int VOLUME_INIT = 15;
+    private final static int VOLUME_INIT = 10;
     //音量间隔最大值
     private final static int VOLUME_MAX = 10;
     //音量间隔阈值
@@ -77,22 +81,24 @@ public class SoundView extends View {
         if (volume < 0 || volume > 100) {
             return;
         }
-        mMaxVolume = VOLUME_INIT + volume;
-        //音量越大间距越小
-        //mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
-        postInvalidate();
-//        int disparity = (int) Math.abs(volume - mMaxVolume);
-//        if (disparity > VOLUE_THRESHOLD) {
-//            this.mMaxVolume = mMaxVolume < volume ? mMaxVolume + disparity / 2 : mMaxVolume - disparity / 2;
-//            if (mMaxVolume > 100) {
-//                mMaxVolume = 100;
-//            } else if (mMaxVolume < VOLUME_INIT) {
-//                mMaxVolume = VOLUME_INIT;
-//            }
-//            //音量越大间距越小
-//            mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
-//            postInvalidate();
-//        }
+        mSourceVolume = volume;
+        mMaxVolume = VOLUME_INIT + mSourceVolume;
+
+        int disparity = (int) Math.abs(mSourceVolume - mMaxVolume);
+        if (disparity > VOLUE_THRESHOLD) {
+            this.mMaxVolume = mMaxVolume < mSourceVolume ? mMaxVolume + disparity / 2 : mMaxVolume - disparity / 2;
+            if (mMaxVolume > 100) {
+                mMaxVolume = 100;
+            } else if (mMaxVolume < VOLUME_INIT) {
+                mMaxVolume = VOLUME_INIT;
+            }
+            //音量越大间距越小
+            mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
+            postInvalidate();
+        } else {
+            mPeakValueIndex1 = new Random().nextInt(WAVE_LINE_NUMBER / 3);
+            mPeakValueIndex2 = WAVE_LINE_NUMBER / 3 + new Random().nextInt(WAVE_LINE_NUMBER / 3);
+        }
     }
 
     public SoundView(Context context, AttributeSet attrs) {
@@ -120,11 +126,22 @@ public class SoundView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mVolume = mMaxVolume / 100f;
-                mAllOffsetX += dp2px(5);
+
+                mAmplitude = (int) (mHeight / 4 * mVolume);
+
+                //voice speed 5 - 20
+                if (mSourceVolume < 5) {
+                    mAllOffsetX += dp2px(5);
+                } else {
+                    int speed = 2 - (int) (mSourceVolume / 100f * 2);
+                    mAllOffsetX += dp2px(speed);
+                }
+
                 if (mAllOffsetX >= Integer.MAX_VALUE - 10000) {
                     mAllOffsetX = 0;
                 }
-                mAmplitude = (int) (mHeight / 5 * mVolume);
+
+
                 postInvalidate();
             }
         });
@@ -134,6 +151,7 @@ public class SoundView extends View {
                 super.onAnimationRepeat(animation);
                 //chageWave();
             }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -141,7 +159,6 @@ public class SoundView extends View {
             }
         });
         mFunctionChangeTag = new Random().nextBoolean();
-        //other
         mPeakValueIndex1 = new Random().nextInt(WAVE_LINE_NUMBER / 3);
         mPeakValueIndex2 = WAVE_LINE_NUMBER / 3 + new Random().nextInt(WAVE_LINE_NUMBER / 3);
     }
@@ -173,16 +190,24 @@ public class SoundView extends View {
             } else {
                 chaju = 0;
             }
-            tempAmplitude = (WAVE_LINE_NUMBER - chaju) * mAmplitude / WAVE_LINE_NUMBER;
+            tempAmplitude = (WAVE_LINE_NUMBER - chaju*3) * mAmplitude / WAVE_LINE_NUMBER;
+
             //间距要越来越大
-            mSpaceX = (int) (dp2px(1) + i / 2f * mXSpaceMultiple);
+            mSpaceX = (int) (dp2px(2) + i / 2f * mXSpaceMultiple);
             //小球变大
             mBallRadius = 1 + ((float) i / (float) WAVE_LINE_NUMBER) * 1f;
             //透明度
             int alpha = 25 + 230 * i / WAVE_LINE_NUMBER;
             mPaint.setAlpha(alpha);
+
+
+            //xoffset 改为中间高两边低
+            int xOffset = (mAllOffsetX
+                    + mEachOffsetX * (WAVE_LINE_NUMBER - i));
+
+
             drawVoiceLine(canvas,
-                    (mAllOffsetX + mEachOffsetX * (WAVE_LINE_NUMBER - i)),
+                    xOffset,
                     (int) (mHeight / 3 + i * mSpaceY),
                     tempAmplitude);
         }
@@ -200,14 +225,20 @@ public class SoundView extends View {
         int index = 0;
         mPath.reset();
         mPath.moveTo(0, 0);
+
+
         while (index <= (int) mWidth) {
-            float singleTempAmp = ((mWidth - Math.abs((float) index - mWidth / 2)) / mWidth) * tempAmplitude;
+            //a的范围:0~a~0
+            float singleTempAmp = 4 * tempAmplitude * index / mWidth -
+                    4 * tempAmplitude * index / mWidth * index / mWidth;
+
             int endY;
+            //周期w
             if (mFunctionChangeTag) {
-                endY = (int) (Math.sin(((float) index + (float) xOffset) / mWidth * 2f * Math.PI + 0)
+                endY = (int) (Math.sin(((float) index + (float) xOffset) * T * Math.PI / mWidth + 0)
                         * singleTempAmp + yLocation);
             } else {
-                endY = (int) (Math.cos(((float) index + (float) xOffset) / mWidth * 2f * Math.PI + 0)
+                endY = (int) (Math.cos(((float) index + (float) xOffset) * T * Math.PI / mWidth + 0)
                         * singleTempAmp + yLocation);
             }
             mPath.moveTo(index, endY);
