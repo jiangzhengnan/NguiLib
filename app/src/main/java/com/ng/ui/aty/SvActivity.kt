@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_sv.*
  */
 class SvActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getContentViewLayoutID())
@@ -32,7 +33,7 @@ class SvActivity : AppCompatActivity() {
             mysc.stopWaveAnim()
         }
 
-        yinliang.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        yinliang.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 mysc.setVolume(progress)
             }
@@ -43,7 +44,7 @@ class SvActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
 
-        });
+        })
     }
 
     override fun onStart() {
@@ -53,10 +54,5 @@ class SvActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        bottle_view_small.performAnimation()
-    }
 
 }

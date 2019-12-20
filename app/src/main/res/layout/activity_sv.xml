@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+         >
 
-        <com.ng.nguilib.SoundView
+        <com.ng.nguilib.SoundNewView
             android:id="@+id/mysc"
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -51,17 +51,6 @@
             android:max="100" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.ng.ui.testsoundview.GABottleLoadingView
-            android:id="@+id/bottle_view_small"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
 
 
 </LinearLayout>
