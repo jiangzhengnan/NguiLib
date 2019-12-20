@@ -53,6 +53,10 @@ public class SoundNewView extends View {
     private float mCenterY;
     private boolean isWaveAnimRunning = false;
     private ValueAnimator mWaveAnimator;
+
+    private ValueAnimator mBallAnimator;
+
+
     //透明度遮罩
     private RadialGradient mRadialGradient;
     //间距倍数
@@ -134,6 +138,38 @@ public class SoundNewView extends View {
                 isWaveAnimRunning = false;
             }
         });
+        //震动动画
+        mBallAnimator = ValueAnimator.ofFloat(100f);
+        mBallAnimator.setDuration(5000);
+        mBallAnimator.setRepeatCount(-1);
+        mBallAnimator.setInterpolator(new LinearInterpolator());
+        mBallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                //
+                jisuanCenter();
+
+            }
+        });
+        mBallAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                super.onAnimationRepeat(animation);
+
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        });
+
+    }
+
+    //计算振幅
+    private void jisuanCenter() {
+
     }
 
     public SoundNewView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -156,7 +192,6 @@ public class SoundNewView extends View {
             //透明度
             int alpha = 25 + 230 * i / WAVE_LINE_NUMBER;
             mPaint.setAlpha(alpha);
-
 
             drawVoiceLine(canvas,
                     mAllOffsetX,
@@ -183,6 +218,10 @@ public class SoundNewView extends View {
             //a的范围:0~a~0
             float singleTempAmp = 4 * tempAmplitude * index / mWidth -
                     4 * tempAmplitude * index / mWidth * index / mWidth;
+
+
+            //todo 在这里调整单个的振幅
+
 
             int endY;
             //周期w
@@ -310,7 +349,6 @@ public class SoundNewView extends View {
             float num = maxValue - minValue;
             return minValue + (float) (random.nextDouble() * num);
         }
-
 
         @Override
         public String toString() {
