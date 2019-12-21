@@ -50,7 +50,10 @@ class SvActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         mysc.post {
+          //   mysc.startBallAnim()
+            mysc.setVolume(0)
             mysc.startWaveAnim()
+
         }
     }
 

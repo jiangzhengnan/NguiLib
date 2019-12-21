@@ -18,6 +18,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import com.ng.nguilib.utils.LogUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -36,7 +41,7 @@ public class SoundNewView extends View {
     //总偏移量
     private int mAllOffsetX = 0;
     //垂直方向间距
-    private float mSpaceY = dp2px(2);
+    private float mSpaceY = dp2px(3);
     //直线条数
     private final static int WAVE_LINE_NUMBER = 20;
     // 振幅
@@ -52,9 +57,9 @@ public class SoundNewView extends View {
     private float mCenterX;
     private float mCenterY;
     private boolean isWaveAnimRunning = false;
-    private ValueAnimator mWaveAnimator;
 
-    private ValueAnimator mBallAnimator;
+
+    private ValueAnimator mWaveAnimator;
 
 
     //透明度遮罩
@@ -73,6 +78,7 @@ public class SoundNewView extends View {
     //音量间隔阈值
     private final static int VOLUE_THRESHOLD = 5;
 
+
     //添加切换的估值器
     public void setVolume(int volume) {
         if (volume < 0 || volume > 100) {
@@ -80,6 +86,8 @@ public class SoundNewView extends View {
         }
         mSourceVolume = volume;
         mMaxVolume = VOLUME_INIT + mSourceVolume;
+
+        mVolume = mMaxVolume / 100f;
 
         postInvalidate();
     }
@@ -108,20 +116,34 @@ public class SoundNewView extends View {
         mWaveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mVolume = mMaxVolume / 100f;
 
                 mAmplitude = (int) (mHeight / 4 * mVolume);
 
-                //voice speed 5 - 20
-                if (mSourceVolume < 5) {
-                    mAllOffsetX += dp2px(5);
-                } else {
-                    int speed = 2 - (int) (mSourceVolume / 100f * 2);
-                    mAllOffsetX += dp2px(speed);
+
+                mAllOffsetX += dp2px(5);
+
+
+                //ball
+                // 剔除已经执行完的点
+                Iterator<DynamicAttenuationModel> iterator = ballModelList.iterator();
+                while (iterator.hasNext()) {
+                    DynamicAttenuationModel temp = iterator.next();
+                    if (temp.getTotalDuration() + temp.startTime < System.currentTimeMillis()) {
+                        iterator.remove();
+                    }
                 }
-                if (mAllOffsetX >= Integer.MAX_VALUE - 10000) {
-                    mAllOffsetX = 0;
+
+                // 如果为空则重新生成点
+                if (ballModelList.size() == 0) {
+                    //随机生成2-4个
+                    int randomSize = new Random().nextInt(3) + 2;
+
+
+                    for (int i = 0; i < randomSize; i++) {
+                        ballModelList.add(new DynamicAttenuationModel());
+                    }
                 }
+
                 postInvalidate();
             }
         });
@@ -138,39 +160,65 @@ public class SoundNewView extends View {
                 isWaveAnimRunning = false;
             }
         });
-        //震动动画
-        mBallAnimator = ValueAnimator.ofFloat(100f);
-        mBallAnimator.setDuration(5000);
-        mBallAnimator.setRepeatCount(-1);
-        mBallAnimator.setInterpolator(new LinearInterpolator());
-        mBallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                //
-                jisuanCenter();
+    }
+
+    //随机小球数组
+    private volatile List<DynamicAttenuationModel> ballModelList = new ArrayList<>();
+
+
+    //圆圈位置计算方程
+    private synchronized float equation(float xFloat, float yFloat) {
+
+        long currentTime = System.currentTimeMillis();
+        // 波动衰减修正
+        /// 波动最大振幅
+        float maxAmplitude = mHeight / 3;
+        float attenuationOffset = 0;
+        synchronized (ballModelList) {
+            Iterator<DynamicAttenuationModel> iterator = ballModelList.iterator();
+            while (iterator.hasNext()) {
+                DynamicAttenuationModel model = iterator.next();
+                if (model == null) {
+                    continue;
+                }
+
+                double process = 0;
+                if ((currentTime - model.startTime - model.upDuration < 0) && model.upDuration > 0) {
+                    //处于上升阶段
+                    process = (currentTime - model.startTime) / (double) model.upDuration;
+                } else if ((currentTime - model.startTime - model.getTotalDuration() < 0) && model.downDuration > 0) {
+                    //处于下降阶段
+                    process = 1 - (currentTime - model.startTime - model.upDuration) / (double) model.downDuration;
+                } else {
+                    //已经结束，不处理
+                    continue;
+                }
+
+
+                //距离中心点距离
+                double distance = Math.abs(
+                        Math.sqrt(Math.pow(model.centerPoint.x - xFloat, 2))
+                                + Math.pow(model.centerPoint.y - yFloat, 2)
+                );
+
+                // 范围衰减，中心最大
+                double distanceProcess = Math.min(
+                        Math.max((model.range - distance) / model.range, 0),
+                        1
+                );
+
+
+                attenuationOffset += maxAmplitude * process * distanceProcess * model.amplitude;
+
 
             }
-        });
-        mBallAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                super.onAnimationRepeat(animation);
+        }
 
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-            }
-        });
+        return attenuationOffset;
 
     }
 
-    //计算振幅
-    private void jisuanCenter() {
-
-    }
 
     public SoundNewView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -180,23 +228,23 @@ public class SoundNewView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+
         for (int i = 1; i <= WAVE_LINE_NUMBER; i++) {
             int tempAmplitude;
 
-            tempAmplitude = (WAVE_LINE_NUMBER) * mAmplitude / WAVE_LINE_NUMBER;
+            tempAmplitude = mAmplitude;
 
-            //间距要越来越大
-            mSpaceX = (int) (dp2px(2) + i / 2f * mXSpaceMultiple);
             //小球变大
             mBallRadius = 1 + ((float) i / (float) WAVE_LINE_NUMBER) * 1f;
             //透明度
-            int alpha = 25 + 230 * i / WAVE_LINE_NUMBER;
-            mPaint.setAlpha(alpha);
+            //int alpha = 25 + 230 * i / WAVE_LINE_NUMBER;
+            mPaint.setAlpha(255);
 
             drawVoiceLine(canvas,
                     mAllOffsetX,
                     (int) (mHeight / 3 + i * mSpaceY),
-                    tempAmplitude);
+                    tempAmplitude, i);
         }
     }
 
@@ -208,28 +256,40 @@ public class SoundNewView extends View {
      * @param xOffset   x轴偏移量
      * @param yLocation y轴坐标
      */
-    private void drawVoiceLine(Canvas canvas, int xOffset, int yLocation, int tempAmplitude) {
-        int index = 0;
+    private void drawVoiceLine(Canvas canvas, int xOffset, int yLocation, int tempAmplitude, int index) {
+        int xPos = 0;
         mPath.reset();
         mPath.moveTo(0, 0);
 
 
-        while (index <= (int) mWidth) {
+        while (xPos <= (int) mWidth) {
             //a的范围:0~a~0
-            float singleTempAmp = 4 * tempAmplitude * index / mWidth -
-                    4 * tempAmplitude * index / mWidth * index / mWidth;
 
-
-            //todo 在这里调整单个的振幅
+            //基础振幅
+//            float singleTempAmp = 4 * tempAmplitude * xPos / mWidth -
+//                    4 * tempAmplitude * xPos / mWidth * xPos / mWidth;
 
 
             int endY;
             //周期w
-            endY = (int) (Math.sin(((float) index + (float) xOffset) * T * Math.PI / mWidth + 0)
-                    * singleTempAmp + yLocation);
-            mPath.moveTo(index, endY);
-            mPath.addCircle(index, endY, mBallRadius, Path.Direction.CCW);
-            index += mSpaceX;
+            int baseY = (int) (Math.sin(((float) xPos + (float) xOffset) * T * Math.PI / mWidth + 0)
+                    * tempAmplitude + yLocation);
+
+
+            float xFloat = ((float) xPos) / mWidth;
+            float yFloat = ((float) index) / WAVE_LINE_NUMBER;
+
+            float pianyiLiang = equation(xFloat, yFloat);
+
+
+            endY = (int) (baseY + pianyiLiang);
+
+
+            mPath.moveTo(xPos, endY);
+
+
+            mPath.addCircle(xPos, endY, mBallRadius, Path.Direction.CCW);
+            xPos += mSpaceX;
         }
         //渐变 遮罩
         LinearGradient mLinearGradient = new LinearGradient(
@@ -240,9 +300,12 @@ public class SoundNewView extends View {
                 Shader.TileMode.CLAMP);
         ComposeShader mComposeShader = new ComposeShader(mLinearGradient, mRadialGradient,
                 PorterDuff.Mode.DST_ATOP);
+
+        //todo 暂时只用一个遮罩
         mPaint.setShader(mLinearGradient);
         canvas.drawPath(mPath, mPaint);
     }
+
 
     @SuppressLint("DrawAllocation")
     @Override
@@ -261,6 +324,8 @@ public class SoundNewView extends View {
                 Color.TRANSPARENT,
                 Shader.TileMode.CLAMP);
     }
+
+
 
     //开始波浪 动画
     public void startWaveAnim() {
@@ -323,15 +388,16 @@ public class SoundNewView extends View {
         }
 
         //随机生成
-        public void init() {
+        public DynamicAttenuationModel() {
             Random random = new Random();
             startTime = System.currentTimeMillis();
-            upDuration = nextLong(random,500,1000);
-            downDuration = nextLong(random,500,1000);
-            centerPoint = new Point(random.nextFloat(),random.nextFloat());
-            range = nextFloat(random,0.4f,0.8f);
-            amplitude = nextFloat(random,20,50);
+            upDuration = nextLong(random, 100, 400);
+            downDuration = nextLong(random, 200, 800);
+            centerPoint = new Point(random.nextFloat(), random.nextFloat());
+            range = nextFloat(random, 0.4f, 0.8f);
+            amplitude = nextFloat(random, -1, 1);
 
+            LogUtils.INSTANCE.d("生成的点: " + this.toString());
         }
 
         long nextLong(Random random, long minValue, long maxValue) {
