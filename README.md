@@ -40,7 +40,7 @@ Inspiration : <a href="https://dribbble.com/shots/6201452-Arrow-micro-interactio
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ptl_show.gif" /> 
 6.CylinderView. A 3D cylinder animation View<br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/cd_show.gif" /> 
-
+Inspiration : <a href="https://dribbble.com/shots/7077455-Spending-analytics">https://dribbble.com/shots/7077455-Spending-analytics</a><br />
 ## License
 
     Copyright 2019, Jiang Zhengnan
