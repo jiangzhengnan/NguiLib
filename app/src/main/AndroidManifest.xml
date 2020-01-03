@@ -23,17 +23,20 @@
 
         </activity>
 
-        <activity android:name=".aty.CdActivity"
-            >
-        </activity>
+        <activity android:name=".aty.CdActivity"></activity>
 
         <activity android:name=".aty.SvActivity">
+
+        </activity>
+
+        <activity android:name=".testxiru.other.InhaleAnimationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <activity android:name=".aty.PtlActivity">
 
@@ -44,7 +47,7 @@
         <activity android:name=".aty.EcgActivity" />
         <activity android:name=".aty.PlActivity" />
 
-        <activity android:name=".aty.AiActivity"/>
+        <activity android:name=".aty.AiActivity" />
     </application>
 
 </manifest>
