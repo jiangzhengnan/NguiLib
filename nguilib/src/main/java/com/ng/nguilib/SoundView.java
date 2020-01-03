@@ -74,7 +74,7 @@ public class SoundView extends View {
     //音量间隔最大值
     private final static int VOLUME_MAX = 10;
     //音量间隔阈值
-    private final static int VOLUE_THRESHOLD = 5;
+    private final static int VOLUE_THRESHOLD = 10;
 
     //添加切换的估值器
     public void setVolume(int volume) {
@@ -82,11 +82,11 @@ public class SoundView extends View {
             return;
         }
         mSourceVolume = volume;
-        mMaxVolume = VOLUME_INIT + mSourceVolume;
+        //mMaxVolume = VOLUME_INIT + mSourceVolume;
 
         int disparity = (int) Math.abs(mSourceVolume - mMaxVolume);
         if (disparity > VOLUE_THRESHOLD) {
-            this.mMaxVolume = mMaxVolume < mSourceVolume ? mMaxVolume + disparity / 2 : mMaxVolume - disparity / 2;
+            this.mMaxVolume = mMaxVolume < mSourceVolume ? mMaxVolume + 1 : mMaxVolume - 1;
             if (mMaxVolume > 100) {
                 mMaxVolume = 100;
             } else if (mMaxVolume < VOLUME_INIT) {
@@ -94,10 +94,6 @@ public class SoundView extends View {
             }
             //音量越大间距越小
             mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
-            postInvalidate();
-        } else {
-            mPeakValueIndex1 = new Random().nextInt(WAVE_LINE_NUMBER / 3);
-            mPeakValueIndex2 = WAVE_LINE_NUMBER / 3 + new Random().nextInt(WAVE_LINE_NUMBER / 3);
         }
     }
 
@@ -133,7 +129,7 @@ public class SoundView extends View {
                 if (mSourceVolume < 5) {
                     mAllOffsetX += dp2px(5);
                 } else {
-                    int speed = 2 - (int) (mSourceVolume / 100f * 2);
+                    int speed = 2 - (int) (mSourceVolume / 100f * 1);
                     mAllOffsetX += dp2px(speed);
                 }
 
@@ -190,7 +186,7 @@ public class SoundView extends View {
             } else {
                 chaju = 0;
             }
-            tempAmplitude = (WAVE_LINE_NUMBER - chaju*3) * mAmplitude / WAVE_LINE_NUMBER;
+            tempAmplitude = (WAVE_LINE_NUMBER - chaju * 3) * mAmplitude / WAVE_LINE_NUMBER;
 
             //间距要越来越大
             mSpaceX = (int) (dp2px(2) + i / 2f * mXSpaceMultiple);

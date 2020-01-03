@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_my"
+    android:background="#ff00ff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_my"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="#FF8B8B"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="22dp"
+            android:text="The intraday trading mode is designed to improve the efficiency of intraday trading. It can quickly complete the order operation by clicking. It is very suitable for the typical intraday trader (PDT)."
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="20dp"
+            android:text="Non-PDT users should use it with caution, Margin account will have the risk of generating DT Call, Cash account will have the risk of generating GFV."
+            android:textColor="#F5A623"
+            android:textSize="11dp" />
+
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="understood"
+            android:textSize="16dp" />
+
+
+        <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="How to become a PDT?How to become a PDT?How to become a PDT?How to become a PDT?"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -15,7 +15,8 @@
 
         </activity>
 
-        <activity android:name=".testchumo.TestActivity">
+        <activity android:name=".testchumo.TestGuochangAty">
+
         </activity>
 
         <activity android:name=".testchumo.testjava">

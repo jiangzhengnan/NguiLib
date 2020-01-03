@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/mTipContainerView"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <TextView
+        android:gravity="center"
+        android:background="#ffffff"
+        android:id="@+id/btn_target"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:text="目标"
+        android:textSize="11sp" />
+
+
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="ceshi" />
+
+</RelativeLayout>
