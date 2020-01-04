@@ -22,7 +22,7 @@ public class InhaleAnimationActivity extends Activity {
 
     RelativeLayout mTipContainerView;
     private static final boolean DEBUG_MODE = false;
-    private SampleView mSampleView = null;
+    private InhaleView mInhaleView = null;
 
     private int mTradeIntroduceAnimViewWidth;
     private int mTradeIntroduceAnimViewHeight;
@@ -40,7 +40,7 @@ public class InhaleAnimationActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                if (mSampleView.startAnimation(mReverse)) {
+                if (mInhaleView.startAnimation(mReverse)) {
                     mReverse = !mReverse;
                 }
             }
@@ -57,11 +57,11 @@ public class InhaleAnimationActivity extends Activity {
 
 
     private void showTradeIntroduceAnimView(Bitmap bitmap) {
-        mSampleView = new SampleView(this);
-        mSampleView.setIsDebug(true);
-        mSampleView.setmBitmap(bitmap);
+        mInhaleView = new InhaleView(this);
+        mInhaleView.setIsDebug(true);
+        mInhaleView.setmBitmap(bitmap);
         //target: 980  1982
-        mSampleView.setTargetPosition(980,100 , 1080 , 1982);
+        mInhaleView.setTargetPosition(980,100 , 1080 , 1982);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -69,7 +69,7 @@ public class InhaleAnimationActivity extends Activity {
 
 
 
-        mTipContainerView.addView(mSampleView, lp);
+        mTipContainerView.addView(mInhaleView, lp);
      }
 
     public Bitmap resizeImage(Bitmap bitmap, int width, int height) {

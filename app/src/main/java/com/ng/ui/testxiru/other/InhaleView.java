@@ -15,7 +15,7 @@ import android.view.animation.Animation;
  * @author Jzn
  * @date 2020-01-03
  */
-public class SampleView extends View {
+public class InhaleView extends View {
 
     private static final int WIDTH = 80;
     private static final int HEIGHT = 80;
@@ -30,7 +30,7 @@ public class SampleView extends View {
     private float mTargetX;
     private float mTargetY;
 
-    public SampleView(Context context) {
+    public InhaleView(Context context) {
         super(context);
         setFocusable(true);
 

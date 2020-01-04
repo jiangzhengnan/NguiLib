@@ -6,52 +6,43 @@ package com.ng.ui.testxiru.other;
  * @author Jzn
  * @date 2020-01-03
  */
-/*
- * System: CoreLib
- * @version     1.00
- *
- * Copyright (C) 2010, LZT Corporation.
- *
- */
-
-
 public abstract class Mesh
 {
-    protected int WIDTH;
-    protected int HEIGHT;
-    protected int mBmpWidth   = -1;
-    protected int mBmpHeight  = -1;
-    protected final float[] mVerts;
+    int WIDTH;
+    int HEIGHT;
+    int mBmpWidth   = -1;
+    int mBmpHeight  = -1;
+    final float[] mVerts;
 
-    public Mesh(int width, int height)
+    Mesh(int width, int height)
     {
         WIDTH  = width;
         HEIGHT = height;
         mVerts  = new float[(WIDTH + 1) * (HEIGHT + 1) * 2];
     }
 
-    public float[] getVertices()
+    float[] getVertices()
     {
         return mVerts;
     }
 
-    public int getWidth()
+    int getWidth()
     {
         return WIDTH;
     }
 
-    public int getHeight()
+    int getHeight()
     {
         return HEIGHT;
     }
 
-    public static void setXY(float[] array, int index, float x, float y)
+    private static void setXY(float[] array, int index, float x, float y)
     {
         array[index*2 + 0] = x;
         array[index*2 + 1] = y;
     }
 
-    public void setBitmapSize(int w, int h)
+    void setBitmapSize(int w, int h)
     {
         mBmpWidth  = w;
         mBmpHeight = h;
@@ -61,7 +52,7 @@ public abstract class Mesh
 
     public abstract void buildMeshes(int index);
 
-    public void buildMeshes(float w, float h)
+    void buildMeshes(float w, float h)
     {
         int index = 0;
 
