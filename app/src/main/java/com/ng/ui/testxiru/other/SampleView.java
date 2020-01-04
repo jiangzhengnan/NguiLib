@@ -9,8 +9,6 @@ import android.graphics.Path;
 import android.view.View;
 import android.view.animation.Animation;
 
-import com.ng.nguilib.utils.LogUtils;
-
 /**
  * 描述:
  *
@@ -29,11 +27,14 @@ public class SampleView extends View {
     private float[] mInhalePt = new float[]{0, 0};
     private InhaleMesh mInhaleMesh = null;
 
+    private float mTargetX;
+    private float mTargetY;
+
     public SampleView(Context context) {
         super(context);
         setFocusable(true);
 
-     }
+    }
 
     public void setmBitmap(Bitmap bitmap) {
         this.mBitmap = bitmap;
@@ -50,7 +51,6 @@ public class SampleView extends View {
         mInhaleMesh.setInhaleDir(InhaleMesh.InhaleDir.UP);
 
 
-
         postInvalidate();
 
     }
@@ -64,8 +64,6 @@ public class SampleView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
-
     }
 
     @Override
@@ -79,13 +77,17 @@ public class SampleView extends View {
         mPaint.setStrokeWidth(2);
         mPaint.setAntiAlias(true);
 
-        LogUtils.INSTANCE.d("屏幕宽高: " + w + "  " + h);
-
-        buildPaths(w - 100, h );
 
 
+    }
+
+    public void setTargetPosition(float x, float y,float width,float height) {
+        mTargetX = x;
+        mTargetY = y;
+
+
+        buildPaths(x, y,width,height);
         mInhaleMesh.buildMeshes(0);
-
         this.postInvalidate();
     }
 
@@ -94,14 +96,10 @@ public class SampleView extends View {
         if (null != anim && !anim.hasEnded()) {
             return false;
         }
-
         PathAnimation animation = new PathAnimation(0, HEIGHT + 1, reverse,
-                new PathAnimation.IAnimationUpdateListener() {
-                    @Override
-                    public void onAnimUpdate(int index) {
-                        mInhaleMesh.buildMeshes(index);
-                        invalidate();
-                    }
+                index -> {
+                    mInhaleMesh.buildMeshes(index);
+                    invalidate();
                 });
         animation.setDuration(400);
         this.startAnimation(animation);
@@ -117,9 +115,6 @@ public class SampleView extends View {
         if (mBitmap == null) {
             return;
         }
-
-
-
         canvas.drawBitmapMesh(mBitmap,
                 mInhaleMesh.getWidth(),
                 mInhaleMesh.getHeight(),
@@ -153,10 +148,10 @@ public class SampleView extends View {
         mInhaleMesh.buildMeshes(w, h);
     }
 
-    private void buildPaths(float endX, float endY) {
+    private void buildPaths(float x, float y, float endX, float endY) {
         mInhalePt[0] = endX;
         mInhalePt[1] = endY;
-        mInhaleMesh.buildPaths(endX, endY);
+        mInhaleMesh.buildPaths(x,y,endX, endY);
     }
 
 }

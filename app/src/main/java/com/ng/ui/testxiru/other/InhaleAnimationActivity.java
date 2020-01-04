@@ -60,6 +60,8 @@ public class InhaleAnimationActivity extends Activity {
         mSampleView = new SampleView(this);
         mSampleView.setIsDebug(true);
         mSampleView.setmBitmap(bitmap);
+        //target: 980  1982
+        mSampleView.setTargetPosition(980,100 , 1080 , 1982);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);

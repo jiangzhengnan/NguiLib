@@ -57,7 +57,7 @@ public abstract class Mesh
         mBmpHeight = h;
     }
 
-    public abstract void buildPaths(float endX, float endY);
+    public abstract void buildPaths(float endX, float endY,float width,float height);
 
     public abstract void buildMeshes(int index);
 

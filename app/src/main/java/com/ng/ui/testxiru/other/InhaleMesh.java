@@ -40,7 +40,7 @@ public class InhaleMesh extends Mesh {
     }
 
     @Override
-    public void buildPaths(float endX, float endY) {
+    public void buildPaths(float endX, float endY, float width, float height) {
         if (mBmpWidth <= 0 || mBmpHeight <= 0) {
             throw new IllegalArgumentException(
                     "Bitmap size must be > 0, do you call setBitmapSize(int, int) method?");
@@ -48,7 +48,7 @@ public class InhaleMesh extends Mesh {
 
         switch (mInhaleDir) {
             case UP:
-                buildPathsUp(endX, endY);
+                buildPathsUp(endX, endY, width, height);
                 break;
 
             case DOWN:
@@ -119,30 +119,26 @@ public class InhaleMesh extends Mesh {
         mSecondPath.quadTo(endX - endX / 4, endY, endX / 2, endY);
     }
 
-    private void buildPathsUp(float endX, float endY) {
+    private void buildPathsUp(float endX, float endY, float width, float height) {
         mFirstPathMeasure.setPath(mFirstPath, false);
         mSecondPathMeasure.setPath(mSecondPath, false);
 
         float w = mBmpWidth;
         float h = mBmpHeight;
 
-        //bitmap宽高
-        LogUtils.INSTANCE.d("w h : " + w + " " + h);
-        //屏幕宽高
-        LogUtils.INSTANCE.d("endXw endY : " + endX + " " + endY);
 
         mFirstPath.reset();
         mSecondPath.reset();
 
-        mFirstPath.moveTo(endX / 2 - w / 2, endY / 2 + h / 2);
+        mFirstPath.moveTo(width / 2 - w / 2, height / 2 + h / 2);
 
-        mSecondPath.moveTo(endX / 2 + w / 2, endY / 2 + h / 2);
+        mSecondPath.moveTo(width / 2 + w / 2, height / 2 + h / 2);
 
-        mFirstPath.lineTo(endX / 2 - w / 2, endY / 2 - h / 2);
-        mSecondPath.lineTo(endX / 2 + w / 2, endY / 2 - h / 2);
+        mFirstPath.lineTo(width / 2 - w / 2, height / 2 - h / 2);
+        mSecondPath.lineTo(width / 2 + w / 2, height / 2 - h / 2);
 
-        mFirstPath.quadTo(endX / 2 - w / 2, 100, endX, 50);
-        mSecondPath.quadTo(endX / 2 + w / 2, 100, endX, 100);
+        mFirstPath.quadTo(width / 2 - w / 2, endY, endX, endY);
+        mSecondPath.quadTo(width / 2 + w / 2, endY, endX, endY);
     }
 
     private void buildPathsRight(float endX, float endY) {
