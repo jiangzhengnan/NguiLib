@@ -11,10 +11,11 @@
         android:layout_weight="1">
 
         <Button
+            android:textSize="8sp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:text="target" />
+            android:text="目标" />
 
     </RelativeLayout>
 

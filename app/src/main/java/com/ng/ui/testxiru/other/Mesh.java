@@ -17,8 +17,8 @@ package com.ng.ui.testxiru.other;
 
 public abstract class Mesh
 {
-    protected int WIDTH      = 40;
-    protected int HEIGHT     = 40;
+    protected int WIDTH;
+    protected int HEIGHT;
     protected int mBmpWidth   = -1;
     protected int mBmpHeight  = -1;
     protected final float[] mVerts;

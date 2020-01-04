@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -20,8 +19,8 @@ import com.ng.nguilib.utils.LogUtils;
  */
 public class SampleView extends View {
 
-    private static final int WIDTH = 40;
-    private static final int HEIGHT = 40;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 80;
 
     private Bitmap mBitmap;
 
@@ -48,10 +47,9 @@ public class SampleView extends View {
         buildMesh(bmpW, bmpH);
 
         mInhaleMesh.setBitmapSize(mBitmap.getWidth(), mBitmap.getHeight());
-        mInhaleMesh.setInhaleDir(InhaleMesh.InhaleDir.DOWN);
+        mInhaleMesh.setInhaleDir(InhaleMesh.InhaleDir.UP);
 
 
-        mInhaleMesh.buildMeshes(1);
 
         postInvalidate();
 
@@ -83,8 +81,13 @@ public class SampleView extends View {
 
         LogUtils.INSTANCE.d("屏幕宽高: " + w + "  " + h);
 
-        buildPaths(w, h);
-     }
+        buildPaths(w - 100, h );
+
+
+        mInhaleMesh.buildMeshes(0);
+
+        this.postInvalidate();
+    }
 
     public boolean startAnimation(boolean reverse) {
         Animation anim = this.getAnimation();
@@ -96,18 +99,17 @@ public class SampleView extends View {
                 new PathAnimation.IAnimationUpdateListener() {
                     @Override
                     public void onAnimUpdate(int index) {
-                        LogUtils.INSTANCE.d("a: " + index);
                         mInhaleMesh.buildMeshes(index);
                         invalidate();
                     }
                 });
-
-        if (null != animation) {
-            animation.setDuration(1000);
-            this.startAnimation(animation);
-        }
-
+        animation.setDuration(400);
+        this.startAnimation(animation);
         return true;
+    }
+
+    public void buildMeshes(int index) {
+        mInhaleMesh.buildMeshes(index);
     }
 
     @Override
@@ -144,6 +146,7 @@ public class SampleView extends View {
                 canvas.drawPath(path, mPaint);
             }
         }
+
     }
 
     private void buildMesh(float w, float h) {
@@ -155,70 +158,5 @@ public class SampleView extends View {
         mInhalePt[1] = endY;
         mInhaleMesh.buildPaths(endX, endY);
     }
-
-    int mLastWarpX = 0;
-    int mLastWarpY = 0;
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-//        float[] pt = {event.getX(), event.getY()};
-//        mInverse.mapPoints(pt);
-//
-//        if (event.getAction() == MotionEvent.ACTION_UP) {
-//            int x = (int) pt[0];
-//            int y = (int) pt[1];
-//            if (mLastWarpX != x || mLastWarpY != y) {
-//                mLastWarpX = x;
-//                mLastWarpY = y;
-//                buildPaths(pt[0], pt[1]);
-//                invalidate();
-//            }
-//        }
-        return true;
-    }
-
-//    public void setInhaleDir(InhaleMesh.InhaleDir dir) {
-//        mInhaleMesh.setInhaleDir(dir);
-//
-//        float w = mBitmap.getWidth();
-//        float h = mBitmap.getHeight();
-//        float endX = 0;
-//        float endY = 0;
-//        float dx = 10;
-//        float dy = 10;
-//        mMatrix.reset();
-//
-//        switch (dir) {
-//            case DOWN:
-//                endX = w / 2;
-//                endY = getHeight() - 20;
-//                break;
-//
-//            case UP:
-//                dy = getHeight() - h - 20;
-//                endX = w / 2;
-//                endY = -dy + 10;
-//                break;
-//
-//            case LEFT:
-//                dx = getWidth() - w - 20;
-//                endX = -dx + 10;
-//                endY = h / 2;
-//                break;
-//
-//            case RIGHT:
-//                endX = getWidth() - 20;
-//                endY = h / 2;
-//                break;
-//        }
-//
-//        mMatrix.setTranslate(dx, dy);
-//        mMatrix.invert(mInverse);
-//        buildPaths(endX, endY);
-//        buildMesh(w, h);
-//        invalidate();
-//    }
-
 
 }

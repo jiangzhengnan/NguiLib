@@ -18,6 +18,7 @@ public class InhaleMesh extends Mesh {
         DOWN,
         LEFT,
         RIGHT,
+        UPTARGET
     }
 
     private Path mFirstPath = new Path();
@@ -61,8 +62,11 @@ public class InhaleMesh extends Mesh {
             case LEFT:
                 buildPathsLeft(endX, endY);
                 break;
+
+
         }
     }
+
 
     @Override
     public void buildMeshes(int index) {
@@ -72,6 +76,7 @@ public class InhaleMesh extends Mesh {
         }
 
         switch (mInhaleDir) {
+            case UPTARGET:
             case UP:
             case DOWN:
                 buildMeshByPathOnVertical(index);
@@ -103,12 +108,12 @@ public class InhaleMesh extends Mesh {
         mFirstPath.reset();
         mSecondPath.reset();
 
-        mFirstPath.moveTo(endX / 2 - w / 2, endY/2 - h/2);
+        mFirstPath.moveTo(endX / 2 - w / 2, endY / 2 - h / 2);
 
-        mSecondPath.moveTo(endX / 2 + w / 2, endY/2 - h/2);
+        mSecondPath.moveTo(endX / 2 + w / 2, endY / 2 - h / 2);
 
-        mFirstPath.lineTo(endX / 2 - w / 2, endY/2 + h/2);
-        mSecondPath.lineTo(endX / 2 + w / 2, endY/2 + h/2);
+        mFirstPath.lineTo(endX / 2 - w / 2, endY / 2 + h / 2);
+        mSecondPath.lineTo(endX / 2 + w / 2, endY / 2 + h / 2);
 
         mFirstPath.quadTo(endX / 4, endY, endX / 2, endY);
         mSecondPath.quadTo(endX - endX / 4, endY, endX / 2, endY);
@@ -121,16 +126,23 @@ public class InhaleMesh extends Mesh {
         float w = mBmpWidth;
         float h = mBmpHeight;
 
+        //bitmap宽高
+        LogUtils.INSTANCE.d("w h : " + w + " " + h);
+        //屏幕宽高
+        LogUtils.INSTANCE.d("endXw endY : " + endX + " " + endY);
+
         mFirstPath.reset();
         mSecondPath.reset();
-        mFirstPath.moveTo(0, h);
-        mSecondPath.moveTo(w, h);
 
-        mFirstPath.lineTo(0, 0);
-        mSecondPath.lineTo(w, 0);
+        mFirstPath.moveTo(endX / 2 - w / 2, endY / 2 + h / 2);
 
-        mFirstPath.quadTo(0, (endY - h) / 2, endX, endY);
-        mSecondPath.quadTo(w, (endY - h) / 2, endX, endY);
+        mSecondPath.moveTo(endX / 2 + w / 2, endY / 2 + h / 2);
+
+        mFirstPath.lineTo(endX / 2 - w / 2, endY / 2 - h / 2);
+        mSecondPath.lineTo(endX / 2 + w / 2, endY / 2 - h / 2);
+
+        mFirstPath.quadTo(endX / 2 - w / 2, 100, endX, 50);
+        mSecondPath.quadTo(endX / 2 + w / 2, 100, endX, 100);
     }
 
     private void buildPathsRight(float endX, float endY) {
@@ -182,7 +194,6 @@ public class InhaleMesh extends Mesh {
         float[] pos2 = {0.0f, 0.0f};
         float firstLen = mFirstPathMeasure.getLength();
         float secondLen = mSecondPathMeasure.getLength();
-
         float len1 = firstLen / HEIGHT;
         float len2 = secondLen / HEIGHT;
 
@@ -211,20 +222,24 @@ public class InhaleMesh extends Mesh {
 
         if (mInhaleDir == InhaleDir.DOWN) {
             for (int y = 0; y <= HEIGHT; ++y) {
+                //得到每一个点的位置
                 mFirstPathMeasure.getPosTan(y * FIRST_H + firstPointDist, pos1, null);
                 mSecondPathMeasure.getPosTan(y * SECOND_H + secondPointDist, pos2, null);
 
-                float w = pos2[0] - pos1[0];
+                float w = pos2[0] - pos1[0];//横轴最左边到最右边的距离
+                //左右两边的点的位置
                 float fx1 = pos1[0];
                 float fx2 = pos2[0];
                 float fy1 = pos1[1];
                 float fy2 = pos2[1];
+                //左右两边点 x 和 y轴方向的差值
                 float dy = fy2 - fy1;
                 float dx = fx2 - fx1;
 
                 for (int x = 0; x <= WIDTH; ++x) {
                     // y = x * dy / dx
                     float fx = x * w / WIDTH;
+                    //tanα = dy/dx = fy/fx
                     float fy = fx * dy / dx;
 
                     mVerts[index * 2 + 0] = fx + fx1;
