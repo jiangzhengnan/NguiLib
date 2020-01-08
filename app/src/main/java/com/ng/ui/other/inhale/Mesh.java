@@ -1,4 +1,4 @@
-package com.ng.ui.testxiru.other;
+package com.ng.ui.other.inhale;
 
 /**
  * 描述:

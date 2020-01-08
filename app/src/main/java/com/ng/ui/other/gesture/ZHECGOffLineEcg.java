@@ -1,4 +1,4 @@
-package com.ng.ui.testchumo;
+package com.ng.ui.other.gesture;
 
 public class ZHECGOffLineEcg implements java.io.Serializable {
 

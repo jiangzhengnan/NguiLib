@@ -1,4 +1,4 @@
-package com.ng.ui.testxiru.other;
+package com.ng.ui.other.inhale;
 
 /**
  * 描述:
@@ -58,6 +58,8 @@ public class InhaleAnimationActivity extends Activity {
 
     private void showTradeIntroduceAnimView(Bitmap bitmap) {
         mInhaleView = new InhaleView(this);
+
+
         mInhaleView.setIsDebug(true);
         mInhaleView.setmBitmap(bitmap);
         //target: 980  1982

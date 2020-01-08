@@ -1,4 +1,4 @@
-package com.ng.ui.testchumo;
+package com.ng.ui.other.gesture;
 
 import android.animation.TypeEvaluator;
 import android.graphics.Point;

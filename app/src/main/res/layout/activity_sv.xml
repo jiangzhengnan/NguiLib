@@ -12,7 +12,7 @@
         android:orientation="vertical"
          >
 
-        <com.ng.nguilib.SoundView
+        <com.ng.ui.other.soundwaveview.SoundView
             android:id="@+id/mysc"
             android:layout_width="match_parent"
             android:layout_height="180dp"

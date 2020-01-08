@@ -1,13 +1,20 @@
-package com.ng.ui.testxiru.other;
+package com.ng.ui.other.inhale;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
+
+import com.ng.nguilib.utils.LogUtils;
+
+import java.util.Arrays;
 
 /**
  * 描述:
@@ -24,6 +31,8 @@ public class InhaleView extends View {
 
     private boolean mIsDebug = false;
     private Paint mPaint = new Paint();
+    private Paint mBgPaint = new Paint();
+
     private float[] mInhalePt = new float[]{0, 0};
     private InhaleMesh mInhaleMesh = null;
 
@@ -77,19 +86,22 @@ public class InhaleView extends View {
         mPaint.setStrokeWidth(2);
         mPaint.setAntiAlias(true);
 
+        mBgPaint.setStyle(Paint.Style.FILL);
 
 
     }
 
-    public void setTargetPosition(float x, float y,float width,float height) {
+    public void setTargetPosition(float x, float y, float width, float height) {
         mTargetX = x;
         mTargetY = y;
 
 
-        buildPaths(x, y,width,height);
+        buildPaths(x, y, width, height);
         mInhaleMesh.buildMeshes(0);
         this.postInvalidate();
     }
+
+    private int mAnimIndex = 0;
 
     public boolean startAnimation(boolean reverse) {
         Animation anim = this.getAnimation();
@@ -98,6 +110,9 @@ public class InhaleView extends View {
         }
         PathAnimation animation = new PathAnimation(0, HEIGHT + 1, reverse,
                 index -> {
+                    mAnimIndex = index;
+
+
                     mInhaleMesh.buildMeshes(index);
                     invalidate();
                 });
@@ -110,11 +125,44 @@ public class InhaleView extends View {
         mInhaleMesh.buildMeshes(index);
     }
 
+
+    public static void setWindowAlpha(Context context, float alpha) {
+        Activity activity = getActivity(context);
+        if (activity != null) {
+            WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+            lp.alpha = alpha;
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            activity.getWindow().setAttributes(lp);
+        }
+    }
+
+    String padLeft(String s, int length) {
+        byte[] bs = new byte[length];
+        byte[] ss = s.getBytes();
+        Arrays.fill(bs, (byte) (48 & 0xff));
+        System.arraycopy(ss, 0, bs, length - ss.length, ss.length);
+        return new String(bs);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if (mBitmap == null) {
             return;
         }
+
+        /**
+         *    //(0.76f - 1f)   (0 - HEIGHT+1)
+         *                     float alpha = 0.76f + (1f - 0.76f) * (index / (HEIGHT + 1f));
+         *                     LogUtils.INSTANCE.d("alpha: " + alpha);
+         *                     setWindowAlpha(getContext(), alpha);
+         */
+
+        //(0.24f - 0f)   (0 - HEIGHT+1)
+        int colorAlpha = (int) (255f * 0.24f * (1f - mAnimIndex / (HEIGHT + 1f)));
+        LogUtils.INSTANCE.d("颜色: " + colorAlpha);
+
+        canvas.drawColor(Color.argb(colorAlpha, 0, 0, 0));
+
         canvas.drawBitmapMesh(mBitmap,
                 mInhaleMesh.getWidth(),
                 mInhaleMesh.getHeight(),
@@ -151,7 +199,18 @@ public class InhaleView extends View {
     private void buildPaths(float x, float y, float endX, float endY) {
         mInhalePt[0] = endX;
         mInhalePt[1] = endY;
-        mInhaleMesh.buildPaths(x,y,endX, endY);
+        mInhaleMesh.buildPaths(x, y, endX, endY);
+    }
+
+    public static Activity getActivity(Context context) {
+        // Gross way of unwrapping the Activity so we can get the FragmentManager
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        throw new IllegalStateException("The MediaRouteButton's Context is not an Activity.");
     }
 
 }

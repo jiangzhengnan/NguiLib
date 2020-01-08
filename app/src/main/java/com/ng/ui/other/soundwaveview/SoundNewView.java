@@ -1,4 +1,4 @@
-package com.ng.nguilib;
+package com.ng.ui.other.soundwaveview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
