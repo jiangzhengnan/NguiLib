@@ -51,7 +51,7 @@ class SvActivity : AppCompatActivity() {
         super.onStart()
         mysc.post {
           //   mysc.startBallAnim()
-            mysc.setVolume(0)
+            mysc.setVolume(80)
             mysc.startWaveAnim()
 
         }

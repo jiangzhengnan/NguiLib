@@ -48,8 +48,8 @@ public class SoundView extends View {
     //小ball半径
     private float mBallRadius = dp2px(1);
     //上颜色
-    private int mTopColor = Color.parseColor("#00BFFF");
-    private int mBottomColor = Color.parseColor("#2126D4");
+    private int mTopColor = Color.parseColor("#0A84FF");
+    private int mBottomColor = Color.parseColor("#1BE5FF");
     //两个峰值
     private int mPeakValueIndex1 = 1;
     private int mPeakValueIndex2 = 1;
@@ -74,7 +74,16 @@ public class SoundView extends View {
     //音量间隔最大值
     private final static int VOLUME_MAX = 10;
     //音量间隔阈值
-    private final static int VOLUE_THRESHOLD = 10;
+    private final static int VOLUE_THRESHOLD = 5;
+
+    public void setRealVolume(int volume){
+        if (volume < 0 || volume > 100) {
+            return;
+        }
+        mSourceVolume = volume;
+        mMaxVolume = volume;
+        postInvalidate();
+    }
 
     //添加切换的估值器
     public void setVolume(int volume) {
@@ -86,7 +95,7 @@ public class SoundView extends View {
 
         int disparity = (int) Math.abs(mSourceVolume - mMaxVolume);
         if (disparity > VOLUE_THRESHOLD) {
-            this.mMaxVolume = mMaxVolume < mSourceVolume ? mMaxVolume + 1 : mMaxVolume - 1;
+            this.mMaxVolume = mMaxVolume < mSourceVolume ? mMaxVolume + 5 : mMaxVolume - 5;
             if (mMaxVolume > 100) {
                 mMaxVolume = 100;
             } else if (mMaxVolume < VOLUME_INIT) {
@@ -94,6 +103,7 @@ public class SoundView extends View {
             }
             //音量越大间距越小
             mXSpaceMultiple = (100f - mMaxVolume) / 100f / 2;
+            postInvalidate();
         }
     }
 
@@ -197,7 +207,6 @@ public class SoundView extends View {
             mPaint.setAlpha(alpha);
 
 
-            //xoffset 改为中间高两边低
             int xOffset = (mAllOffsetX
                     + mEachOffsetX * (WAVE_LINE_NUMBER - i));
 
