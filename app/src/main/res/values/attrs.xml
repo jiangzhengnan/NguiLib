@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="recordView">
-        <attr name="hintText" format="string"/>
-        <attr name="playHintText" format="string"/>
-        <attr name="timeTextColor" format="reference"/>
-        <attr name="hintTextSize" format="dimension"/>
-        <attr name="middleLineHeight" format="dimension"/>
-        <attr name="progressSrc" format="reference"/>
-        <attr name="middleLineColor" format="reference"/>
-        <attr name="unit" format="string"/>
+        <attr name="hintText" format="string" />
+        <attr name="playHintText" format="string" />
+        <attr name="timeTextColor" format="reference" />
+        <attr name="hintTextSize" format="dimension" />
+        <attr name="middleLineHeight" format="dimension" />
+        <attr name="progressSrc" format="reference" />
+        <attr name="middleLineColor" format="reference" />
+        <attr name="unit" format="string" />
         <attr name="model">
-            <enum name="record_model" value="1"/>
-            <enum name="play_model" value="2"/>
+            <enum name="record_model" value="1" />
+            <enum name="play_model" value="2" />
         </attr>
     </declare-styleable>
 
@@ -19,5 +19,12 @@
 
         <attr name="bottle_color" format="color" />
         <attr name="water_color" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="UpChangeTextView">
+        <attr name="up_change_tv_text" format="string" />
+        <attr name="up_change_tv_textColor" format="color" />
+        <attr name="up_change_tv_textSize" format="dimension" />
     </declare-styleable>
 </resources>

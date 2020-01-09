@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="test"
-        android:id="@+id/test_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <com.ng.ui.textview.UpDownTextView
-        android:background="#10000000"
-        android:layout_centerInParent="true"
+        <Button
+            android:id="@+id/test_btn1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="数字变化" />
+
+        <Button
+            android:id="@+id/test_btn2"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="出现消失" />
+
+    </LinearLayout>
+
+    <com.ng.ui.textview.UpChangeTextView
         android:id="@+id/textView1"
         android:layout_width="100dp"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="#10000000"
+        app:up_change_tv_text="a"
+        app:up_change_tv_textColor="#123456"
+        app:up_change_tv_textSize="11sp"
+
+        />
 
 
 </RelativeLayout>
