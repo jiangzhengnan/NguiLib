@@ -1,4 +1,4 @@
-package com.ng.ui.textview;
+package com.ng.ui.other.textview;
 
 import android.os.Bundle;
 import android.view.View;

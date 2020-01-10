@@ -29,7 +29,9 @@
 
         </activity>
 
-        <activity android:name=".aty.CdActivity"></activity>
+        <activity android:name=".aty.CdActivity">
+
+        </activity>
 
         <activity android:name=".aty.SvActivity">
 
@@ -39,10 +41,9 @@
 
         </activity>
 
-        <activity android:name=".textview.TestTxtActivity">
+        <activity android:name=".other.textview.TestTxtActivity">
 
         </activity>
-
 
         <activity android:name=".aty.PtlActivity">
 
@@ -52,15 +53,10 @@
 
         </activity>
 
-        <activity android:name=".WebViewTestActivity">
-
-        </activity>
-
         <activity android:name=".aty.WvActivity" />
         <activity android:name=".aty.CtbActivity" />
         <activity android:name=".aty.EcgActivity" />
         <activity android:name=".aty.PlActivity" />
-
         <activity android:name=".aty.AiActivity" />
     </application>
 

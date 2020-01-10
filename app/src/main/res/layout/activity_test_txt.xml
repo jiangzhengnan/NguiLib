@@ -26,7 +26,7 @@
 
     </LinearLayout>
 
-    <com.ng.ui.textview.UpChangeTextView
+    <com.ng.ui.other.textview.UpChangeTextView
         android:id="@+id/textView1"
         android:layout_width="100dp"
         android:layout_height="50dp"

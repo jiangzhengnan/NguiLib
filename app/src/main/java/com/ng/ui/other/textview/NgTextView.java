@@ -1,4 +1,4 @@
-package com.ng.ui.textview;
+package com.ng.ui.other.textview;
 
 import android.content.Context;
 import android.graphics.Canvas;
