@@ -103,7 +103,6 @@ public class PrinterTextView extends AppCompatTextView {
      * 开始打字
      */
     public void startPrint(OnPrinterCallBack callBack) {
-        this.mCallBack = callBack;
         // 判空处理
         if (strIsEmpty(mPrintStr)) {
             if (!strIsEmpty(getText().toString())) {
