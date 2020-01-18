@@ -6,23 +6,16 @@
     <LinearLayout
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content">
-        <com.ng.ui.other.print.PrinterTextView
+        <com.ng.ui.other.print.PrintTextViewNew
             android:id="@+id/ptv_test1"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             />
 
-        <com.ng.ui.other.print.PrinterTextView
-            android:id="@+id/ptv_test2"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            />
     </LinearLayout>
 
     <Button

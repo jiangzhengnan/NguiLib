@@ -2,6 +2,10 @@ package com.ng.ui.other.print;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -10,9 +14,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 打字机tv
+ * 描述: 打字机view新的实现
+ * 添加了透明度动画
+ *
+ * @author Jzn
+ * @date 2020-01-12
  */
-public class PrinterTextView extends AppCompatTextView {
+public class PrintTextViewNew extends AppCompatTextView {
     /**
      * 默认打字字符
      */
@@ -43,15 +51,15 @@ public class PrinterTextView extends AppCompatTextView {
     private int printProgress = 0;
 
 
-    public PrinterTextView(Context context) {
+    public PrintTextViewNew(Context context) {
         super(context);
     }
 
-    public PrinterTextView(Context context, AttributeSet attrs) {
+    public PrintTextViewNew(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PrinterTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PrintTextViewNew(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -88,22 +96,20 @@ public class PrinterTextView extends AppCompatTextView {
         this.intervalTime = time;
         this.intervalChar = intervalChar;
         //这里就设置好高度
-        this.setText(mPrintStr);
-
+        setTextByIndex(-1);
     }
 
     public interface OnPrinterCallBack {
         void onFinish();
     }
 
-    private OnPrinterCallBack mCallBack;
+    private PrinterTextView.OnPrinterCallBack mCallBack;
 
 
     /**
      * 开始打字
      */
-    public void startPrint(OnPrinterCallBack callBack) {
-        this.mCallBack = callBack;
+    public void startPrint(PrinterTextView.OnPrinterCallBack callBack) {
         // 判空处理
         if (strIsEmpty(mPrintStr)) {
             if (!strIsEmpty(getText().toString())) {
@@ -121,7 +127,7 @@ public class PrinterTextView extends AppCompatTextView {
         stopPrint();
         printProgress = 0;
         mTimer = new Timer();
-        mTimer.schedule(new PrinterTimeTask(), intervalTime, intervalTime);
+        mTimer.schedule(new PrintTextViewNew.PrinterTimeTask(), intervalTime, intervalTime);
 
     }
 
@@ -151,14 +157,33 @@ public class PrinterTextView extends AppCompatTextView {
                 if (printProgress < mPrintStr.length()) {
                     printProgress++;
                     // (printProgress & 1) == 1 等价于printProgress%2!=0
-                    setText(mPrintStr.substring(0, printProgress) + ((printProgress & 1) == 1 ? intervalChar : ""));
+                    //setText(mPrintStr.substring(0, printProgress) + ((printProgress & 1) == 1 ? intervalChar : ""));
+                    setTextByIndex(printProgress);
+
                 } else {
                     // 如果完成打字,显示完整文字
-                    setText(mPrintStr);
+                    setTextByIndex(-1);
                     stopPrint();
                     mCallBack.onFinish();
                 }
             });
         }
+    }
+
+    //显示0-index的文字
+    private void setTextByIndex(int index) {
+        SpannableString spannableString = new SpannableString(mPrintStr);
+        int startIndex;
+        int endIndex = spannableString.length();
+        if (index == -1) {
+            startIndex = endIndex;
+        } else {
+            startIndex = index;
+        }
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#00000000")),
+                startIndex,
+                endIndex,
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        this.setText(spannableString);
     }
 }
