@@ -110,7 +110,7 @@ public class PrintTextViewNew extends AppCompatTextView {
      * 开始打字
      */
     public void startPrint(PrinterTextView.OnPrinterCallBack callBack) {
-        // 判空处理
+        // 判空处理 a
         if (strIsEmpty(mPrintStr)) {
             if (!strIsEmpty(getText().toString())) {
                 this.mPrintStr = getText().toString();
