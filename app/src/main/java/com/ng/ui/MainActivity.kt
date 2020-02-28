@@ -38,6 +38,14 @@ class MainActivity : AppCompatActivity() {
         addIntentBtn(AiActivity().javaClass,"ArrowInteractionView")
         //ptl
         addIntentBtn(PtlActivity().javaClass,"PointLoadingView")
+
+        //cd
+        addIntentBtn(CdActivity().javaClass,"CylinderView")
+
+        //sv
+        addIntentBtn(SvActivity().javaClass,"SoundView")
+
+
     }
 
     private fun addIntentBtn(target: Class<AppCompatActivity>, txt:String) {
