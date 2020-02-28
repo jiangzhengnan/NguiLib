@@ -94,7 +94,7 @@ public class PrinterTextView extends AppCompatTextView {
 
     public interface OnPrinterCallBack {
         void onFinish();
-        //
+        //aaaa
     }
 
     private OnPrinterCallBack mCallBack;

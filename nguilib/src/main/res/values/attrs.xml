@@ -14,13 +14,6 @@
         <attr name="selectedinsidebackground" format="reference" />
         <attr name="selectedexternalbackground" format="reference" />
     </declare-styleable>
-    <declare-styleable name="MotiveCircleView">
-        <attr name="MotiveCircleView_color" format="color"/>
-        <attr name="MotiveCircleView_progress" format="integer"/>
-        <attr name="MotiveCircleView_thick" format="dimension"/>
-        <attr name="MotiveCircleView_textSize" format="dimension"/>
-        <attr name="MotiveCircleView_textColor" format="color"/>
-    </declare-styleable>
 
     <declare-styleable name="WaveView">
         <attr name="WaveView_color" format="color"/>
