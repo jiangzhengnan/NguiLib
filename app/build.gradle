@@ -34,6 +34,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.1.0'
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation project(':nguilib')
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
     //noinspection GradleCompatible
     //api 'ng.ngui.ngbase:nguilib:0.0.10'
 }

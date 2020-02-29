@@ -2,8 +2,6 @@ package com.ng.ui.other.gesture;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -28,13 +26,6 @@ public class testjava extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(testjava.this, isChristmasTime() + " ", Toast.LENGTH_SHORT).show();
-                isChristmasTime();
-            }
-        });
     }
 
     /**

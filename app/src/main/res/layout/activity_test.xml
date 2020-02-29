@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:layout_alignParentRight="true"
-        android:id="@+id/test"
-        android:text="ceshi"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/test_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 
