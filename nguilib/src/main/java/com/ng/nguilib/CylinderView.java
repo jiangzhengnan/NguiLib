@@ -88,6 +88,9 @@ public class CylinderView extends View {
     public CylinderView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initPaint();
+
+
+
     }
 
     public CylinderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -307,7 +310,6 @@ public class CylinderView extends View {
     private void drawCylinder(Canvas canvas, Entry tempEntry, int thickness,boolean ifChangeThick) {
         mainPaint.setStyle(Paint.Style.FILL);
         //绘制各个弧度
-
         int perThickness =ifChangeThick? (int) ((tempEntry.percent / 360f) * thickness * (max * 0.5f)) : thickness;
         float drawTempStartAngle = 0f;
         RectF tempRectF;
