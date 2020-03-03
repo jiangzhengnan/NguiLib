@@ -14,6 +14,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".test.TestActivity">
+
+        </activity>
+
+
+        <activity android:name=".aty.TgActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
