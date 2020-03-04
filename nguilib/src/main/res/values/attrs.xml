@@ -15,6 +15,12 @@
         <attr name="selectedexternalbackground" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ToggleView">
+        <attr name="positiveImgId" format="reference" />
+        <attr name="reverseImgId" format="reference" />
+    </declare-styleable>
+
+
     <declare-styleable name="WaveView">
         <attr name="WaveView_color" format="color"/>
     </declare-styleable>

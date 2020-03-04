@@ -8,6 +8,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,7 +21,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -53,24 +54,29 @@ public class ToggleView extends View {
     private int mPositiveImgId = 0;
     private int mReverseImgId = 0;
 
+
     private int mPostiveColor = Color.WHITE;
     private int mReverseColor = Color.BLACK;
-
     private int mCircleColor = Color.BLACK;
+
     private float mCircleWidth = 15;
 
     private Paint mBitmapPaint;
 
     public ToggleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context,attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, @Nullable AttributeSet attrs) {
         mContext = context;
-        //todo 从资源文件获取
-        mPositiveImgId = R.drawable.ic_add;
-        mReverseImgId = R.drawable.ic_remove;
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ToggleView);
+
+        mPositiveImgId = ta.getResourceId(R.styleable.ToggleView_positiveImgId, 0);
+        mReverseImgId = ta.getResourceId(R.styleable.ToggleView_reverseImgId, 0);
+        ta.recycle();
+
+
 
         //init paint
         mBitmapPaint = new Paint();
@@ -81,7 +87,7 @@ public class ToggleView extends View {
 
     public ToggleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context,attrs);
 
     }
 
@@ -110,7 +116,7 @@ public class ToggleView extends View {
         LogUtils.INSTANCE.d("startAnim : " + isPositive);
         mAnimator = ValueAnimator.ofFloat(0, 1f);
         mAnimator.setDuration(DURATION);
-        mAnimator.setInterpolator(new LinearInterpolator());
+        mAnimator.setInterpolator(new DecelerateInterpolator());
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -130,9 +136,10 @@ public class ToggleView extends View {
         });
         mAnimator.start();
 
-        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.8f, 1f);
-        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.8f, 1f);
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.9f, 1f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.9f, 1f);
         ObjectAnimator animTor = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY);
+        animTor.setInterpolator(new DecelerateInterpolator());
         animTor.setDuration(DURATION);
         animTor.start();
     }
@@ -158,10 +165,20 @@ public class ToggleView extends View {
         Canvas canvasInside = new Canvas(bmInside);
         LogUtils.INSTANCE.d("onDraw: " + isPositive);
         if (isPositive) {
+            mBitmapPaint.setColor(Color.WHITE);
+            mBitmapPaint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(mEdge / 2, mEdge / 2, mEdge / 2 - mCircleWidth / 2, mBitmapPaint);
+
+
             drawBitmap(canvasInside, false, mPostiveColor, mPositiveImgId);
             drawBitmap(canvasInside, true, mReverseColor, mReverseImgId);
 
         } else {
+            mBitmapPaint.setColor(Color.BLACK);
+            mBitmapPaint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(mEdge / 2, mEdge / 2, mEdge / 2 - mCircleWidth / 2, mBitmapPaint);
+
+
             drawBitmap(canvas, false, mReverseColor, mReverseImgId);
             drawBitmap(canvas, true, mPostiveColor, mPositiveImgId);
 
@@ -181,6 +198,7 @@ public class ToggleView extends View {
 
     }
 
+    // 0 - 1
     private void drawBitmap(Canvas canvas, boolean isRun, int color, int imgId) {
         mBitmapPaint.setColor(color);
         mBitmapPaint.setStyle(Paint.Style.FILL);
@@ -189,7 +207,7 @@ public class ToggleView extends View {
         if (isRun) {
             centerX = mEdge * thickness - mEdge / 2;
         } else {
-            centerX = mEdge / 2;
+            centerX = mEdge / 2 + mEdge * thickness * 2 / 3;
         }
 
         canvas.drawCircle(centerX, mEdge / 2, mEdge / 2, mBitmapPaint);
