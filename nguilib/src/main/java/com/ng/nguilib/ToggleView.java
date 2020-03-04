@@ -37,9 +37,7 @@ import com.ng.nguilib.utils.LogUtils;
  */
 public class ToggleView extends View {
 
-    public enum TYPE {
-        APPER, DISAPPER, NORMAL
-    }
+    private long SCALE_DURATION = 300;
 
     private long DURATION = 500;
 
@@ -65,7 +63,7 @@ public class ToggleView extends View {
 
     public ToggleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
     }
 
     private void init(Context context, @Nullable AttributeSet attrs) {
@@ -77,7 +75,6 @@ public class ToggleView extends View {
         ta.recycle();
 
 
-
         //init paint
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);
@@ -87,7 +84,7 @@ public class ToggleView extends View {
 
     public ToggleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context,attrs);
+        init(context, attrs);
 
     }
 
@@ -95,7 +92,16 @@ public class ToggleView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startAnim();
+                LogUtils.INSTANCE.d("DOWN");
+
+                startLitterAnim();
+
+                return true;
+
+            case MotionEvent.ACTION_UP:
+                LogUtils.INSTANCE.d("UP");
+                startChangeAnim();
+                startBigAnim();
                 break;
         }
         return super.onTouchEvent(event);
@@ -108,7 +114,7 @@ public class ToggleView extends View {
     private AnimatorSet mAnimatorSet;
 
     //start anim
-    private void startAnim() {
+    private void startChangeAnim() {
         if (isAnimRunning) {
             return;
         }
@@ -136,11 +142,24 @@ public class ToggleView extends View {
         });
         mAnimator.start();
 
-        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.9f, 1f);
-        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.9f, 1f);
+
+    }
+
+    private void startLitterAnim() {
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.9f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.9f);
         ObjectAnimator animTor = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY);
         animTor.setInterpolator(new DecelerateInterpolator());
-        animTor.setDuration(DURATION);
+        animTor.setDuration(SCALE_DURATION);
+        animTor.start();
+    }
+
+    private void startBigAnim() {
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.9f, 1f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.9f, 1f);
+        ObjectAnimator animTor = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY);
+        animTor.setInterpolator(new DecelerateInterpolator());
+        animTor.setDuration(SCALE_DURATION);
         animTor.start();
     }
 
