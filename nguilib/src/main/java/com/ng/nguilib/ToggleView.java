@@ -2,6 +2,9 @@ package com.ng.nguilib;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +15,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -37,6 +39,8 @@ public class ToggleView extends View {
     public enum TYPE {
         APPER, DISAPPER, NORMAL
     }
+
+    private long DURATION = 500;
 
     private boolean isPositive = true;
 
@@ -93,7 +97,9 @@ public class ToggleView extends View {
 
     private ValueAnimator mAnimator;
     private boolean isAnimRunning = false;
-    private float thickness;
+    private float thickness = 0f;
+
+    private AnimatorSet mAnimatorSet;
 
     //start anim
     private void startAnim() {
@@ -101,10 +107,9 @@ public class ToggleView extends View {
             return;
         }
         isAnimRunning = true;
-        isPositive = !isPositive;
         LogUtils.INSTANCE.d("startAnim : " + isPositive);
         mAnimator = ValueAnimator.ofFloat(0, 1f);
-        mAnimator.setDuration(2000);
+        mAnimator.setDuration(DURATION);
         mAnimator.setInterpolator(new LinearInterpolator());
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -119,10 +124,17 @@ public class ToggleView extends View {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 isAnimRunning = false;
-
+                isPositive = !isPositive;
+                thickness = 0f;
             }
         });
         mAnimator.start();
+
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.8f, 1f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.8f, 1f);
+        ObjectAnimator animTor = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY);
+        animTor.setDuration(DURATION);
+        animTor.start();
     }
 
     @Override
@@ -133,39 +145,39 @@ public class ToggleView extends View {
         mEdge = Math.min(mHeight, mWidth);
     }
 
-    private RectF allRectF = new RectF();
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        setLayerType(LAYER_TYPE_HARDWARE, null);
 
-        //int sc = canvas.saveLayer(allRectF, mBitmapPaint, Canvas.ALL_SAVE_FLAG);
+        //  int sc = canvas.saveLayer(allRectF, mBitmapPaint, Canvas.ALL_SAVE_FLAG);
 
         Bitmap bmInside = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvasInside = new Canvas(bmInside);
+        LogUtils.INSTANCE.d("onDraw: " + isPositive);
         if (isPositive) {
-            drawBitmap(canvasInside, false, mReverseColor, mReverseImgId);
-            drawBitmap(canvasInside, true, mPostiveColor, mPositiveImgId);
+            drawBitmap(canvasInside, false, mPostiveColor, mPositiveImgId);
+            drawBitmap(canvasInside, true, mReverseColor, mReverseImgId);
+
         } else {
-            drawBitmap(canvas, false, mPostiveColor, mPositiveImgId);
-            drawBitmap(canvas, true, mReverseColor, mReverseImgId);
+            drawBitmap(canvas, false, mReverseColor, mReverseImgId);
+            drawBitmap(canvas, true, mPostiveColor, mPositiveImgId);
+
         }
 
 
         Bitmap bmOutside = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvasOutside = new Canvas(bmOutside);
-        drawCircle(canvasOutside);
+        drawMask(canvasOutside);
 
         //SRC
         canvas.drawBitmap(bmInside, 0, 0, mBitmapPaint);
-
-        mBitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        mBitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
         //DST
         canvas.drawBitmap(bmOutside, 0, 0, mBitmapPaint);
         mBitmapPaint.setXfermode(null);
-
-        //canvas.restoreToCount(sc);
 
     }
 
@@ -180,7 +192,7 @@ public class ToggleView extends View {
             centerX = mEdge / 2;
         }
 
-        canvas.drawCircle(centerX, mEdge / 2, mEdge / 2 - mCircleWidth, mBitmapPaint);
+        canvas.drawCircle(centerX, mEdge / 2, mEdge / 2, mBitmapPaint);
 
         Rect mRect = new Rect((int) (centerX - mEdge / 2),
                 0,
@@ -188,17 +200,19 @@ public class ToggleView extends View {
                 (int) mEdge);
         Bitmap bitmap = getBitmapFromVectorDrawable(mContext, imgId);
         canvas.drawBitmap(bitmap, null, mRect, mBitmapPaint);
-    }
 
-    private void drawCircle(Canvas canvas) {
-         mBitmapPaint.setStrokeWidth(mCircleWidth);//todo set
-
-        mBitmapPaint.setColor(Color.WHITE);
-        canvas.drawCircle(mEdge / 2, mEdge / 2, mEdge / 2 - mCircleWidth / 2, mBitmapPaint);
         mBitmapPaint.setColor(mCircleColor);
         mBitmapPaint.setStyle(Paint.Style.STROKE);
-
+        mBitmapPaint.setStrokeWidth(mCircleWidth);
         canvas.drawCircle(mEdge / 2, mEdge / 2, mEdge / 2 - mCircleWidth / 2, mBitmapPaint);
+
+    }
+
+    private void drawMask(Canvas canvas) {
+        mBitmapPaint.setColor(Color.RED);
+        mBitmapPaint.setStyle(Paint.Style.FILL);
+        mBitmapPaint.setStrokeWidth(0);
+        canvas.drawCircle(mEdge / 2, mEdge / 2, mEdge / 2, mBitmapPaint);
     }
 
     public Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {

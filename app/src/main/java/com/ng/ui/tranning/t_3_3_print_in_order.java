@@ -84,7 +84,6 @@ public class t_3_3_print_in_order {
 
     static class Foo {
 
-
         private AtomicInteger firstJobDone = new AtomicInteger(0);
         private AtomicInteger secondJobDone = new AtomicInteger(0);
 
