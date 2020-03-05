@@ -62,6 +62,7 @@ public class t_3_3_print_in_order {
             e.printStackTrace();
         }
     }
+
     private static synchronized void testArray(int[] array, Foo foo) throws InterruptedException {
 
         for (int i = 0; i < array.length; i++) {
@@ -87,7 +88,8 @@ public class t_3_3_print_in_order {
         private AtomicInteger firstJobDone = new AtomicInteger(0);
         private AtomicInteger secondJobDone = new AtomicInteger(0);
 
-        public Foo() {}
+        public Foo() {
+        }
 
         public void first(Runnable printFirst) throws InterruptedException {
             // printFirst.run() outputs "first".
@@ -114,5 +116,9 @@ public class t_3_3_print_in_order {
             printThird.run();
         }
 
+
     }
+
+
+
 }
