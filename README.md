@@ -41,7 +41,11 @@ Inspiration : <a href="https://dribbble.com/shots/6201452-Arrow-micro-interactio
 6.CylinderView. A 3D cylinder animation View<br />
 Inspiration : <a href="https://dribbble.com/shots/7077455-Spending-analytics">https://dribbble.com/shots/7077455-Spending-analytics</a><br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/cd_show.gif" /> 
+7.ToggleView. A simple vector switching animation<br />
+Inspiration : <a href="https://dribbble.com/shots/9834681--Toggle">https://dribbble.com/shots/9834681--Toggle</a><br />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/tg_show.gif" /> 
  
+
 ## License
 
     Copyright 2019, Jiang Zhengnan
