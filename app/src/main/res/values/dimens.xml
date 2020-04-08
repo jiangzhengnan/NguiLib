@@ -2,4 +2,13 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="WheelItemTextSize">14sp</dimen>
+
+    <dimen name="WheelItemMaxTextSize">25sp</dimen>
+
+    <dimen name="WheelItemSpace">18dp</dimen>
+    <dimen name="WheelIndicatorSize">2dp</dimen>
+    <dimen name="WheelMargins">0dp</dimen>
+
 </resources>

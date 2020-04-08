@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_dialog_hight_light_range_picker_bg"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Apple"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last:"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" $198.39 +2.17%"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#14FFFFFF" />
+
+    <com.ng.ui.other.pickerview.WheelView.WheelPicker
+        android:id="@+id/option_picker"
+        android:layout_width="247dp"
+        android:layout_height="213dp"
+        app:wheel_atmospheric="true"
+        app:wheel_cyclic="true"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="#00B9FF"
+        app:wheel_indicator_size="1dp"
+        app:wheel_item_text_color="#ffffff"
+        app:wheel_item_text_max_size="24dp"
+        app:wheel_item_text_size="5dp"
+        app:wheel_selected_item_text_color="#00B9FF"
+        app:wheel_visible_item_count="7" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#14FFFFFF" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+        android:text="confirm" />
+
+
+</LinearLayout>
+

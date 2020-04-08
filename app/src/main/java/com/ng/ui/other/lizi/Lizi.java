@@ -1,4 +1,4 @@
-package com.ng.ui.test;
+package com.ng.ui.other.lizi;
 
 import android.graphics.Color;
 
