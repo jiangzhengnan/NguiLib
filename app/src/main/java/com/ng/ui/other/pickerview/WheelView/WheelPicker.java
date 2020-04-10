@@ -243,7 +243,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
     /**
      * 点击与触摸的切换阀值
      */
-    private int mTouchSlop = 8;
+    private int mTouchSlop = 1;
 
     /**
      * 滚轮选择器的每一个数据项文本是否拥有相同的宽度
@@ -808,6 +808,13 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
         return (int) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
     }
 
+    public void stopScroll() {
+        if (mScroller != null && !mScroller.isFinished()) {
+            mScroller.abortAnimation();
+            isForceFinishScroll = true;
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -827,10 +834,10 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
                 mDownPointY = mLastPointY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (Math.abs(mDownPointY - event.getY()) < mTouchSlop) {
-                    isClick = true;
-                    break;
-                }
+//                if (Math.abs(mDownPointY - event.getY()) < mTouchSlop) {
+//                    isClick = true;
+//                    break;
+//                }
                 isClick = false;
                 mTracker.addMovement(event);
                 if (null != mOnWheelChangeListener)

@@ -60,6 +60,8 @@
         android:layout_height="213dp"
         app:wheel_atmospheric="true"
         app:wheel_cyclic="true"
+
+
         app:wheel_indicator="true"
         app:wheel_indicator_color="#00B9FF"
         app:wheel_indicator_size="1dp"

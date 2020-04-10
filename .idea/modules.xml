@@ -8,9 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/nguilib/NguiLib-nguilib.iml" filepath="$PROJECT_DIR$/nguilib/NguiLib-nguilib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nguilib/nguilib.iml" filepath="$PROJECT_DIR$/nguilib/nguilib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/private-NguiLib.iml" filepath="$PROJECT_DIR$/private-NguiLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/private-NguiLib-app.iml" filepath="$PROJECT_DIR$/app/private-NguiLib-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nguilib/private-NguiLib-nguilib.iml" filepath="$PROJECT_DIR$/nguilib/private-NguiLib-nguilib.iml" />
     </modules>
   </component>
 </project>
