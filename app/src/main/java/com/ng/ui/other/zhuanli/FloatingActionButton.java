@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.ng.nguilib.utils.LogUtils;
 import com.ng.ui.R;
 
 public class FloatingActionButton extends View {
@@ -63,6 +64,11 @@ public class FloatingActionButton extends View {
 
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
     protected void applyStyle(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
 
@@ -103,6 +109,8 @@ public class FloatingActionButton extends View {
 
         if (mIconSize <= 0)
             mIconSize = ThemeUtil.dpToPx(context, 24);
+
+        LogUtils.INSTANCE.d("mIconSize:" + mIconSize + "  ");
 
         if (mAnimDuration < 0)
             mAnimDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
@@ -177,7 +185,7 @@ public class FloatingActionButton extends View {
 
             mIcon = icon;
             float half = mIconSize / 2f;
-            mIcon.setBounds(0, 0, (int) half, (int) half);
+            mIcon.setBounds(0, 0, mIconSize, mIconSize);
             mIcon.setCallback(this);
             invalidate();
         }
@@ -233,9 +241,8 @@ public class FloatingActionButton extends View {
      * @see Gravity
      */
     public void updateLocation(int x, int y, int gravity) {
-        if (getParent() != null)
-        {}
-        else
+        if (getParent() != null) {
+        } else
             Log.v(FloatingActionButton.class.getSimpleName(), "updateLocation() is called without parent");
     }
 
@@ -264,7 +271,7 @@ public class FloatingActionButton extends View {
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        return super.verifyDrawable(who) ||  mIcon == who || mPrevIcon == who;
+        return super.verifyDrawable(who) || mIcon == who || mPrevIcon == who;
     }
 
     @Override
@@ -285,7 +292,6 @@ public class FloatingActionButton extends View {
         if (mIcon != null)
             mIcon.draw(canvas);
     }
-
 
 
     @Override
@@ -312,6 +318,7 @@ public class FloatingActionButton extends View {
         int state;
 
         /**
+         *
          */
         SavedState(Parcelable superState) {
             super(superState);
@@ -368,13 +375,13 @@ public class FloatingActionButton extends View {
             mPrevIcon = mIcon;
             mIcon = icon;
             float half = mIconSize / 2f;
-            mIcon.setBounds(0, 0, (int) half, (int) half);
+            mIcon.setBounds(0, 0, mIconSize, mIconSize);
             mIcon.setCallback(FloatingActionButton.this);
 
             if (getHandler() != null) {
                 resetAnimation();
                 mRunning = true;
-                getHandler().postAtTime(this, SystemClock.uptimeMillis() + 1000/60);
+                getHandler().postAtTime(this, SystemClock.uptimeMillis() + 1000 / 60);
             } else {
                 mPrevIcon.setCallback(null);
                 unscheduleDrawable(mPrevIcon);
@@ -410,7 +417,7 @@ public class FloatingActionButton extends View {
 
             if (mRunning) {
                 if (getHandler() != null)
-                    getHandler().postAtTime(this, SystemClock.uptimeMillis() + 1000/60);
+                    getHandler().postAtTime(this, SystemClock.uptimeMillis() + 1000 / 60);
                 else
                     stopAnimation();
             }
