@@ -8,7 +8,37 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
+    <declare-styleable name="LineMorphingDrawable">
+        <attr name="lmd_state" format="reference" />
+        <attr name="lmd_curState" format="integer" />
+        <attr name="lmd_width" format="reference|dimension" />
+        <attr name="lmd_height" format="reference|dimension" />
+        <attr name="lmd_padding" format="reference|dimension" />
+        <attr name="lmd_paddingLeft" format="reference|dimension" />
+        <attr name="lmd_paddingTop" format="reference|dimension" />
+        <attr name="lmd_paddingRight" format="reference|dimension" />
+        <attr name="lmd_paddingBottom" format="reference|dimension" />
+        <attr name="lmd_animDuration" format="reference|integer" />
+        <attr name="lmd_interpolator" format="reference" />
+        <attr name="lmd_strokeSize" format="reference|dimension" />
+        <attr name="lmd_strokeColor" format="reference|color" />
+        <attr name="lmd_strokeCap" format="integer">
+            <enum name="butt" value="0x00000000" />
+            <enum name="round" value="0x00000001" />
+            <enum name="square" value="0x00000002" />
+        </attr>
+        <attr name="lmd_strokeJoin" format="integer">
+            <enum name="miter" value="0x00000000" />
+            <enum name="round" value="0x00000001" />
+            <enum name="bevel" value="0x00000002" />
+        </attr>
+        <attr name="lmd_clockwise" format="boolean" />
+        <attr name="lmd_layoutDirection" format="integer">
+            <enum name="ltr" value="0x00000000" />
+            <enum name="rtl" value="0x00000001" />
+            <enum name="locale" value="0x00000003" />
+        </attr>
+    </declare-styleable>
 
 
     <style name="CommonDialogStyle">
@@ -68,5 +98,28 @@
         <attr name="wheel_font_path" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="FloatingActionButton">
+        <attr name="fab_backgroundColor" format="reference|color" />
+        <attr name="fab_backgroundAnimDuration" format="reference|integer" />
+        <attr name="fab_radius" format="reference|dimension" />
+        <attr name="fab_elevation" format="reference|dimension" />
+        <attr name="fab_iconSrc" format="reference" />
+        <attr name="fab_iconLineMorphing" format="reference" />
+        <attr name="fab_iconSize" format="reference|dimension" />
+        <attr name="fab_interpolator" format="reference" />
+        <attr name="fab_animDuration" format="reference|integer" />
+    </declare-styleable>
 
+    <style name="LightFloatingActionButtonIcon">
+        <item name="lmd_state">@xml/fab_icon_states</item>
+        <item name="lmd_curState">0</item>
+        <item name="lmd_padding">2dp</item>
+        <item name="lmd_animDuration">400</item>
+        <item name="lmd_interpolator">@android:anim/accelerate_decelerate_interpolator</item>
+        <item name="lmd_strokeSize">3dp</item>
+        <item name="lmd_strokeColor">#FFFFFFFF</item>
+        <item name="lmd_strokeCap">butt</item>
+        <item name="lmd_strokeJoin">miter</item>
+        <item name="lmd_clockwise">true</item>
+    </style>
 </resources>

@@ -15,6 +15,10 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".main.VpMainActivity">
+
+        </activity>
+
+        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
