@@ -46,6 +46,7 @@ public class InhaleAnimationActivity extends Activity {
             }
         });
 
+
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_test);
 

@@ -14,26 +14,40 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".main.VpMainActivity">
+        <activity android:name=".main.VpMainActivity"></activity>
 
-        </activity>
+        <activity android:name=".test.TestActivity"></activity>
 
-        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity">
+        <activity android:name=".MainActivity"></activity>
 
-        </activity>
-
-        <activity android:name=".test.TestActivity">
-
-        </activity>
-
-
+        <!--custom view-->
+        <activity android:name=".aty.CdActivity" />
+        <activity android:name=".aty.SvActivity" />
+        <activity android:name=".aty.PtlActivity" />
+        <activity android:name=".aty.WvActivity" />
+        <activity android:name=".aty.CtbActivity" />
+        <activity android:name=".aty.EcgActivity" />
+        <activity android:name=".aty.PlActivity" />
+        <activity android:name=".aty.AiActivity" />
         <activity
             android:name=".aty.TgActivity"
-            android:hardwareAccelerated="false">
+            android:hardwareAccelerated="false" />
 
-        </activity>
 
-        <activity android:name=".MainActivity">
+        <!--training-->
+        <activity android:name=".other.gesture.testjava" />
+
+
+        <!--test-->
+        <activity android:name=".other.inhale.InhaleAnimationActivity" />
+        <activity android:name=".other.textview.TestTxtActivity" />
+        <activity android:name=".other.print.TestPrintTextViewActivity" />
+        <activity android:name=".other.gesture.TestGuochangAty" />
+        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity" />
+
+
+        <!--study-->
+        <activity android:name=".study.inhale.InhaleStudyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,43 +55,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".other.gesture.TestGuochangAty">
 
-        </activity>
-
-        <activity android:name=".other.gesture.testjava">
-
-        </activity>
-
-        <activity android:name=".aty.CdActivity">
-
-        </activity>
-
-        <activity android:name=".aty.SvActivity">
-
-        </activity>
-
-        <activity android:name=".other.inhale.InhaleAnimationActivity">
-
-        </activity>
-
-        <activity android:name=".other.textview.TestTxtActivity">
-
-        </activity>
-
-        <activity android:name=".aty.PtlActivity">
-
-        </activity>
-
-        <activity android:name=".other.print.TestPrintTextViewActivity">
-
-        </activity>
-
-        <activity android:name=".aty.WvActivity" />
-        <activity android:name=".aty.CtbActivity" />
-        <activity android:name=".aty.EcgActivity" />
-        <activity android:name=".aty.PlActivity" />
-        <activity android:name=".aty.AiActivity" />
     </application>
 
 </manifest>
