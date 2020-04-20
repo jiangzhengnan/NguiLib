@@ -200,10 +200,13 @@ public class CylinderView extends View {
 
     //初始化 画笔
     private void initPaint() {
-        mainPaint =  new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
+         mainPaint =  new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
 
         mainPaint.setStyle(Paint.Style.FILL);
         mainPaint.setAntiAlias(true);
+
+        setLayerType(LAYER_TYPE_HARDWARE, mainPaint);
+
     }
 
     public void setData(ArrayList<Entry> data) {

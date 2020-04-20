@@ -19,11 +19,7 @@
         </activity>
 
         <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".test.TestActivity">
@@ -38,6 +34,11 @@
         </activity>
 
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".other.gesture.TestGuochangAty">
