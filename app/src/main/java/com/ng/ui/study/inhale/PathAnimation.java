@@ -1,4 +1,4 @@
-package com.ng.ui.other.inhale;
+package com.ng.ui.study.inhale;
 
 /**
  * 描述:
@@ -6,9 +6,11 @@ package com.ng.ui.other.inhale;
  * @author Jzn
  * @date 2020-01-03
  */
+
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
+
 public class PathAnimation extends Animation {
     public interface IAnimationUpdateListener {
         void onAnimUpdate(int index);
@@ -16,13 +18,11 @@ public class PathAnimation extends Animation {
 
     private int mFromIndex;
     private int mEndIndex;
-    private boolean mReverse;
     private IAnimationUpdateListener mListener;
 
-    public PathAnimation(int fromIndex, int endIndex, boolean reverse, IAnimationUpdateListener listener) {
+    public PathAnimation(int fromIndex, int endIndex, IAnimationUpdateListener listener) {
         mFromIndex = fromIndex;
         mEndIndex = endIndex;
-        mReverse = reverse;
         mListener = listener;
     }
 
@@ -38,10 +38,6 @@ public class PathAnimation extends Animation {
         if (null != interpolator) {
             float value = interpolator.getInterpolation(interpolatedTime);
             interpolatedTime = value;
-        }
-
-        if (mReverse) {
-            interpolatedTime = 1.0f - interpolatedTime;
         }
 
         curIndex = (int) (mFromIndex + (mEndIndex - mFromIndex) * interpolatedTime);

@@ -43,7 +43,7 @@ public class TestGuochangAty extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_testsajdasjdals);
+        setContentView(R.layout.activity_test_guochang);
 
 
         btn_test = findViewById(R.id.btn_test);

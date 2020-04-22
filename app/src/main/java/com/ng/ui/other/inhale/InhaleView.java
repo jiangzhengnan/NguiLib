@@ -42,7 +42,6 @@ public class InhaleView extends View {
     public InhaleView(Context context) {
         super(context);
         setFocusable(true);
-
     }
 
     public void setmBitmap(Bitmap bitmap) {
@@ -168,6 +167,7 @@ public class InhaleView extends View {
                 mInhaleMesh.getHeight(),
                 mInhaleMesh.getVertices(),
                 0, null, 0, mPaint);
+
 
         // ===========================================
         // Draw the target point.
