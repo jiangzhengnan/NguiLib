@@ -27,14 +27,12 @@ public class MyInhaleView extends View {
     private float mBmpW;
     private float mBmpH;
 
-
     //3行3列
     private static final int WIDTH = 3;
     private static final int HEIGHT = 3;
     private static final long DURATION = 3 * 1000;
 
     //矩阵数组
-    private float[] mInitVerts;
     private float[] mVerts;
 
     //绘制画笔
@@ -58,7 +56,7 @@ public class MyInhaleView extends View {
 
     private void initPaint() {
         mPaint.setColor(Color.RED);
-        mPaint.setStrokeWidth(3);
+        mPaint.setStrokeWidth(2);
         mPaint.setAntiAlias(true);
     }
 
@@ -139,7 +137,6 @@ public class MyInhaleView extends View {
                 index += 1;
             }
         }
-        mInitVerts = mVerts;
     }
 
     private void setXY(float[] array, int index, float x, float y) {
@@ -167,7 +164,15 @@ public class MyInhaleView extends View {
         return true;
     }
 
-    //动态计算绘制路径
+
+    /**
+     * 动态计算绘制路径
+     * 1.计算两条pathmeasure
+     * 2.根据动画index 计算左右两边路径各自的第一个点和最后一个点坐标
+     * 3.分别计算网格里的每个点位置
+     *
+     * @param timeIndex
+     */
     private void buildMeshes(int timeIndex) {
         mFirstPathMeasure.setPath(mFirstPath, false);
         mSecondPathMeasure.setPath(mSecondPath, false);
@@ -180,12 +185,13 @@ public class MyInhaleView extends View {
         float len1 = firstLen / HEIGHT;
         float len2 = secondLen / HEIGHT;
 
-        float firstPointDist = timeIndex * len1;
-        float secondPointDist = timeIndex * len2;
-        float height = mBmpH;
+        float firstPointDist = timeIndex * len1;    //左边第一个点长度
+        float secondPointDist = timeIndex * len2;   //右边第一个点长度
+        float height = mBmpH;   //图片高度
 
         mFirstPathMeasure.getPosTan(firstPointDist, pos1, null);
-        mFirstPathMeasure.getPosTan(firstPointDist + height, pos2, null);
+        mFirstPathMeasure.getPosTan(firstPointDist + height, pos2, null);   //得到第一个点坐标和最后一个点坐标
+
         float x1 = pos1[0];
         float x2 = pos2[0];
         float y1 = pos1[1];
