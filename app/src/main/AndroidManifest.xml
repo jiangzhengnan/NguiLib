@@ -29,11 +29,7 @@
         <activity android:name=".aty.EcgActivity" />
         <activity android:name=".aty.PlActivity" />
         <activity android:name=".aty.AiActivity" />
-        <activity
-            android:name=".aty.TgActivity"
-            android:hardwareAccelerated="false" />
-
-
+        <activity android:name=".aty.TgActivity" />
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
 
@@ -48,7 +44,8 @@
 
         <!--study-->
         <activity android:name=".study.inhale.InhaleStudyActivity" />
-        <activity android:name=".study.clip.ClipStudyActivity">
+        <activity android:name=".study.clip.ClipStudyActivity" />
+        <activity android:name=".study.anim.MyAnimStudyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -27,9 +27,9 @@
         	<item>1</item>
         	<item>0.527</item>
         </points>
-        
-        <links>
-            <item>0</item>        	
+
+        <links>    <!-- Each pair of values define the index of 2 line segment that are linked !-->
+            <item>0</item>
         	<item>1</item>
         </links>        
     </state>

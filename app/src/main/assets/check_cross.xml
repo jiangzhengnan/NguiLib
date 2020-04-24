@@ -1,0 +1,23 @@
+<!-- 支持line，bezier? -->
+<shape_list>
+    <shape>
+        <point>0.5,0</point>
+        <point>0.5,1</point>
+
+        <point>0</point>
+
+        <point>0,0.5</point>
+        <point>1,0.5</point>
+    </shape>
+
+    <shape>
+        <point>0.633,161</point>
+        <point>0,0.793</point>
+
+        <point>0</point>
+
+        <point>0.633,0.161</point>
+        <point>1,0.527</point>
+    </shape>
+
+</shape_list>
