@@ -28,8 +28,8 @@ public class MyInhaleView extends View {
     private float mBmpH;
 
     //3行3列
-    private static final int WIDTH = 3;
-    private static final int HEIGHT = 3;
+    private static final int WIDTH = 10;
+    private static final int HEIGHT = 10;
     private static final long DURATION = 3 * 1000;
 
     //矩阵数组
@@ -266,7 +266,7 @@ public class MyInhaleView extends View {
                 postInvalidate();
                 break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
 }

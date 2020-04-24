@@ -47,14 +47,14 @@
 
 
         <!--study-->
-        <activity android:name=".study.inhale.InhaleStudyActivity">
+        <activity android:name=".study.inhale.InhaleStudyActivity" />
+        <activity android:name=".study.clip.ClipStudyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
     </application>
 
