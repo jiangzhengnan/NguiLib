@@ -3,8 +3,9 @@ package com.ng.ui.study.anim;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.ng.nguilib.utils.LogUtils;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -22,8 +23,6 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * 描述:xml|json动画文件解析器
  * xml使用sax解析
- * <p>
- * https://blog.csdn.net/bzlj2912009596/article/details/80262191
  *
  * @author Jzn
  * @date 2020-04-24
@@ -48,18 +47,35 @@ public class PieResolver {
 
     public List<PieAnimShape> readShapesFromAssert(Context context, String fileName) {
         String content = readAssertResource(context, fileName);
-        LogUtils.INSTANCE.d("assert文件 " + fileName + " 内容:" + content);
         if (fileName.contains("xml")) {
             return readShapesFromXml(content);
         } else if (fileName.contains("json")) {
-            return readShapesFromJson(context, content);
+            return readShapesFromJson(content);
         } else {
             return null;
         }
     }
 
-    public List<PieAnimShape> readShapesFromJson(Context context, String content) {
-        return null;
+    public List<PieAnimShape> readShapesFromJson(String content) {
+        List<PieAnimShape> list = new ArrayList<>();
+
+        try {
+            JSONObject jsonObject = new JSONObject(content);
+            JSONArray jsonArray = jsonObject.optJSONArray("shape_list");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONArray pointArray = jsonArray.getJSONObject(i).optJSONArray("shape");
+                List<String> points = new ArrayList<>();
+                for (int j = 0; j < pointArray.length(); j++) {
+                    points.add(pointArray.getString(j));
+                }
+                PieAnimShape pieAnimShape = new PieAnimShape();
+                pieAnimShape.setPoints(points);
+                list.add(pieAnimShape);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public List<PieAnimShape> readShapesFromXml(String content) {

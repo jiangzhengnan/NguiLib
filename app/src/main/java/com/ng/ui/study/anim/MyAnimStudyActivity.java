@@ -1,7 +1,6 @@
 package com.ng.ui.study.anim;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,17 +24,11 @@ public class MyAnimStudyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_anim_study);
 
 
-        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startTest();
-            }
-        });
+        findViewById(R.id.btn_test).setOnClickListener(v -> startTest());
     }
 
     private void startTest() {
-
-        List<PieAnimShape> pieAnimShapes = PieResolver.getInstance().readShapesFromAssert(this, "check_cross.xml");
+        List<PieAnimShape> pieAnimShapes = PieResolver.getInstance().readShapesFromAssert(this, "check_cross.json");
         LogUtils.INSTANCE.d("result:" + pieAnimShapes.toString());
     }
 
