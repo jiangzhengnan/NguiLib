@@ -1,5 +1,6 @@
 package com.ng.ui.study.anim;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,19 @@ public class PieAnimShape {
 
     private List<String> points;
 
+    private List<Float> realPoints;
+
+    public List<Float> getRealPoints() {
+        if (points == null || points.size() == 0) {
+            return null;
+        }
+        realPoints = new ArrayList<>();
+        for (String point : points) {
+            realPoints.add(Float.valueOf(point.split(",")[0]));
+            realPoints.add(Float.valueOf(point.split(",")[1]));
+        }
+        return realPoints;
+    }
 
     @Override
     public String toString() {

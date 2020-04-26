@@ -39,7 +39,7 @@
         <activity android:name=".other.textview.TestTxtActivity" />
         <activity android:name=".other.print.TestPrintTextViewActivity" />
         <activity android:name=".other.gesture.TestGuochangAty" />
-        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity" />
+        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity"></activity>
 
 
         <!--study-->

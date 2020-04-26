@@ -22,7 +22,6 @@ import android.view.animation.Interpolator;
 import androidx.core.text.TextUtilsCompat;
 import androidx.core.view.ViewCompat;
 
-import com.ng.nguilib.utils.LogUtils;
 import com.ng.ui.R;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -104,7 +103,7 @@ public class LineMorphingDrawable extends Drawable implements Animatable {
 		float degrees = (mClockwise ? 180 : -180) * ((mPrevState < mCurState ?  0f : 1f) + mAnimProgress);
 
         if(mIsRtl)
-            canvas.scale(-1f, 1f, mDrawBound.centerX(), mDrawBound.centerY());
+			//   canvas.scale(-1f, 1f, mDrawBound.centerX(), mDrawBound.centerY());
 
 		canvas.rotate(degrees, mDrawBound.centerX(), mDrawBound.centerY());		
 		canvas.drawPath(mPath, mPaint);

@@ -115,6 +115,7 @@ public class FloatingActionButton extends View {
         if (mAnimDuration < 0)
             mAnimDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
+
         if (mInterpolator == null)
             mInterpolator = new DecelerateInterpolator();
 
