@@ -30,7 +30,7 @@ public class MyAnimStudyActivity extends AppCompatActivity {
 
         pie_test.setAnimDate(pieAnimShapes);
 
-        pie_test.post(() -> pie_test.showShape(0));
+        pie_test.post(() -> pie_test.showShape());
 
         findViewById(R.id.btn_test).setOnClickListener(v -> startTest());
     }
