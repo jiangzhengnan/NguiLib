@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -36,7 +35,7 @@ public class PieAnimView extends View implements Animatable {
     private List<PieAnimShape> mPieAnimShapes;
 
     //anim
-    private int mAnimDuration = 3000;
+    private int mAnimDuration;
 
     //属性
 
@@ -55,12 +54,16 @@ public class PieAnimView extends View implements Animatable {
     private boolean mRotateDirection;
     private boolean mIsRotate;
 
+    private boolean mAlphaSwitch;
+    private int mAlphaNum;
+
 
     //running
     private Path mPath;
     private Paint mPaint;
     private RectF mDrawBound;
 
+    //index
     private int mNowShape;
     private int mNextShape;
 
@@ -178,6 +181,7 @@ public class PieAnimView extends View implements Animatable {
         mPaddingBottom = ta.getDimensionPixelSize(R.styleable.PieAnimStyle_pie_paddingBottom, 0);
         setPadding(ta.getDimensionPixelSize(R.styleable.PieAnimStyle_pie_padding, 0));
 
+        mAnimDuration = ta.getInteger(R.styleable.PieAnimStyle_pie_animDuration, 1000);
 
         if ((resId = ta.getResourceId(R.styleable.PieAnimStyle_pie_interpolator, 0)) != 0)
             mInterpolator = AnimationUtils.loadInterpolator(context, resId);
@@ -211,11 +215,11 @@ public class PieAnimView extends View implements Animatable {
                 break;
         }
 
-//        clockwise(a.getBoolean(R.styleable.Pie, true));
-
         mIsRotate = ta.getBoolean(R.styleable.PieAnimStyle_pie_rotateSwitch, false);
-
         mRotateDirection = ta.getBoolean(R.styleable.PieAnimStyle_pie_rotateDirection, true);
+
+        mAlphaSwitch = ta.getBoolean(R.styleable.PieAnimStyle_pie_alphaSwitch, false);
+        mAlphaNum = ta.getInteger(R.styleable.PieAnimStyle_pie_alphaNum, 0);
 
         ta.recycle();
         init();
@@ -227,10 +231,10 @@ public class PieAnimView extends View implements Animatable {
 
         mPaint.setStrokeWidth(mStrokeSize);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.BLACK);
 
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setColor(mStrokeColor);
+        mPaint.setStrokeCap(mStrokeCap);
+        mPaint.setStrokeJoin(mStrokeJoin);
 
     }
 
@@ -256,12 +260,12 @@ public class PieAnimView extends View implements Animatable {
             float y = getY(Float.parseFloat(pointStr.split(",")[1]));
 
             if (tempX == -1 && tempY == -1) {
-                LogUtils.INSTANCE.d("moveTo " + x + " " + y);
+                //LogUtils.INSTANCE.d("moveTo " + x + " " + y);
                 mPath.moveTo(x, y);
                 tempX = x;
                 tempY = y;
             } else {
-                LogUtils.INSTANCE.d("lineTo " + x + " " + y);
+                //LogUtils.INSTANCE.d("lineTo " + x + " " + y);
                 mPath.lineTo(x, y);
                 tempX = -1;
                 tempY = -1;
@@ -277,7 +281,7 @@ public class PieAnimView extends View implements Animatable {
 
     private float getY(float value) {
         //改为正常zhen直角坐标系
-        return mDrawBound.top + mDrawBound.height() * (1 - value);
+        return mDrawBound.top + mDrawBound.height() * value;
 
     }
 
@@ -297,6 +301,9 @@ public class PieAnimView extends View implements Animatable {
         if (mNextShape > mPieAnimShapes.size() - 1) {
             mNextShape = 0;
         }
+
+        LogUtils.INSTANCE.d("startAnim: " + mNowShape + " -> " + mNextShape);
+
         start();
     }
 
@@ -304,6 +311,9 @@ public class PieAnimView extends View implements Animatable {
     private ValueAnimator mAnimator;
     private boolean isAnimRunning = false;
     private float mThickness = 0f;
+
+    private float mDegree = 0f;
+
 
     @Override
     public void start() {
@@ -313,7 +323,6 @@ public class PieAnimView extends View implements Animatable {
         }
 
         isAnimRunning = true;
-        LogUtils.INSTANCE.d("startAnim: " + mNowShape + " -> " + mNextShape);
 
         mAnimator = ValueAnimator.ofFloat(0, 1f);
         mAnimator.setDuration(mAnimDuration);
@@ -330,6 +339,12 @@ public class PieAnimView extends View implements Animatable {
                 super.onAnimationEnd(animation);
                 isAnimRunning = false;
                 mThickness = 0f;
+                mDegree += (mRotateDirection ? 180 : -180);
+                mNowShape++;
+                if (mNowShape > mPieAnimShapes.size() - 1) {
+                    mNowShape = 0;
+                }
+
             }
         });
         mAnimator.start();
@@ -338,8 +353,6 @@ public class PieAnimView extends View implements Animatable {
 
     //updatePathBetweenStates
     private void update(PieAnimShape nowShape, PieAnimShape nextShape) {
-        LogUtils.INSTANCE.d(mThickness + " update now:" + nowShape.toString());
-        LogUtils.INSTANCE.d(mThickness + " update next:" + nextShape.toString());
 
         mPath.reset();
 
@@ -384,7 +397,22 @@ public class PieAnimView extends View implements Animatable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int restoreCount = canvas.save();
+        if (mIsRotate) {
+            float degrees = mDegree + (mRotateDirection ? 180 : -180) * (mThickness);
+            canvas.rotate(degrees, mDrawBound.centerX(), mDrawBound.centerY());
+        }
+        if (mAlphaSwitch) {
+            LogUtils.INSTANCE.d("thickness:" + mThickness);
+            int alpha = (int) (Math.abs(0.5 - mThickness) / 0.5 * (255 - mAlphaNum)) + mAlphaNum;
+            LogUtils.INSTANCE.d("alpha:" + alpha + " " + mThickness);
+            mPaint.setAlpha(alpha);
+
+        }
+
         canvas.drawPath(mPath, mPaint);
+        canvas.restoreToCount(restoreCount);
+
 
     }
 

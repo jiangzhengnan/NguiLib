@@ -42,29 +42,40 @@
 
 
     <declare-styleable name="PieAnimStyle">
+        <!--内间距-->
         <attr name="pie_padding" format="reference|dimension" />
         <attr name="pie_paddingLeft" format="reference|dimension" />
         <attr name="pie_paddingTop" format="reference|dimension" />
         <attr name="pie_paddingRight" format="reference|dimension" />
         <attr name="pie_paddingBottom" format="reference|dimension" />
+        <!--切换动画时间-->
         <attr name="pie_animDuration" format="reference|integer" />
+        <!--插值器-->
         <attr name="pie_interpolator" format="reference" />
+        <!--画笔粗-->
         <attr name="pie_strokeSize" format="reference|dimension" />
+        <!--画笔颜色-->
         <attr name="pie_strokeColor" format="reference|color" />
+        <!--画笔末端样式-->
         <attr name="pie_strokeCap" format="string">
             <enum name="butt" value="0" />
             <enum name="round" value="1" />
             <enum name="square" value="2" />
         </attr>
+        <!--画笔连接点样式-->
         <attr name="pie_strokeJoin" format="string">
             <enum name="miter" value="0" />
             <enum name="round" value="1" />
             <enum name="bevel" value="2" />
         </attr>
-
-
+        <!--切换时旋转开关 -->
         <attr name="pie_rotateSwitch" format="boolean" />
+        <!--切换时旋转方向 -->
         <attr name="pie_rotateDirection" format="boolean" />
+        <!--切换时透明度开关 -->
+        <attr name="pie_alphaSwitch" format="boolean" />
+        <!--切换时透明度最低值 -->
+        <attr name="pie_alphaNum" format="integer" />
 
     </declare-styleable>
 

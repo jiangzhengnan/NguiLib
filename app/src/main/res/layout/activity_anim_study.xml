@@ -11,8 +11,17 @@
         android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:background="@color/white"
-        app:pie_interpolator="@android:anim/overshoot_interpolator"
-        app:pie_padding="5dp" />
+        app:pie_alphaNum="50"
+        app:pie_alphaSwitch="true"
+        app:pie_animDuration="2000"
+        app:pie_interpolator="@android:anim/accelerate_decelerate_interpolator"
+        app:pie_padding="5dp"
+        app:pie_rotateDirection="false"
+        app:pie_rotateSwitch="true"
+        app:pie_strokeCap="round"
+        app:pie_strokeColor="#ff0000"
+        app:pie_strokeJoin="round"
+        app:pie_strokeSize="2dp" />
 
     <Button
         android:id="@+id/btn_test"
