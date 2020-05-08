@@ -1,4 +1,3 @@
-<!-- 支持line，bezier? -->
 <shape_list>
     <shape>
         <point>0.5,0</point>
@@ -15,5 +14,4 @@
         <point>0.367,0.161</point>
         <point>0,0.527</point>
     </shape>
-
 </shape_list>

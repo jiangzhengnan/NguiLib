@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--1.2X-->
+    <dimen name="df01">-1.2dp</dimen>
+    <dimen name="df02">-2.4dp</dimen>
+    <dimen name="df03">-3.6dp</dimen>
+    <dimen name="df04">-4.8dp</dimen>
+    <dimen name="df05">-6.0dp</dimen>
+    <dimen name="df06">-7.2dp</dimen>
+    <dimen name="df08">-9.6dp</dimen>
+    <dimen name="df09">-10.8dp</dimen>
+    <dimen name="df10">-12dp</dimen>
+
+    <dimen name="ticker_ipo_name_en">36dp</dimen>
+    <dimen name="ticker_ipo_second_en">25.2dp</dimen>
+    <dimen name="ticker_ipo_name_cn">31.2dp</dimen>
+    <dimen name="ticker_ipo_second_cn">24dp</dimen>
+
+    <dimen name="d01">9.6dp</dimen>
+    <dimen name="dd01">1.2dp</dimen>
+    <dimen name="dd02">2.4dp</dimen>
+    <dimen name="dd03">3.6dp</dimen>
+    <dimen name="dd04">4.8dp</dimen>
+    <dimen name="dd05">6.0dp</dimen>
+    <dimen name="dd06">7.2dp</dimen>
+    <dimen name="dd07">8.4dp</dimen>
+    <dimen name="dd08">9.6dp</dimen>
+    <dimen name="dd09">10.8dp</dimen>
+    <dimen name="dd10">12dp</dimen>
+    <dimen name="dd11">13.2dp</dimen>
+    <dimen name="dd12">14.4dp</dimen>
+    <dimen name="dd13">15.6dp</dimen>
+    <dimen name="dd14">16.8dp</dimen>
+    <dimen name="dd15">18dp</dimen>
+    <dimen name="dd16">19.2dp</dimen>
+    <dimen name="dd17">20.4dp</dimen>
+    <dimen name="dd18">21.6dp</dimen>
+    <dimen name="dd19">22.8dp</dimen>
+    <dimen name="dd20">24dp</dimen>
+    <dimen name="dd21">25.2dp</dimen>
+    <dimen name="dd22">26.4dp</dimen>
+    <dimen name="dd23">27.6dp</dimen>
+    <dimen name="dd24">28.8dp</dimen>
+    <dimen name="dd25">30dp</dimen>
+    <dimen name="dd26">31.2dp</dimen>
+    <dimen name="dd27">32.4dp</dimen>
+    <dimen name="dd28">33.6dp</dimen>
+    <dimen name="dd29">34.8dp</dimen>
+    <dimen name="dd30">36dp</dimen>
+    <dimen name="dd31">37.2dp</dimen>
+    <dimen name="dd32">38.4dp</dimen>
+    <dimen name="dd34">40.8dp</dimen>
+    <dimen name="dd35">42dp</dimen>
+    <dimen name="dd36">43.2dp</dimen>
+    <dimen name="dd38">45.6dp</dimen>
+    <dimen name="dd39">46.8dp</dimen>
+    <dimen name="dd40">48dp</dimen>
+    <dimen name="dd43">51.6dp</dimen>
+    <dimen name="dd44">52.8dp</dimen>
+    <dimen name="dd45">54dp</dimen>
+    <dimen name="dd47">56.4dp</dimen>
+    <dimen name="dd48">57.6dp</dimen>
+    <dimen name="dd49">58.8dp</dimen>
+    <dimen name="dd50">60dp</dimen>
+    <dimen name="dd51">61.2dp</dimen>
+    <dimen name="dd52">62.4dp</dimen>
+    <dimen name="dd54">64.8dp</dimen>
+    <dimen name="dd55">66dp</dimen>
+    <dimen name="dd56">67.2dp</dimen>
+    <dimen name="dd60">72dp</dimen>
+    <dimen name="dd62">74.4dp</dimen>
+    <dimen name="dd64">76.8dp</dimen>
+    <dimen name="dd65">78dp</dimen>
+    <dimen name="dd66">79.2dp</dimen>
+    <dimen name="dd68">81.6dp</dimen>
+    <dimen name="dd70">84dp</dimen>
+    <dimen name="dd71">85.2dp</dimen>
+    <dimen name="dd72">86.4dp</dimen>
+    <dimen name="dd74">88.8dp</dimen>
+    <dimen name="dd76">91.2dp</dimen>
+    <dimen name="dd78">93.6dp</dimen>
+    <dimen name="dd80">96dp</dimen>
+    <dimen name="dd81">97.2dp</dimen>
+    <dimen name="dd82">98.4dp</dimen>
+    <dimen name="dd84">100.8dp</dimen>
+    <dimen name="dd86">103.2dp</dimen>
+    <dimen name="dd88">105.6dp</dimen>
+    <dimen name="dd92">110.4dp</dimen>
+    <dimen name="dd94">112.8dp</dimen>
+    <dimen name="dd96">115.2dp</dimen>
+    <dimen name="dd100">120dp</dimen>
+    <dimen name="dd102">122.4dp</dimen>
+    <dimen name="dd105">126dp</dimen>
+    <dimen name="dd106">127.2dp</dimen>
+    <dimen name="dd108">129.6dp</dimen>
+    <dimen name="dd110">132dp</dimen>
+    <dimen name="dd111">133.2dp</dimen>
+    <dimen name="dd113">135.6dp</dimen>
+    <dimen name="dd116">139.2dp</dimen>
+    <dimen name="dd120">144dp</dimen>
+    <dimen name="dd122">146.4dp</dimen>
+    <dimen name="dd126">151.2dp</dimen>
+    <dimen name="dd130">156dp</dimen>
+    <dimen name="dd135">162dp</dimen>
+    <dimen name="dd138">165.6dp</dimen>
+    <dimen name="dd140">168dp</dimen>
+    <dimen name="dd147">176.4dp</dimen>
+    <dimen name="dd150">180dp</dimen>
+    <dimen name="dd154">184.8dp</dimen>
+    <dimen name="dd155">186dp</dimen>
+    <dimen name="dd156">187.2dp</dimen>
+    <dimen name="dd160">192dp</dimen>
+    <dimen name="dd162">194.4dp</dimen>
+    <dimen name="dd168">201.6dp</dimen>
+    <dimen name="dd170">204dp</dimen>
+    <dimen name="dd176">211.2dp</dimen>
+    <dimen name="dd271">325.2dp</dimen>
+    <dimen name="dd280">336dp</dimen>
+    <dimen name="dd284">340.8dp</dimen>
+    <dimen name="dd338">405.6dp</dimen>
+    <dimen name="dd345">414dp</dimen>
+    <dimen name="dd360">432dp</dimen>
+    <dimen name="dd436">523.2dp</dimen>
+
+    <dimen name="dd180">216dp</dimen>
+    <dimen name="dd187">224.4dp</dimen>
+    <dimen name="dd218">262dp</dimen>
+
+    <dimen name="dd192">230.4dp</dimen>
+    <dimen name="dd200">240dp</dimen>
+    <dimen name="dd208">249.6dp</dimen>
+    <dimen name="dd224">268.8dp</dimen>
+    <dimen name="dd232">278.4dp</dimen>
+    <dimen name="dd240">288dp</dimen>
+    <dimen name="dd246">295dp</dimen>
+    <dimen name="dd250">300dp</dimen>
+    <dimen name="dd254">304.8dp</dimen>
+    <dimen name="dd265">318dp</dimen>
+
+    <dimen name="dd300">324dp</dimen>
+    <dimen name="dd305">329.4dp</dimen>
+    <dimen name="dd312">374.4dp</dimen>
+    <dimen name="dd320">384dp</dimen>
+    <dimen name="dd400">480dp</dimen>
+    <dimen name="dd417">500.4dp</dimen>
+    <dimen name="dd470">564dp</dimen>
+    <dimen name="dd500">600dp</dimen>
+    <dimen name="dd580">696dp</dimen>
+
+    <dimen name="dd614">736.8dp</dimen>
+
+    <dimen name="dd720">864dp</dimen>
+
+    <dimen name="tdss">10dp</dimen>
+
+    <!--UI改版后统一的字体大小-->
+    <dimen name="td01">43.2dp</dimen>
+    <dimen name="td02">21.6dp</dimen>
+    <dimen name="td03">19.2dp</dimen>
+    <dimen name="td04">16.8dp</dimen>
+    <dimen name="td05">14.4dp</dimen>
+    <dimen name="td05_fix">14.4dp</dimen>
+    <dimen name="td06">12dp</dimen>
+    <dimen name="td06_fix">12dp</dimen>
+    <dimen name="td07">24dp</dimen>
+    <dimen name="td08">28.8dp</dimen>
+    <dimen name="td10">26.4dp</dimen>
+
+    <!--原来的13号字体，暂时替换成这个。后续确定是换成12号还是14号-->
+    <dimen name="td04_13">16.8dp</dimen>
+    <dimen name="td03_15">19.2dp</dimen>
+    <dimen name="td05_11">14.4dp</dimen>
+    <dimen name="td02_17">21.6dp</dimen>
+
+    <dimen name="td03_s">18dp</dimen>
+    <dimen name="td04_s">15.6dp</dimen>
+
+    <dimen name="td11">13.2dp</dimen>
+    <dimen name="td12">15.6dp</dimen>
+    <dimen name="td13">36dp</dimen>
+
+    <dimen name="ts01">43.2sp</dimen>
+    <dimen name="ts02">21.6sp</dimen>
+    <dimen name="ts03">19.2sp</dimen>
+    <dimen name="ts04">16.8sp</dimen>
+    <dimen name="ts05">14.4sp</dimen>
+    <dimen name="ts05_fix">14.4sp</dimen>
+    <dimen name="ts06">12sp</dimen>
+    <dimen name="ts06_fix">12sp</dimen>
+    <dimen name="ts07">24sp</dimen>
+    <dimen name="ts08">28.8sp</dimen>
+    <dimen name="ts10">26.4sp</dimen>
+
+    <dimen name="ts03_s">16.2sp</dimen>
+    <dimen name="ts04_s">14sp</dimen>
+
+
+    <dimen name="dx34">40dp</dimen>
+
+
+    <!-- 消息列表图标高度，bannerView高度-->
+    <dimen name="default_image_height">161.26dp</dimen>
+
+    <dimen name="trade_combination_order_item_size">132dp</dimen>
+    <dimen name="trade_combination_order_item_size_small">91.2dp</dimen>
+
+    <!-- 2018/10/31  交易改版后字体统一-->
+    <dimen name="TR01">40.8dp</dimen>
+    <dimen name="TR02">37.2dp</dimen>
+    <dimen name="TR03">30dp</dimen>
+    <dimen name="TR04">26.4dp</dimen>
+    <dimen name="TR05">22.8dp</dimen>
+
+    <dimen name="TR06">21.6dp</dimen>
+    <dimen name="TR07">20.4dp</dimen>
+    <dimen name="TR08">19.2dp</dimen>
+    <dimen name="TR09">18dp</dimen>
+    <dimen name="TR10">16.8dp</dimen>
+
+    <dimen name="TR11">15.6dp</dimen>
+    <dimen name="TR12">14.4dp</dimen>
+    <dimen name="TR13">13.2dp</dimen>
+    <dimen name="TR14">12dp</dimen>
+    <dimen name="TR15">10.8dp</dimen>
+
+    <!-- 2018/10/31  交易改版后字体统一-->
+
+    <dimen name="market_global_index_map_width">1053.6dp</dimen>
+    <dimen name="market_global_index_map_height">420dp</dimen>
+</resources>

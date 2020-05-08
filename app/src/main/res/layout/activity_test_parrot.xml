@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <com.ng.ui.other.parrot.ParrotView
+        android:id="@+id/ptv_test"
+        android:background="#213789"
+        android:layout_centerInParent="true"
+        android:layout_width="@dimen/dd200"
+        android:layout_height="@dimen/dd400" />
+
+
+    <Button
+        android:id="@+id/btn_test"
+        android:text="test"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
