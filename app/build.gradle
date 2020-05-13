@@ -40,7 +40,6 @@ dependencies {
     //noinspection GradleCompatible
     //api 'ng.ngui.ngbase:nguilib:0.0.10'
 
-    //api 'ng.ngui.ngbase:pieanim:0.0.1'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 

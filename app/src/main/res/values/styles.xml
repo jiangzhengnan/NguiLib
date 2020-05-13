@@ -50,7 +50,8 @@
         <attr name="pie_paddingBottom" format="reference|dimension" />
         <!--切换动画时间-->
         <attr name="pie_animDuration" format="reference|integer" />
-        <!--插值器-->
+        <!--
+        -->
         <attr name="pie_interpolator" format="reference" />
         <!--画笔粗-->
         <attr name="pie_strokeSize" format="reference|dimension" />
@@ -76,7 +77,6 @@
         <attr name="pie_alphaSwitch" format="boolean" />
         <!--切换时透明度最低值 -->
         <attr name="pie_alphaNum" format="integer" />
-
     </declare-styleable>
 
 
