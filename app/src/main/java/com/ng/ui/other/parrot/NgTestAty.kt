@@ -21,47 +21,38 @@ class NgTestAty : AppCompatActivity() {
 
     private lateinit var mParrotPillars: ArrayList<ParrotPillar>
 
+    private var citys = arrayOf("California", "Texas", "Florida", "New York", "llinos", "Georgia", "Michigan", "New Jersey", "Pennsylvania", "Virginana",
+            "Obhio", "Washigton", "North arolina", "Massajdkasjvsd", "Maryland", "Colorado", "Minnersota", "Arizona", "dsadas", "nangua", "Biejing")
 
     fun init() {
         Log.d("nangua", "NgTestAty:init")
-
         mParrotPillars = ArrayList()
-
         var max = 20
         for (index in 0..max) {
             var random = Random()
-
             var value = ((index * 10 + random.nextInt(100)).toFloat())
-
-
             if (index == 0) {
                 value = 400F
             }
-
             if (value <= 50) {
                 value = 50F
             }
-
-            val name = "柱子$index"
-
-
+            val name = citys[index]
             val temp = ParrotPillar(name, value, 0f, 0)
             mParrotPillars.add(temp)
         }
 
-
-        ptv_test.setData(mParrotPillars)
-
+        ptv_test.setData(mParrotPillars,ParrotView.ANIM_TYPE_NORMAL)
 
         btn_test.setOnClickListener {
-            Toast.makeText(baseContext, "run anim", Toast.LENGTH_SHORT).show()
             ptv_test.startAnim()
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_parrot)
         init()
     }
+
 }

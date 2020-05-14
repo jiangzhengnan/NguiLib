@@ -6,16 +6,16 @@
 
     <com.ng.ui.other.parrot.ParrotView
         android:id="@+id/ptv_test"
-        android:background="#213789"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_width="@dimen/dd200"
-        android:layout_height="@dimen/dd400" />
+        android:background="#213789" />
 
 
     <Button
         android:id="@+id/btn_test"
-        android:text="test"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="test" />
 </RelativeLayout>

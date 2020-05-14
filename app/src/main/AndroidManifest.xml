@@ -41,17 +41,19 @@
         <activity android:name=".other.print.TestPrintTextViewActivity" />
         <activity android:name=".other.gesture.TestGuochangAty" />
         <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity"></activity>
+        <activity android:name=".other.parrot.NgTestAty">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
         <!--study-->
         <activity android:name=".study.inhale.InhaleStudyActivity" />
         <activity android:name=".study.clip.ClipStudyActivity" />
         <activity android:name=".study.anim.MyAnimStudyActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>
