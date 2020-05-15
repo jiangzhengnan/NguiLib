@@ -176,7 +176,17 @@ public class ParrotView extends View {
             mStrStartAngle = mAngle + (mColumn > 1 ? mInterval : 0);
             //绘制
             if (lengthR > mCenterR) {
-                canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText, mCenterY, mPaint);
+                switch (mAnimType) {
+                    case ANIM_TYPE_NORMAL:
+                        canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText, mCenterY, mPaint);
+                        break;
+                    case ANIM_TYPE_COLECT:
+
+                        break;
+                    case ANIM_TYPE_BESSEL_COLECT:
+
+                        break;
+                }
             }
         }
         canvas.restore();
