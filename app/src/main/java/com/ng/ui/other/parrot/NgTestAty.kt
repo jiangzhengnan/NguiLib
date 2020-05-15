@@ -1,9 +1,7 @@
 package com.ng.ui.other.parrot
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ng.ui.R
 import com.webull.webulltv.webulldata.parrot.ParrotPillar
@@ -42,7 +40,7 @@ class NgTestAty : AppCompatActivity() {
             mParrotPillars.add(temp)
         }
 
-        ptv_test.setData(mParrotPillars,ParrotView.ANIM_TYPE_NORMAL)
+        ptv_test.setData(mParrotPillars, ParrotView.ANIM_TYPE_COLECT)
 
         btn_test.setOnClickListener {
             ptv_test.startAnim()

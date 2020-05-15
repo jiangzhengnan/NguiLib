@@ -94,7 +94,7 @@ public class ParrotView extends View {
     private float mMinTextSize = getResources().getDimensionPixelOffset(R.dimen.dd05);
     //文字颜色
     @SuppressLint("ResourceType")
-    private int mTextColor = ColorUtils.setAlphaComponent(Color.parseColor("#ffffff"), 153);
+    private int mTextColor = ColorUtils.setAlphaComponent(Color.parseColor("#000000"), 153);
 
     //动画类型
     public static final int ANIM_TYPE_NORMAL = 1;//普通转圈
@@ -102,6 +102,7 @@ public class ParrotView extends View {
     public static final int ANIM_TYPE_BESSEL_COLECT = 3;//贝塞尔收回
     private int mAnimType;
 
+    private float RANGE_COLEECT = 1500f;
 
 
     @Override
@@ -181,7 +182,8 @@ public class ParrotView extends View {
                         canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText, mCenterY, mPaint);
                         break;
                     case ANIM_TYPE_COLECT:
-
+                        canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText
+                                + RANGE_COLEECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
                         break;
                     case ANIM_TYPE_BESSEL_COLECT:
 
@@ -220,7 +222,19 @@ public class ParrotView extends View {
             //文字宽度
             float fontWidth = mPaint.measureText(temp.getName());
             if (lengthR > mCenterR) {
-                canvas.drawText(temp.getName(), mCenterX + mEmbeddedArcDistanceNow - lengthR - fontWidth - mPaddingText, mCenterY, mPaint);
+                switch (mAnimType) {
+                    case ANIM_TYPE_NORMAL:
+                        canvas.drawText(temp.getName(), mCenterX + mEmbeddedArcDistanceNow - lengthR - fontWidth - mPaddingText, mCenterY, mPaint);
+                        break;
+                    case ANIM_TYPE_COLECT:
+                        canvas.drawText(temp.getName(), mCenterX + mEmbeddedArcDistanceNow - lengthR - fontWidth - mPaddingText
+                                - RANGE_COLEECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
+
+                        break;
+                    case ANIM_TYPE_BESSEL_COLECT:
+
+                        break;
+                }
             }
         }
 
@@ -319,7 +333,7 @@ public class ParrotView extends View {
 
     }
 
-    public void setData(ArrayList<ParrotPillar> mParrotPillars,int animType) {
+    public void setData(ArrayList<ParrotPillar> mParrotPillars, int animType) {
         this.mAnimType = animType;
         mColumn = mParrotPillars.size();
 
@@ -368,7 +382,7 @@ public class ParrotView extends View {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float mTempThickness = (float) animation.getAnimatedValue();
                     tempColum.setAnimLength(tempColum.getLength() * mTempThickness);
-
+                    tempColum.setThickness(mTempThickness);
 
                     // LogUtils.INSTANCE.d(finalI + " 开始执行了" + (tempColum.getLength() * mTempThickness));
 
@@ -388,7 +402,6 @@ public class ParrotView extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    LogUtils.INSTANCE.d(finalI + " eee " + mColumn);
                     if (finalI == mColumn - 1) {
                         isAnimRunning = false;
                     }

@@ -16,6 +16,8 @@ data class ParrotPillar(
     var length: Float = 0.toFloat()
     var animLength: Float = 0.toFloat()
 
+    var thickness: Float = 0.toFloat()
+
 
     override fun compareTo(other: ParrotPillar): Int {
         return other.value.toFloat().compareTo(this.value.toFloat())
