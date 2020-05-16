@@ -7,7 +7,7 @@
  *  1.0   dancycai (dancycai@tencent.com) 2013-7-10   Created
  */
 
-package com.ng.ui.other.parrot;
+package com.ng.nguilib.utils;
 
 import android.util.SparseArray;
 

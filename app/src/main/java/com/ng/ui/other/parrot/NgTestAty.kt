@@ -3,6 +3,7 @@ package com.ng.ui.other.parrot
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.ng.nguilib.ParrotView
 import com.ng.ui.R
 import com.webull.webulltv.webulldata.parrot.ParrotPillar
 import kotlinx.android.synthetic.main.activity_test_parrot.*

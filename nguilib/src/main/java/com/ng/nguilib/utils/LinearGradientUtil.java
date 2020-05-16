@@ -1,4 +1,4 @@
-package com.ng.ui.other.parrot;
+package com.ng.nguilib.utils;
 
 import android.graphics.Color;
 

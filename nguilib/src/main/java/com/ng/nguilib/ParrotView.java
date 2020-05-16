@@ -1,4 +1,4 @@
-package com.ng.ui.other.parrot;
+package com.ng.nguilib;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,8 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
+import com.ng.nguilib.utils.LinearGradientUtil;
 import com.ng.nguilib.utils.LogUtils;
-import com.ng.ui.R;
+import com.ng.nguilib.utils.Utils;
 import com.webull.webulltv.webulldata.parrot.ParrotPillar;
 
 import java.util.ArrayList;

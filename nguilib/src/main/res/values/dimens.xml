@@ -1,0 +1,221 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="WheelItemTextSize">14sp</dimen>
+
+    <dimen name="WheelItemMaxTextSize">25sp</dimen>
+
+    <dimen name="WheelItemSpace">18dp</dimen>
+    <dimen name="WheelIndicatorSize">2dp</dimen>
+    <dimen name="WheelMargins">0dp</dimen>
+
+    <dimen name="df01">-1dp</dimen>
+    <dimen name="df02">-2dp</dimen>
+    <dimen name="df03">-3dp</dimen>
+    <dimen name="df04">-4dp</dimen>
+    <dimen name="df05">-5dp</dimen>
+    <dimen name="df06">-6dp</dimen>
+    <dimen name="df08">-8dp</dimen>
+    <dimen name="df09">-9dp</dimen>
+    <dimen name="df10">-10dp</dimen>
+
+    <dimen name="dd00">0dp</dimen>
+    <dimen name="d01">8dp</dimen>
+    <dimen name="dd01">1dp</dimen>
+    <dimen name="dd02">2dp</dimen>
+    <dimen name="dd03">3dp</dimen>
+    <dimen name="dd04">4dp</dimen>
+    <dimen name="dd05">5dp</dimen>
+    <dimen name="dd12">12dp</dimen>
+    <dimen name="dd13">13dp</dimen>
+    <dimen name="dd14">14dp</dimen>
+    <dimen name="dd15">15dp</dimen>
+    <dimen name="dd06">6dp</dimen>
+    <dimen name="dd07">7dp</dimen>
+    <dimen name="dd08">8dp</dimen>
+    <dimen name="dd09">9dp</dimen>
+    <dimen name="dd10">10dp</dimen>
+    <dimen name="dd11">11dp</dimen>
+    <dimen name="dd20">20dp</dimen>
+    <dimen name="dd16">16dp</dimen>
+    <dimen name="dd17">17dp</dimen>
+    <dimen name="dd18">18dp</dimen>
+    <dimen name="dd19">19dp</dimen>
+    <dimen name="dd21">21dp</dimen>
+    <dimen name="dd22">22dp</dimen>
+    <dimen name="dd23">23dp</dimen>
+    <dimen name="dd24">24dp</dimen>
+    <dimen name="dd25">25dp</dimen>
+    <dimen name="dd26">26dp</dimen>
+    <dimen name="dd27">27dp</dimen>
+    <dimen name="dd28">28dp</dimen>
+    <dimen name="dd29">29dp</dimen>
+    <dimen name="dd30">30dp</dimen>
+    <dimen name="dd31">31dp</dimen>
+    <dimen name="dd32">32dp</dimen>
+    <dimen name="dd36">36dp</dimen>
+    <dimen name="dd56">56dp</dimen>
+    <dimen name="dd34">34dp</dimen>
+    <dimen name="dd35">35dp</dimen>
+    <dimen name="dd38">38dp</dimen>
+    <dimen name="dd39">39dp</dimen>
+    <dimen name="dd40">40dp</dimen>
+    <dimen name="dd42">42dp</dimen>
+    <dimen name="dd43">43dp</dimen>
+    <dimen name="dd44">44dp</dimen>
+    <dimen name="dd45">45dp</dimen>
+    <dimen name="dd46">46dp</dimen>
+    <dimen name="dd47">47dp</dimen>
+    <dimen name="dd52">52dp</dimen>
+    <dimen name="dd54">54dp</dimen>
+    <dimen name="dd55">55dp</dimen>
+    <dimen name="dd60">60dp</dimen>
+    <dimen name="dd62">62dp</dimen>
+    <dimen name="dd63">63dp</dimen>
+    <dimen name="dd64">64dp</dimen>
+    <dimen name="dd65">65dp</dimen>
+    <dimen name="dd66">66dp</dimen>
+    <dimen name="dd68">68dp</dimen>
+    <dimen name="dd70">70dp</dimen>
+    <dimen name="dd71">71dp</dimen>
+    <dimen name="dd72">72dp</dimen>
+    <dimen name="dd74">74dp</dimen>
+    <dimen name="dd76">76dp</dimen>
+    <dimen name="dd78">78dp</dimen>
+    <dimen name="dd80">80dp</dimen>
+    <dimen name="dd81">81dp</dimen>
+    <dimen name="dd82">82dp</dimen>
+    <dimen name="dd84">84dp</dimen>
+    <dimen name="dd86">86dp</dimen>
+    <dimen name="dd88">88dp</dimen>
+    <dimen name="dd90">90dp</dimen>
+    <dimen name="dd92">92dp</dimen>
+    <dimen name="dd94">94dp</dimen>
+    <dimen name="dd96">96dp</dimen>
+    <dimen name="dd100">100dp</dimen>
+    <dimen name="dd102">102dp</dimen>
+    <dimen name="dd105">105dp</dimen>
+    <dimen name="dd106">106dp</dimen>
+    <dimen name="dd108">108dp</dimen>
+    <dimen name="dd110">110dp</dimen>
+    <dimen name="dd111">111dp</dimen>
+    <dimen name="dd113">113dp</dimen>
+    <dimen name="dd116">116dp</dimen>
+    <dimen name="dd120">120dp</dimen>
+    <dimen name="dd122">122dp</dimen>
+    <dimen name="dd126">126dp</dimen>
+    <dimen name="dd130">130dp</dimen>
+    <dimen name="dd131">131dp</dimen>
+    <dimen name="dd135">135dp</dimen>
+    <dimen name="dd138">138dp</dimen>
+    <dimen name="dd140">140dp</dimen>
+    <dimen name="dd147">147dp</dimen>
+    <dimen name="dd150">150dp</dimen>
+    <dimen name="dd154">154dp</dimen>
+    <dimen name="dd155">155dp</dimen>
+    <dimen name="dd156">156dp</dimen>
+    <dimen name="dd160">160dp</dimen>
+    <dimen name="dd162">162dp</dimen>
+    <dimen name="dd168">168dp</dimen>
+    <dimen name="dd170">170dp</dimen>
+    <dimen name="dd176">176dp</dimen>
+    <dimen name="dd180">180dp</dimen>
+    <dimen name="dd187">187dp</dimen>
+    <dimen name="dd192">192dp</dimen>
+    <dimen name="dd200">200dp</dimen>
+    <dimen name="dd208">208dp</dimen>
+    <dimen name="dd218">218dp</dimen>
+    <dimen name="dd224">224dp</dimen>
+    <dimen name="dd232">232dp</dimen>
+    <dimen name="dd240">240dp</dimen>
+    <dimen name="dd246">246dp</dimen>
+    <dimen name="dd250">250dp</dimen>
+    <dimen name="dd254">254dp</dimen>
+    <dimen name="dd265">265dp</dimen>
+    <dimen name="dd271">271dp</dimen>
+    <dimen name="dd300">300dp</dimen>
+    <dimen name="dd305">305dp</dimen>
+    <dimen name="dd312">312dp</dimen>
+    <dimen name="dd280">280dp</dimen>
+    <dimen name="dd284">284dp</dimen>
+    <dimen name="dd338">338dp</dimen>
+    <dimen name="dd345">345dp</dimen>
+    <dimen name="dd320">320dp</dimen>
+    <dimen name="dd360">360dp</dimen>
+    <dimen name="dd400">400dp</dimen>
+    <dimen name="dd417">417dp</dimen>
+    <dimen name="dd436">436dp</dimen>
+    <dimen name="dd470">470dp</dimen>
+    <dimen name="dd500">500dp</dimen>
+    <dimen name="dd580">580dp</dimen>
+
+    <dimen name="dd614">614dp</dimen>
+
+    <dimen name="dd720">720dp</dimen>
+
+    <!--UI改版后统一的字体大小-->
+    <dimen name="td01">36dp</dimen>
+    <dimen name="td02">18dp</dimen>
+    <dimen name="td03">16dp</dimen>
+    <dimen name="td04">14dp</dimen>
+    <dimen name="td05">12dp</dimen>
+    <dimen name="td05_fix">12dp</dimen>
+    <dimen name="td06">10dp</dimen>
+    <dimen name="td06_fix">10dp</dimen>
+    <dimen name="td06_plus">11dp</dimen>
+
+    <dimen name="tdss">8.3dp</dimen>
+
+
+    <dimen name="td07">20dp</dimen>
+    <dimen name="td08">24dp</dimen>
+    <dimen name="td10">22dp</dimen>
+
+    <!--原来的13号字体，暂时替换成这个。后续确定是换成12号还是14号-->
+    <dimen name="td04_13">14dp</dimen>
+    <dimen name="td03_15">16dp</dimen>
+    <dimen name="td05_11">12dp</dimen>
+    <dimen name="td02_17">18dp</dimen>
+
+    <dimen name="td03_s">15dp</dimen>
+    <dimen name="td04_s">13dp</dimen>
+
+    <dimen name="td11">11dp</dimen>
+    <dimen name="td12">13dp</dimen>
+    <dimen name="td13">30dp</dimen>
+
+    !--UI改版后统一的字体大小-->
+    <dimen name="ts01">36sp</dimen>
+    <dimen name="ts02">18sp</dimen>
+    <dimen name="ts03">16sp</dimen>
+    <dimen name="ts04">14sp</dimen>
+    <dimen name="ts05">12sp</dimen>
+    <dimen name="ts05_fix">12sp</dimen>
+    <dimen name="ts06">10sp</dimen>
+    <dimen name="ts06_fix">10sp</dimen>
+
+    <dimen name="ts07">20sp</dimen>
+    <dimen name="ts08">24sp</dimen>
+    <dimen name="ts10">22sp</dimen>
+    <dimen name="ts03_s">15sp</dimen>
+    <dimen name="ts04_s">13sp</dimen>
+
+
+    <dimen name="ts26">26sp</dimen>
+    <dimen name="ts28">28sp</dimen>
+    <dimen name="ts34">34sp</dimen>
+
+    <dimen name="dx34">34dp</dimen>
+
+    <dimen name="report_chart_top">@dimen/dd08</dimen>
+
+    <dimen name="dd48">48dp</dimen>
+    <dimen name="dd49">49dp</dimen>
+    <dimen name="dd50">50dp</dimen>
+    <dimen name="dd51">51dp</dimen>
+    <dimen name="dd57">57dp</dimen>
+    <dimen name="dd58">57dp</dimen>
+
+</resources>
