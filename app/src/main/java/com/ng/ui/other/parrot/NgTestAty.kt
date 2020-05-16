@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.ng.nguilib.ParrotView
+import com.ng.nguilib.utils.ParrotPillar
 import com.ng.ui.R
-import com.webull.webulltv.webulldata.parrot.ParrotPillar
 import kotlinx.android.synthetic.main.activity_test_parrot.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -42,6 +42,7 @@ class NgTestAty : AppCompatActivity() {
         }
 
         ptv_test.setData(mParrotPillars, ParrotView.ANIM_TYPE_COLECT)
+
 
         btn_test.setOnClickListener {
             ptv_test.startAnim()

@@ -23,7 +23,7 @@ import androidx.core.graphics.ColorUtils;
 import com.ng.nguilib.utils.LinearGradientUtil;
 import com.ng.nguilib.utils.LogUtils;
 import com.ng.nguilib.utils.Utils;
-import com.webull.webulltv.webulldata.parrot.ParrotPillar;
+import com.ng.nguilib.utils.ParrotPillar;
 
 import java.util.ArrayList;
 import java.util.Collections;

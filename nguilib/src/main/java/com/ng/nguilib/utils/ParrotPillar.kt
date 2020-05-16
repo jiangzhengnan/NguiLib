@@ -1,4 +1,4 @@
-package com.webull.webulltv.webulldata.parrot
+package com.ng.nguilib.utils
 
 /**
  * 描述:
