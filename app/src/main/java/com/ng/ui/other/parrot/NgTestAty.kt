@@ -41,7 +41,7 @@ class NgTestAty : AppCompatActivity() {
             mParrotPillars.add(temp)
         }
 
-        ptv_test.setData(mParrotPillars, ParrotView.ANIM_TYPE_COLECT)
+        ptv_test.setData(mParrotPillars, ParrotView.ANIM_TYPE_BESSEL_COLECT)
 
 
         btn_test.setOnClickListener {

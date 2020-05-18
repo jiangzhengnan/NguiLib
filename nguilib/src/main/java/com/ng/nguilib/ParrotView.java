@@ -43,8 +43,8 @@ public class ParrotView extends View {
     private float mWidth;
     private int mStartColor = Color.parseColor("#01EAFF");
     private int mEndColor = Color.parseColor("#D51C89");
-    private long DURATION = 1200;
-    private long SINGLE_DURATION = 700;
+    private long DURATION = 2000;
+    private long SINGLE_DURATION = 2000;
     private long SINGLE_INTERVAL = 1;
     //定义常量pi（圆周率）
     private float pi = 3.1415926f;
@@ -100,10 +100,11 @@ public class ParrotView extends View {
     //动画类型
     public static final int ANIM_TYPE_NORMAL = 1;//普通转圈
     public static final int ANIM_TYPE_COLECT = 2;//收回
-    public static final int ANIM_TYPE_BESSEL_COLECT = 3;//贝塞尔收回
+    public static final int ANIM_TYPE_BESSEL_COLECT = 3;//折线收回
     private int mAnimType;
 
-    private float RANGE_COLEECT = 1500f;
+    private float RANGE_COLLECT = 1500f;
+    private float RANGE_Y_COLLECT = -800f;
 
 
     @Override
@@ -184,9 +185,13 @@ public class ParrotView extends View {
                         break;
                     case ANIM_TYPE_COLECT:
                         canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText
-                                + RANGE_COLEECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
+                                + RANGE_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
                         break;
                     case ANIM_TYPE_BESSEL_COLECT:
+                        canvas.drawText(temp.getName(), mCenterX - mEmbeddedArcDistanceNow + lengthR + mPaddingText
+                                        + RANGE_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()),
+                                mCenterY + RANGE_Y_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness())
+                                , mPaint);
 
                         break;
                 }
@@ -229,10 +234,14 @@ public class ParrotView extends View {
                         break;
                     case ANIM_TYPE_COLECT:
                         canvas.drawText(temp.getName(), mCenterX + mEmbeddedArcDistanceNow - lengthR - fontWidth - mPaddingText
-                                - RANGE_COLEECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
+                                - RANGE_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()), mCenterY, mPaint);
 
                         break;
                     case ANIM_TYPE_BESSEL_COLECT:
+                        canvas.drawText(temp.getName(), mCenterX + mEmbeddedArcDistanceNow - lengthR - fontWidth - mPaddingText
+                                        - RANGE_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness()),
+                                mCenterY - RANGE_Y_COLLECT * ((1 - temp.getThickness()) < 0 ? 0 : 1 - temp.getThickness())
+                                , mPaint);
 
                         break;
                 }
