@@ -3,8 +3,6 @@ package com.ng.ui.other.parrot
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.ng.nguilib.ParrotView
-import com.ng.nguilib.utils.ParrotPillar
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.activity_test_parrot.*
 import java.util.*
@@ -37,11 +35,11 @@ class NgTestAty : AppCompatActivity() {
                 value = 50F
             }
             val name = citys[index]
-            val temp = ParrotPillar(name, value, 0f, 0)
+            val temp = ParrotPillar(name, value, 0f)
             mParrotPillars.add(temp)
         }
 
-        ptv_test.setData(mParrotPillars, ParrotView.ANIM_TYPE_BESSEL_COLECT)
+        ptv_test.setData(mParrotPillars)
 
 
         btn_test.setOnClickListener {
