@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#9f182972">
 
     <com.ng.ui.other.parrot.ParrotView
         android:id="@+id/ptv_test"
@@ -10,11 +10,38 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-
-    <Button
-        android:id="@+id/btn_test"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="test" />
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/btn_test1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd40"
+            android:text="更新数据(默认数据)" />
+
+        <Button
+            android:id="@+id/btn_test2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd40"
+            android:text="更新数据(对个数量换位)" />
+
+        <Button
+            android:id="@+id/btn_test3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd40"
+            android:text="更新数据(数据值更新)" />
+
+        <Button
+            android:id="@+id/btn_test4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd40"
+            android:text="更新数据(数据数量更新)" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

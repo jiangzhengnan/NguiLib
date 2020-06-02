@@ -23,7 +23,7 @@ import androidx.core.graphics.ColorUtils;
 import com.ng.nguilib.utils.LinearGradientUtil;
 import com.ng.nguilib.utils.LogUtils;
 import com.ng.nguilib.utils.Utils;
-import com.ng.nguilib.utils.ParrotPillar;
+import com.ng.nguilib.utils.ParrotPillarNew;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,12 +32,12 @@ import java.util.List;
 
 /**
  * 描述:酷酷的螺旋鹦鹉图
- * todo 自动缩放逻辑
+ * 整改版本
  *
  * @author Jzn
  * @date 2020-05-07
  */
-public class ParrotView extends View {
+public class ParrotViewNew extends View {
     //基础属性
     private float mHeight;
     private float mWidth;
@@ -54,7 +54,7 @@ public class ParrotView extends View {
     //柱子数量
     private float mColumn = 1;
     //柱子数组
-    private List<ParrotPillar> mParrotPillars;
+    private List<ParrotPillarNew> mParrotPillarNews;
     //柱子最大值
     private float mMaxValue;
     //柱子最大长度
@@ -111,12 +111,12 @@ public class ParrotView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (Utils.isEmpty(mParrotPillars))
+        if (Utils.isEmpty(mParrotPillarNews))
             return;
 
         //绘制螺旋图
         mStartAngle = -90;
-        for (ParrotPillar temp : mParrotPillars) {
+        for (ParrotPillarNew temp : mParrotPillarNews) {
             drawSingleColumn(canvas, temp);
             mStartAngle += (mAngle + (mColumn > 1 ? mInterval : 0));
         }
@@ -158,7 +158,7 @@ public class ParrotView extends View {
         float lastFixAngle = 0;
         //右边
         for (int i = 0; i < middle; i++) {
-            ParrotPillar temp = mParrotPillars.get(i);
+            ParrotPillarNew temp = mParrotPillarNews.get(i);
             float lengthR = temp.getAnimLength();
             //动态设置文字大小
             mPaint.setTextSize(mMinTextSize + (mMaxTextSize - mMinTextSize) / mColumn * (mColumn - i));
@@ -206,7 +206,7 @@ public class ParrotView extends View {
         lastFixAngle = 0;
         //左边
         for (int i = middle; i < mColumn; i++) {
-            ParrotPillar temp = mParrotPillars.get(i);
+            ParrotPillarNew temp = mParrotPillarNews.get(i);
             float lengthR = temp.getAnimLength();
             //动态设置文字大小
             mPaint.setTextSize(mMinTextSize + (mMaxTextSize - mMinTextSize) / mColumn * (mColumn - i));
@@ -262,7 +262,7 @@ public class ParrotView extends View {
 
     private float mStartAngle = -90;
 
-    private void drawSingleColumn(Canvas canvas, ParrotPillar temp) {
+    private void drawSingleColumn(Canvas canvas, ParrotPillarNew temp) {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(temp.getColor());
         //LogUtils.INSTANCE.d("length:" + temp.getAnimLength());
@@ -314,7 +314,7 @@ public class ParrotView extends View {
         isAnimRunning = true;
 
         //清空数据
-        for (ParrotPillar temp : mParrotPillars) {
+        for (ParrotPillarNew temp : mParrotPillarNews) {
             temp.setAnimLength(0);
         }
 
@@ -343,9 +343,9 @@ public class ParrotView extends View {
 
     }
 
-    public void setData(ArrayList<ParrotPillar> mParrotPillars, int animType) {
+    public void setData(ArrayList<ParrotPillarNew> mParrotPillarNews, int animType) {
         this.mAnimType = animType;
-        mColumn = mParrotPillars.size();
+        mColumn = mParrotPillarNews.size();
 
 
         //这里要多算一点不然跟不上。。可能是动画启动耗费的时间吧orz
@@ -353,17 +353,17 @@ public class ParrotView extends View {
 
 
         //排序
-        Collections.sort(mParrotPillars);
+        Collections.sort(mParrotPillarNews);
 
-        this.mParrotPillars = mParrotPillars;
+        this.mParrotPillarNews = mParrotPillarNews;
         //转换比率
-        for (ParrotPillar temp : mParrotPillars) {
+        for (ParrotPillarNew temp : mParrotPillarNews) {
             if (mMaxValue < temp.getValue().floatValue())
                 mMaxValue = temp.getValue().floatValue();
         }
 
         for (int i = 0; i < mColumn; i++) {
-            ParrotPillar temp = mParrotPillars.get(i);
+            ParrotPillarNew temp = mParrotPillarNews.get(i);
             int color = LinearGradientUtil.getCurrentColor(((float) i / (float) mColumn), mStartColor, mEndColor);
             temp.setColor(color);
             temp.setRatio(temp.getValue().floatValue() / mMaxValue);
@@ -373,7 +373,7 @@ public class ParrotView extends View {
         }
 
 
-        LogUtils.INSTANCE.d("mMaxValue: " + mMaxValue + " mParrotPillars:" + mParrotPillars.toString());
+        LogUtils.INSTANCE.d("mMaxValue: " + mMaxValue + " mParrotPillarNews:" + mParrotPillarNews.toString());
 
         //得到单个角度
         getAngle();
@@ -381,7 +381,7 @@ public class ParrotView extends View {
         //初始化动画
         mAnimatorList = new ArrayList<>();
         for (int i = 0; i < mColumn; i++) {
-            final ParrotPillar tempColum = mParrotPillars.get(i);
+            final ParrotPillarNew tempColum = mParrotPillarNews.get(i);
             ValueAnimator mTempAnimator = ValueAnimator.ofFloat(0, 1f);
             mTempAnimator.setDuration(SINGLE_DURATION);
             mTempAnimator.setStartDelay(SINGLE_INTERVAL);
@@ -435,12 +435,12 @@ public class ParrotView extends View {
         mAngle = (360f * 1f - interValNum * mInterval) / mColumn;
     }
 
-    public ParrotView(Context context, @Nullable AttributeSet attrs) {
+    public ParrotViewNew(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ParrotView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ParrotViewNew(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
