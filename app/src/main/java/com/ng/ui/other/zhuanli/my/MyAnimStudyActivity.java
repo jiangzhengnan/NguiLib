@@ -1,4 +1,4 @@
-package com.ng.ui.study.anim;
+package com.ng.ui.other.zhuanli.my;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ng.ui.R;
 
 /**
- * 描述:
+ * 描述:专利模拟文件
  *
  * @author Jzn
  * @date 2020-04-24

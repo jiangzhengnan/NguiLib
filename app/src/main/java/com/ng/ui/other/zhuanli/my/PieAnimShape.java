@@ -1,4 +1,4 @@
-package com.ng.ui.study.anim;
+package com.ng.ui.other.zhuanli.my;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.ng.ui.study.anim.PieAnimView
+        <com.ng.ui.other.zhuanli.my.PieAnimView
             android:id="@+id/pie_test1"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -28,7 +28,7 @@
             app:pie_strokeJoin="round"
             app:pie_strokeSize="2dp" />
 
-        <com.ng.ui.study.anim.PieAnimView
+        <com.ng.ui.other.zhuanli.my.PieAnimView
             android:layout_marginLeft="@dimen/dd50"
             android:id="@+id/pie_test2"
             android:layout_width="50dp"
