@@ -51,15 +51,13 @@
         <activity android:name=".study.animbase.AnimBaseActivity"/>
         <activity android:name=".study.region.RegionTestActivity">
         </activity>
-
         <activity android:name=".study.rotate.RotateTestActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity android:name=".study.rotate.RotateXyzTestActivity">
+        </activity>
+        <activity android:name=".study.clock.ClockTestActivity">
+        </activity>
+        <activity android:name=".study.explode.ExplodeTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -27,4 +27,11 @@
         <attr name="up_change_tv_textColor" format="color" />
         <attr name="up_change_tv_textSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="MiClockView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="lightColor" format="color" />
+        <attr name="darkColor" format="color" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
 </resources>
