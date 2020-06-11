@@ -161,4 +161,10 @@
         <item name="lmd_strokeJoin">miter</item>
         <item name="lmd_clockwise">true</item>
     </style>
+
+
+    <style name="AppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="selectableItemBackground">@null</item>
+    </style>
+
 </resources>

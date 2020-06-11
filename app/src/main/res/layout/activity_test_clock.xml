@@ -5,15 +5,10 @@
     android:layout_height="match_parent"
     android:background="#237EAD"
     >
-
-<!--    <com.ng.ui.study.clock.MiClockView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
+<!--    <com.ng.ui.study.clock.ClockTestView-->
 <!--        android:layout_centerInParent="true"-->
-<!--        monkey:backgroundColor="#237EAD"-->
-<!--        monkey:darkColor="#80ffffff"-->
-<!--        monkey:lightColor="#ffffff"-->
-<!--        monkey:textSize="14sp" />-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"/>-->
 
     <com.ng.ui.study.clock.ClockTestView
         android:layout_centerInParent="true"

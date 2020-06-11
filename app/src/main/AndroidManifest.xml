@@ -15,11 +15,19 @@
         android:name=".MyApp"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".main.VpMainActivity"></activity>
+        <activity android:name=".main.VpMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".test.TestActivity"></activity>
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
 
         <!--custom view-->
         <activity android:name=".aty.CdActivity" />
@@ -56,11 +64,6 @@
         <activity android:name=".study.rotate.RotateXyzTestActivity">
         </activity>
         <activity android:name=".study.clock.ClockTestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".study.explode.ExplodeTestActivity">
         </activity>
