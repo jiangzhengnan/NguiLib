@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
+    android:background="#FAFAFA"
     android:layout_height="match_parent"
-    tools:context="com.ng.ui.MainActivity">
+    >
 
     <com.ng.ui.view.CentralTractionButton
         android:id="@+id/ctt_mcv"

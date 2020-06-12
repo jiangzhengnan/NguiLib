@@ -3,26 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#FAFAFA">
 
 
-  <LinearLayout
-      android:layout_centerInParent="true"
-      android:orientation="horizontal"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-      <com.ng.nguilib.ToggleView
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          app:positiveImgId="@drawable/ic_add"
-          app:reverseImgId="@drawable/ic_remove" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
 
-      <com.ng.nguilib.ToggleView
-          android:layout_marginLeft="50dp"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          app:positiveImgId="@drawable/ic_check"
-          app:reverseImgId="@drawable/ic_close" />
-  </LinearLayout>
+        <com.ng.nguilib.ToggleView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:positiveImgId="@drawable/ic_add"
+            app:reverseImgId="@drawable/ic_remove" />
+
+        <com.ng.nguilib.ToggleView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            app:positiveImgId="@drawable/ic_check"
+            app:reverseImgId="@drawable/ic_close" />
+    </LinearLayout>
 
 </RelativeLayout>

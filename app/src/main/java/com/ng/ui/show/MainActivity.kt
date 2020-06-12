@@ -6,11 +6,14 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.ng.ui.R
 import com.ng.ui.show.frag.*
 import com.ng.ui.show.main.AppUtils
 import com.ng.ui.show.main.ItemInfo
+import com.ng.ui.show.main.LeftListAdapter
 import com.ng.ui.show.main.MyViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_main_vp.*
 
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private var itemInfoList = ArrayList<ItemInfo>()
     private var myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, itemInfoList)
+    private lateinit var mAdapter: LeftListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         //notify
         myViewPagerAdapter.notifyDataSetChanged()
+        mAdapter.notifyDataSetChanged()
         vp_maina.currentItem = itemInfoList.size - 1
     }
 
@@ -63,6 +68,17 @@ class MainActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_nav)
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
+
+        mAdapter = LeftListAdapter(this, itemInfoList)
+        mAdapter.setItemListener(object : LeftListAdapter.OnLeftItemClick {
+            override fun onItem(pos: Int) {
+                vp_maina.currentItem = pos
+                drawer_main.closeDrawers()
+            }
+
+        })
+        left_rv.layoutManager = LinearLayoutManager(this)
+        left_rv.adapter = mAdapter
     }
 
     private fun getContentViewLayoutID(): Int {
@@ -91,6 +107,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> if (drawer_main.isDrawerOpen(GravityCompat.START)) {
+                drawer_main.closeDrawers()
+            } else {
+                drawer_main.openDrawer(GravityCompat.START)
+            }
+            //R.id.menu_1 -> Toast.makeText(this@MainActivity, item.getTitle(), Toast.LENGTH_SHORT).show()
+        }
         return super.onOptionsItemSelected(item)
     }
 

@@ -34,13 +34,15 @@
     </LinearLayout>
 
 
-<!--    &lt;!&ndash;左侧抽屉NavigationView&ndash;&gt;-->
-<!--    <android.support.design.widget.NavigationView-->
-<!--        android:id="@+id/navigation"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="start"-->
-<!--        app:headerLayout="@layout/layout_navigation_header_main"-->
-<!--        app:menu="@menu/main_navigation">-->
-<!--    </android.support.design.widget.NavigationView>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/left_rv"
+        android:padding="@dimen/dd16"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:orientation="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

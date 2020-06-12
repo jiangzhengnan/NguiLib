@@ -1,8 +1,8 @@
 package com.ng.ui.show.frag
 
 import android.view.View
-import android.widget.Button
 import android.widget.SeekBar
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatSeekBar
 import com.ng.ui.R
 import com.ng.ui.other.soundwaveview.SoundView
@@ -14,8 +14,8 @@ import com.ng.ui.other.soundwaveview.SoundView
  */
 class SvFragment : BaseFragment() {
     private lateinit var mysc: SoundView
-    private lateinit var button3: Button
-    private lateinit var button4: Button
+    private lateinit var button3: AppCompatButton
+    private lateinit var button4: AppCompatButton
     private lateinit var yinliang: AppCompatSeekBar
 
     override fun initViewsAndEvents(v: View) {
