@@ -1,4 +1,4 @@
-package com.ng.ui.main;
+package com.ng.ui.show.main;
 
 /**
  * 描述:
@@ -8,10 +8,6 @@ package com.ng.ui.main;
  */
 
 import androidx.fragment.app.Fragment;
-
-import com.ng.ui.R;
-
-import java.util.ArrayList;
 
 
 public class ItemInfo {

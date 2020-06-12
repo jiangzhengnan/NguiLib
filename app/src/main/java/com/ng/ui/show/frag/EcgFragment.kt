@@ -1,31 +1,26 @@
-package com.ng.ui.aty
+package com.ng.ui.show.frag
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 import com.ng.ui.R
 import com.ng.ui.view.EcgShowView
 import java.util.*
 
-class EcgActivity : AppCompatActivity() {
+/**
+ * 描述:
+ * @author Jzn
+ * @date 2020-06-12
+ */
+class EcgFragment : BaseFragment() {
+    override fun initViewsAndEvents(v: View) {
+        ecgview = v.findViewById(R.id.ecgview)
+        health_data1 = health_data1 + health_data1 + health_data1 + health_data1
+        showEcgData()
+    }
+
+    override fun getLayoutId(): Int = R.layout.fragment_ecg
+
     private lateinit var ecgview: EcgShowView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ecg)
-        ecgview = findViewById(R.id.ecgview);
-        health_data1 = health_data1 + health_data1 + health_data1 + health_data1
-
-        //show all ecg
-        //ecgview.setData(health_data1, ecgview.SHOW_MODEL_ALL)
-
-
-        //show scroll ecg
-        //ecgview.setData(health_data1, ecgview.SHOW_MODEL_DYNAMIC_SCROLL)
-
-        //show refresh ecg
-        showEcgData()
-
-    }
 
     private lateinit var timer: Timer
     private lateinit var timerTask: TimerTask
@@ -50,6 +45,7 @@ class EcgActivity : AppCompatActivity() {
         }
         timer.schedule(timerTask, 500, 50)
     }
+
 
     private var health_data1 = "0.101253886148333549,0.0" +
             "01253886148333549,0.003036087844520807,0.002440808573737741,-0.01077798567712307,-0.02941250056028366,-0.02127" +

@@ -1,36 +1,30 @@
-package com.ng.ui.aty
+package com.ng.ui.show.frag
 
 import android.graphics.Color
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.widget.Button
 import com.ng.nguilib.CylinderView
 import com.ng.ui.R
-import kotlinx.android.synthetic.main.activity_cd.*
 import java.util.*
 
-
 /**
- * @ProjectName: NGUI
- * @Package: com.ng.ui.aty
- * @Description:
- * @Author: Pumpkin
- * @CreateDate: 2019/11/24
+ * 描述:
+ * @author Jzn
+ * @date 2020-06-12
  */
+class CdFragment:BaseFragment() {
+    private lateinit var clv:CylinderView
+    private lateinit var btn1:Button
+    private lateinit var btn2:Button
+    private lateinit var btn3:Button
 
-class CdActivity : AppCompatActivity() {
+    override fun initViewsAndEvents(v: View) {
+        clv = v.findViewById(R.id.clv)
+        btn1 = v.findViewById(R.id.btn1)
+        btn2 = v.findViewById(R.id.btn2)
+        btn3 = v.findViewById(R.id.btn3)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(getContentViewLayoutID())
-        initViewsAndEvents()
-    }
 
-    private fun getContentViewLayoutID(): Int {
-        return R.layout.activity_cd
-
-    }
-
-    private fun initViewsAndEvents() {
         clv.setData(arrayListOf(
                 CylinderView.Entry(30f,  Color.parseColor("#bbdefb")),
                 CylinderView.Entry(40f,  Color.parseColor("#90caf9")),
@@ -51,6 +45,7 @@ class CdActivity : AppCompatActivity() {
         }
     }
 
+    override fun getLayoutId(): Int = R.layout.fragment_cd
 
     /**
      * 获取十六进制的颜色代码.例如  "#5A6677"

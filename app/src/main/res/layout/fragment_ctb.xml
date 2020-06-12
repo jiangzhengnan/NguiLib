@@ -10,18 +10,17 @@
     <com.ng.ui.view.CentralTractionButton
         android:id="@+id/ctt_mcv"
         android:button="@null"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
-        app:normalexternalbackground="@drawable/iv_rb1_bg_normal"
-        app:normalinsidebackground="@drawable/iv_rb1_in_normal"
-        app:selectedexternalbackground="@drawable/iv_rb1_bg_selected"
-        app:selectedinsidebackground="@drawable/iv_rb1_in_selected"
+        app:normalexternalbackground="@mipmap/iv_rb1_bg_normal"
+        app:normalinsidebackground="@mipmap/iv_rb1_in_normal"
+        app:selectedexternalbackground="@mipmap/iv_rb1_bg_selected"
+        app:selectedinsidebackground="@mipmap/iv_rb1_in_selected"
         app:text="消息"
         app:textdimension="12sp" />
-
 
     <LinearLayout
         android:orientation="horizontal"

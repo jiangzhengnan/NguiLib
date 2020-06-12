@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-         >
+        android:orientation="vertical">
 
         <com.ng.ui.other.soundwaveview.SoundView
             android:id="@+id/mysc"
-            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dd16"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="@dimen/dd16"
+            android:background="#000" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,7 +33,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
-                android:text="btn3" />
+                android:text="start" />
 
             <Button
                 android:id="@+id/button4"
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="18dp"
-                android:text="btn4" />
+                android:text="pause" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatSeekBar
@@ -51,7 +52,6 @@
             android:background="#fff"
             android:max="100" />
     </LinearLayout>
-
 
 
 </LinearLayout>

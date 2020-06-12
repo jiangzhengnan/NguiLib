@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.ng.ui.MainActivity;
 import com.ng.ui.R;
 
 public class ExplodeTestActivity extends AppCompatActivity {

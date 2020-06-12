@@ -1,31 +1,28 @@
-package com.ng.ui.aty
+package com.ng.ui.show.frag
 
-import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.SeekBar
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSeekBar
 import com.ng.ui.R
-import kotlinx.android.synthetic.main.activity_sv.*
+import com.ng.ui.other.soundwaveview.SoundView
 
 /**
  * 描述:
  * @author Jzn
- * @date 2019-12-14
+ * @date 2020-06-12
  */
-class SvActivity : AppCompatActivity() {
+class SvFragment : BaseFragment() {
+    private lateinit var mysc: SoundView
+    private lateinit var button3: Button
+    private lateinit var button4: Button
+    private lateinit var yinliang: AppCompatSeekBar
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(getContentViewLayoutID())
-        initViewsAndEvents()
-    }
-
-    private fun getContentViewLayoutID(): Int {
-        return R.layout.activity_sv
-    }
-
-    private fun initViewsAndEvents() {
-
+    override fun initViewsAndEvents(v: View) {
+        mysc = v.findViewById(R.id.mysc)
+        button3 = v.findViewById(R.id.button3)
+        button4 = v.findViewById(R.id.button4)
+        yinliang = v.findViewById(R.id.yinliang)
         button3.setOnClickListener {
             mysc.startWaveAnim()
         }
@@ -47,15 +44,16 @@ class SvActivity : AppCompatActivity() {
         })
     }
 
+
     override fun onStart() {
         super.onStart()
         mysc.post {
-          //   mysc.startBallAnim()
+            //   mysc.startBallAnim()
             mysc.setVolume(80)
             mysc.startWaveAnim()
 
         }
     }
 
-
+    override fun getLayoutId(): Int = R.layout.fragment_sv
 }

@@ -1,27 +1,29 @@
-package com.ng.ui.main
+package com.ng.ui.show
 
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.activity_main_vp.*
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.ng.ui.R
-import com.ng.ui.frag.ViewPagerFragment1
+import com.ng.ui.show.frag.*
+import com.ng.ui.show.main.AppUtils
+import com.ng.ui.show.main.ItemInfo
+import com.ng.ui.show.main.MyViewPagerAdapter
+import kotlinx.android.synthetic.main.activity_main_vp.*
 
 
 /**
  * 描述: 新的主页
- * 需要加入drawable
  * @author Jzn
  * @date 2020-04-11
  */
-class VpMainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    var itemInfos = ArrayList<ItemInfo>()
-
+    private var itemInfoList = ArrayList<ItemInfo>()
+    private var myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, itemInfoList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,23 +32,30 @@ class VpMainActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndEvents() {
-        itemInfos.add(ItemInfo("A", ViewPagerFragment1("a")))
+        initView()
+        //start
+        itemInfoList.add(ItemInfo("CentralTractionButton", CtbFragment()))
+        itemInfoList.add(ItemInfo("EcgView", EcgFragment()))
+        itemInfoList.add(ItemInfo("PolygonLoadView", PlFragment()))
+        itemInfoList.add(ItemInfo("ArrowInteractionView", AiFragment()))
+        itemInfoList.add(ItemInfo("PointLoadingView", PtlFragment()))
+        itemInfoList.add(ItemInfo("CylinderView", CdFragment()))
+        itemInfoList.add(ItemInfo("SoundView", SvFragment()))
+        itemInfoList.add(ItemInfo("ToggleView", TgFragment()))
 
+        //notify
+        myViewPagerAdapter.notifyDataSetChanged()
+        vp_maina.currentItem = itemInfoList.size - 1
+    }
 
-        val myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, itemInfos)
-
+    private fun initView() {
         vp_maina.adapter = myViewPagerAdapter;
-        vp_maina.currentItem = 0;
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
-
-        //不能在xml文件中设置字体大小和颜色 但是可以在代码中设置
         pts_main.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         pts_main.setTextColor(Color.WHITE)
         pts_main.setTabIndicatorColorResource(R.color.colorAccent)
         pts_main.drawFullUnderline = false
-
-
-        main_toolbar.title = "NgUiLib"
+        main_toolbar.title = AppUtils.getAppName(this)
         setSupportActionBar(main_toolbar)
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -54,7 +63,6 @@ class VpMainActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_nav)
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
-
     }
 
     private fun getContentViewLayoutID(): Int {
@@ -80,7 +88,7 @@ class VpMainActivity : AppCompatActivity() {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
-        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
@@ -91,7 +99,7 @@ class VpMainActivity : AppCompatActivity() {
 //        menuInflater.inflate(R.menu.main_menu, menu)
 //        return super.onCreateOptionsMenu(menu)
 //    }
-//
+
 //    fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        when (item.getItemId()) {
 //            android.R.id.home -> if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
