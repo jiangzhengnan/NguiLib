@@ -24,9 +24,6 @@ public class InhaleAnimationActivity extends Activity {
     private static final boolean DEBUG_MODE = false;
     private InhaleView mInhaleView = null;
 
-    private int mTradeIntroduceAnimViewWidth;
-    private int mTradeIntroduceAnimViewHeight;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

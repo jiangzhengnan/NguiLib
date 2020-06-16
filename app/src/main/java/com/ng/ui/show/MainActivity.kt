@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.activity_main_vp.*
  */
 class MainActivity : AppCompatActivity() {
 
+    private fun getContentViewLayoutID(): Int = R.layout.activity_main_vp
+
     private var itemInfoList = ArrayList<ItemInfo>()
     private var myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, itemInfoList)
     private lateinit var mAdapter: LeftListAdapter
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         itemInfoList.add(ItemInfo("CylinderView", CdFragment()))
         itemInfoList.add(ItemInfo("SoundView", SvFragment()))
         itemInfoList.add(ItemInfo("ToggleView", TgFragment()))
+        itemInfoList.add(ItemInfo("ParrotView", PtFragment()))
 
         //notify
         myViewPagerAdapter.notifyDataSetChanged()
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
         vp_maina.adapter = myViewPagerAdapter;
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
+        vp_maina.offscreenPageLimit = 3
         pts_main.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         pts_main.setTextColor(Color.WHITE)
         pts_main.setTabIndicatorColorResource(R.color.colorAccent)
@@ -81,10 +85,6 @@ class MainActivity : AppCompatActivity() {
         left_rv.adapter = mAdapter
     }
 
-    private fun getContentViewLayoutID(): Int {
-        return R.layout.activity_main_vp
-
-    }
 
 
     class MyOnPageChangeListener : ViewPager.OnPageChangeListener {

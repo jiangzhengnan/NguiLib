@@ -28,9 +28,9 @@ public class MyInhaleView extends View {
     private float mBmpH;
 
     //3行3列
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
-    private static final long DURATION = 3 * 1000;
+    private static final int WIDTH = 5;
+    private static final int HEIGHT = 5;
+    private static final long DURATION = 5 * 1000;
 
     //矩阵数组
     private float[] mVerts;

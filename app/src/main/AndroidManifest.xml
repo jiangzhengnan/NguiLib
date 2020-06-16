@@ -29,7 +29,6 @@
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
 
-
         <!--test-->
         <activity android:name=".other.inhale.InhaleAnimationActivity" />
         <activity android:name=".other.textview.TestTxtActivity" />
@@ -39,9 +38,9 @@
         <activity android:name=".other.parrot.NgTestAty">
         </activity>
 
-
         <!--study-->
-        <activity android:name=".study.inhale.InhaleStudyActivity" />
+        <activity android:name=".study.inhale.InhaleStudyActivity">
+        </activity>
         <activity android:name=".other.zhuanli.my.MyAnimStudyActivity" />
         <activity android:name=".study.animbase.AnimBaseActivity"/>
         <activity android:name=".study.region.RegionTestActivity">

@@ -8,6 +8,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.ng.nguilib.utils.DensityUtil.dip2px
+import com.ng.nguilib.utils.Utils
 import java.util.*
 
 class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -125,6 +126,10 @@ class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) 
             if (i > refreshList!!.size - 1) {
                 break
             }
+            if (data == null || data!!.isEmpty() || Utils.isEmpty(refreshList)) {
+                break
+            }
+
             if (nowIndex <= intervalNumHeart) {
                 this.data!![i] = refreshList!![i]
             } else {

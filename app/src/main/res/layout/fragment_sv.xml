@@ -18,8 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/dd16"
             android:layout_marginTop="100dp"
-            android:layout_marginRight="@dimen/dd16"
-            android:background="#000" />
+            android:layout_marginRight="@dimen/dd16" />
 
         <LinearLayout
             android:layout_width="wrap_content"

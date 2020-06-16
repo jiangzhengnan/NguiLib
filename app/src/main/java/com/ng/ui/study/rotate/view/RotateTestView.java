@@ -2,7 +2,6 @@ package com.ng.ui.study.rotate.view;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +16,6 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 
-import com.ng.nguilib.utils.LogUtils;
 import com.ng.ui.R;
 
 /**
@@ -43,15 +41,15 @@ public class RotateTestView extends View {
     private int degree2;
 
     {
-        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.maps);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_icon);
 
         path=new Path();
 
 
-        ObjectAnimator animator1 = ObjectAnimator.ofInt(this, "degree1", 0, 45).setDuration(20000);
-        ObjectAnimator animator2 = ObjectAnimator.ofInt(this, "rotate", 270, 0).setDuration(20000);
+        ObjectAnimator animator1 = ObjectAnimator.ofInt(this, "degree1", 0, 45).setDuration(2000);
+        ObjectAnimator animator2 = ObjectAnimator.ofInt(this, "rotate", 270, 0).setDuration(2000);
         animator2.setInterpolator(new DecelerateInterpolator());
-        ObjectAnimator animator3 = ObjectAnimator.ofInt(this, "degree2", 0, 45).setDuration(20000);
+        ObjectAnimator animator3 = ObjectAnimator.ofInt(this, "degree2", 0, 45).setDuration(2000);
         animatorSet.playSequentially(animator1,animator2,animator3);
     }
 

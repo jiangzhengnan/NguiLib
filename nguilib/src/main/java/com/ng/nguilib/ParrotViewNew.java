@@ -43,9 +43,9 @@ public class ParrotViewNew extends View {
     private float mWidth;
     private int mStartColor = Color.parseColor("#01EAFF");
     private int mEndColor = Color.parseColor("#D51C89");
-    private long DURATION = 2000;
-    private long SINGLE_DURATION = 2000;
-    private long SINGLE_INTERVAL = 1;
+    private long DURATION = 1500;
+    private long SINGLE_DURATION = 1500;
+    private long SINGLE_INTERVAL = 100;
     //定义常量pi（圆周率）
     private float pi = 3.1415926f;
     //基础组件
@@ -58,7 +58,7 @@ public class ParrotViewNew extends View {
     //柱子最大值
     private float mMaxValue;
     //柱子最大长度
-    private float mMaxLength = getResources().getDimensionPixelOffset(R.dimen.dd80);
+    private float mMaxLength = getResources().getDimensionPixelOffset(R.dimen.dd70);
     //柱子间隔
     private float mInterval = 0.3f;
 
@@ -75,7 +75,7 @@ public class ParrotViewNew extends View {
     //圆心距右偏移量
     private float mCenterMarginRight = getResources().getDimensionPixelOffset(R.dimen.dd10);
     //圆心距上偏移量
-    private float mCenterMarginTop = getResources().getDimensionPixelOffset(R.dimen.dd50);
+    private float mCenterMarginTop = getResources().getDimensionPixelOffset(R.dimen.dd00);
     //圆心坐标
     private float mCenterX, mCenterY;
     //圆心角度
@@ -105,6 +105,12 @@ public class ParrotViewNew extends View {
 
     private float RANGE_COLLECT = 1500f;
     private float RANGE_Y_COLLECT = -800f;
+
+
+    public void setColor(int mStartColor,int mEndColor) {
+        this.mStartColor = mStartColor;
+        this.mEndColor = mEndColor;
+    }
 
 
     @Override
