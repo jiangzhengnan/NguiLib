@@ -40,7 +40,7 @@
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/white"
+        android:background="#FF03A9F4"
         android:orientation="vertical">
     </androidx.recyclerview.widget.RecyclerView>
 
