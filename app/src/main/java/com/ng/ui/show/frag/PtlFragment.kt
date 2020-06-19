@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import com.ng.nguilib.PointLoadingView
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.fragment_ptl.*
 
 /**
  * 描述:
@@ -11,10 +12,8 @@ import com.ng.ui.R
  * @date 2020-06-12
  */
 class PtlFragment : BaseFragment() {
-    private lateinit var ptl: PointLoadingView
 
     override fun initViewsAndEvents(v: View) {
-        ptl = v.findViewById(R.id.ptl)
         ptl.setColor(Color.parseColor("#ffffff"),
                 Color.parseColor("#99A6C7")
         )

@@ -15,9 +15,12 @@ import com.ng.ui.R
 abstract class BaseFragment :Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(getLayoutId(), container, false)
-        initViewsAndEvents(v)
-        return v
+        return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewsAndEvents(view)
     }
 
     abstract fun initViewsAndEvents(v: View)

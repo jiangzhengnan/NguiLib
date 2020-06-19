@@ -3,6 +3,7 @@ package com.ng.ui.show.frag
 import android.view.View
 import com.ng.ui.R
 import com.ng.ui.view.EcgShowView
+import kotlinx.android.synthetic.main.fragment_ecg.*
 import java.util.*
 
 /**
@@ -12,14 +13,12 @@ import java.util.*
  */
 class EcgFragment : BaseFragment() {
     override fun initViewsAndEvents(v: View) {
-        ecgview = v.findViewById(R.id.ecgview)
         health_data1 = health_data1 + health_data1 + health_data1 + health_data1
         showEcgData()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_ecg
 
-    private lateinit var ecgview: EcgShowView
 
 
     private lateinit var timer: Timer

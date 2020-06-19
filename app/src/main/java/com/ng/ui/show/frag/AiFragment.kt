@@ -3,6 +3,7 @@ package com.ng.ui.show.frag
 import android.view.View
 import com.ng.nguilib.ArrowInteractionView
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.fragment_ai.*
 
 /**
  * 描述:
@@ -10,20 +11,16 @@ import com.ng.ui.R
  * @date 2020-06-12
  */
 class AiFragment : BaseFragment() {
-    private lateinit var aiviewLeft: ArrowInteractionView
-    private lateinit var aiviewRight: ArrowInteractionView
 
     override fun initViewsAndEvents(v: View) {
-        aiviewLeft = v.findViewById(R.id.aiview_left)
-        aiviewLeft.setModel(aiviewLeft.SHOW_MODEL_LEFT)
-        aiviewLeft.setOnClickListener {
-            aiviewLeft.startAnim()
+        aiview_left.setModel(aiview_left.SHOW_MODEL_LEFT)
+        aiview_left.setOnClickListener {
+            aiview_left.startAnim()
         }
 
-        aiviewRight = v.findViewById(R.id.aiview_right)
-        aiviewRight.setModel(aiviewRight.SHOW_MODEL_RIGHT)
-        aiviewRight.setOnClickListener {
-            aiviewRight.startAnim()
+        aiview_right.setModel(aiview_right.SHOW_MODEL_RIGHT)
+        aiview_right.setOnClickListener {
+            aiview_right.startAnim()
         }
     }
 

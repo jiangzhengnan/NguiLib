@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.ng.nguilib.ParrotViewNew
 import com.ng.nguilib.utils.ParrotPillarNew
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.fragment_pt.*
 import java.util.*
 
 /**
@@ -33,24 +34,20 @@ class PtFragment : BaseFragment() {
 
     }
 
-    private lateinit var ptv1: ParrotViewNew
-    private lateinit var ptv2: ParrotViewNew
 
     override fun initViewsAndEvents(v: View) {
         getFakeData()
 
-        ptv1 = v.findViewById(R.id.ptv1_new)
-        ptv2 = v.findViewById(R.id.ptv2_new)
 
-        ptv2.setColor(Color.parseColor("#cc8400"), Color.parseColor("#ffff00"))
+        ptv2_new.setColor(Color.parseColor("#cc8400"), Color.parseColor("#ffff00"))
 
-        ptv1.setData(mParrotPillars1,ParrotViewNew.ANIM_TYPE_NORMAL)
-        ptv2.setData(mParrotPillars2,ParrotViewNew.ANIM_TYPE_COLECT)
+        ptv1_new.setData(mParrotPillars1,ParrotViewNew.ANIM_TYPE_NORMAL)
+        ptv2_new.setData(mParrotPillars2,ParrotViewNew.ANIM_TYPE_COLECT)
 
         val btn : AppCompatButton = v.findViewById(R.id.btn_pt)
         btn.setOnClickListener {
-            ptv1.startAnim()
-            ptv2.startAnim()
+            ptv1_new.startAnim()
+            ptv2_new.startAnim()
 
         }
      }

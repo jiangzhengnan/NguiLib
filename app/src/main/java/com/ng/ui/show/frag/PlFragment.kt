@@ -3,6 +3,7 @@ package com.ng.ui.show.frag
 import android.view.View
 import com.ng.nguilib.PolygonLoadView
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.fragment_pl.*
 
 /**
  * 描述:
@@ -13,15 +14,9 @@ class PlFragment : BaseFragment() {
     override fun getLayoutId(): Int =  R.layout.fragment_pl
 
     override fun initViewsAndEvents(v: View) {
-        pl1 = v.findViewById(R.id.pl1)
-        pl2 = v.findViewById(R.id.pl2)
-        pl3 = v.findViewById(R.id.pl3)
 
     }
 
-    private lateinit var pl1 : PolygonLoadView
-    private lateinit var pl2 : PolygonLoadView
-    private lateinit var pl3 : PolygonLoadView
 
 
     override fun onStart() {

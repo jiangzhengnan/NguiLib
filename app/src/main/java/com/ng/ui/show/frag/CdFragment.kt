@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import com.ng.nguilib.CylinderView
 import com.ng.ui.R
+import kotlinx.android.synthetic.main.fragment_cd.*
 import java.util.*
 
 /**
@@ -13,16 +14,8 @@ import java.util.*
  * @date 2020-06-12
  */
 class CdFragment:BaseFragment() {
-    private lateinit var clv:CylinderView
-    private lateinit var btn1:Button
-    private lateinit var btn2:Button
-    private lateinit var btn3:Button
 
     override fun initViewsAndEvents(v: View) {
-        clv = v.findViewById(R.id.clv)
-        btn1 = v.findViewById(R.id.btn1)
-        btn2 = v.findViewById(R.id.btn2)
-        btn3 = v.findViewById(R.id.btn3)
 
 
         clv.setData(arrayListOf(
