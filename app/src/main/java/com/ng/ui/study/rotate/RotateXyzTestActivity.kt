@@ -48,6 +48,8 @@ class RotateXyzTestActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 rts_test.setRY(progress)
+                updateTv()
+
             }
         })
 
@@ -61,6 +63,8 @@ class RotateXyzTestActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 rts_test.setRZ(progress)
+                updateTv()
+
             }
         })
 
@@ -74,6 +78,7 @@ class RotateXyzTestActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 rts_test.setRR(progress)
+                updateTv()
 
                 //rts_test.setRQ(progress)
 
@@ -89,6 +94,8 @@ class RotateXyzTestActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 rts_test.setRQ(progress)
+                updateTv()
+
             }
         })
 

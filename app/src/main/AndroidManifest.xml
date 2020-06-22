@@ -46,6 +46,7 @@
         <activity android:name=".study.region.RegionTestActivity">
         </activity>
         <activity android:name=".study.rotate.RotateTestActivity">
+
         </activity>
         <activity android:name=".study.rotate.RotateXyzTestActivity">
         </activity>
