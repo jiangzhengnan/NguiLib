@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".other.TestActivity"></activity>
+        <activity android:name=".other.TestActivity" />
 
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
