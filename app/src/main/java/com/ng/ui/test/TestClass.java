@@ -1,4 +1,4 @@
-package com.ng.ui;
+package com.ng.ui.test;
 
 public class TestClass {
 

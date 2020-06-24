@@ -61,7 +61,7 @@ public class ParrotView extends View {
             "#2687BB", "#31A4E2",
             "#2766FF", "#1C3DFF"
     };
-    //定义常量pi（圆周率）
+    //定义常量pi（圆周率） 
     private float pi = 3.1415926f;
     //基础组件
     private Paint mPaint;
@@ -98,7 +98,7 @@ public class ParrotView extends View {
     private RectF mInsideOval;
 
     //文字嵌入圆弧距离
-    private float mEmbeddedArcDistanceMax = getResources().getDimensionPixelOffset(R.dimen.dd60);
+    private float mEmbeddedArcDistanceMax = getResources().getDimensionPixelOffset(R.dimen.dd30);
     private float mEmbeddedArcDistanceMin = getResources().getDimensionPixelOffset(R.dimen.dd08);
     private float mEmbeddedArcDistanceNow;
     //文字距离圆弧距离
@@ -108,7 +108,7 @@ public class ParrotView extends View {
     private float mMinTextSize = getResources().getDimensionPixelOffset(R.dimen.dd05);
     //文字颜色
     @SuppressLint("ResourceType")
-    private int mTextColor = ColorUtils.setAlphaComponent(getResources().getColor(R.color.nc306_black), 153);
+    private int mTextColor = ColorUtils.setAlphaComponent(Color.BLACK, 153);
     //文字绘制旋转角
     private float mStrStartAngle = -90;
 
@@ -513,9 +513,9 @@ public class ParrotView extends View {
                         newTemp.setAnimLength(tempAnimLenght);
 
                         //mCenterThick
-                        if (finalI == mValueUpdateIndex.get(mValueUpdateIndex.size() - 1)) {
+                        if (finalI == 0) {
                             mCenterThick = getResources().getDimensionPixelOffset(R.dimen.dd01) +
-                                    getResources().getDimensionPixelOffset(R.dimen.dd02) * (1 - strAplhaRate);
+                                    getResources().getDimensionPixelOffset(R.dimen.dd03) * (1 - strAplhaRate);
                         }
 
 

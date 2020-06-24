@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 
-import com.ng.nguilib.utils.LogUtils;
-
 import java.util.Arrays;
 
 /**
@@ -24,8 +22,8 @@ import java.util.Arrays;
  */
 public class InhaleView extends View {
 
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 80;
+    private static final int WIDTH = 20;
+    private static final int HEIGHT = 20;
 
     private Bitmap mBitmap;
 
@@ -115,7 +113,7 @@ public class InhaleView extends View {
                     mInhaleMesh.buildMeshes(index);
                     invalidate();
                 });
-        animation.setDuration(400);
+        animation.setDuration(10000);
         this.startAnimation(animation);
         return true;
     }
@@ -156,39 +154,69 @@ public class InhaleView extends View {
          *                     setWindowAlpha(getContext(), alpha);
          */
 
-        //(0.24f - 0f)   (0 - HEIGHT+1)
-        int colorAlpha = (int) (255f * 0.24f * (1f - mAnimIndex / (HEIGHT + 1f)));
-        LogUtils.INSTANCE.d("颜色: " + colorAlpha);
 
-        canvas.drawColor(Color.argb(colorAlpha, 0, 0, 0));
 
-        canvas.drawBitmapMesh(mBitmap,
-                mInhaleMesh.getWidth(),
-                mInhaleMesh.getHeight(),
-                mInhaleMesh.getVertices(),
-                0, null, 0, mPaint);
+//        canvas.drawBitmapMesh(mBitmap,
+//                mInhaleMesh.getWidth(),
+//                mInhaleMesh.getHeight(),
+//                mInhaleMesh.getVertices(),
+//                0, null, 0, mPaint);
 
 
         // ===========================================
         // Draw the target point.
         mPaint.setColor(Color.RED);
         mPaint.setStyle(Paint.Style.FILL);
+
+        //画一下终点
+        canvas.drawCircle(mTargetX,mTargetY,5,mPaint);
+
         canvas.drawCircle(mInhalePt[0], mInhalePt[1], 5, mPaint);
 
         if (mIsDebug) {
             // ===========================================
             // Draw the mesh vertices.
-            canvas.drawPoints(mInhaleMesh.getVertices(), mPaint);
+            //canvas.drawPoints(mInhaleMesh.getVertices(), mPaint);
 
             // ===========================================
             // Draw the paths
-            mPaint.setColor(Color.BLUE);
+            mPaint.setColor(Color.RED);
             mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setStrokeWidth(5);
             Path[] paths = mInhaleMesh.getPaths();
             for (Path path : paths) {
                 canvas.drawPath(path, mPaint);
             }
+
+
+
+            float[]  mVerts = mInhaleMesh.getVertices();
+            //画分割线
+            mPaint.setStrokeWidth(2);
+            mPaint.setStyle(Paint.Style.FILL);
+            for (int i = 0; i + 1 < mVerts.length / 2; i++) {
+                if ((i + WIDTH + 1) * 2 + 1 <= mVerts.length) {
+                    canvas.drawLine(
+                            mVerts[i * 2],
+                            mVerts[i * 2 + 1],
+                            mVerts[(i + WIDTH + 1) * 2],
+                            mVerts[(i + WIDTH + 1) * 2 + 1],
+                            mPaint);
+                }
+                if (i != 0 && ((i + 1) % (WIDTH + 1) == 0)) {
+                    continue;
+                }
+                canvas.drawLine(
+                        mVerts[i * 2],
+                        mVerts[i * 2 + 1],
+                        mVerts[i * 2 + 2],
+                        mVerts[i * 2 + 3],
+                        mPaint);
+            }
         }
+
+
+
 
     }
 

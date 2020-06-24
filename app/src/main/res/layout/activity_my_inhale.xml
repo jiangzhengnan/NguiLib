@@ -5,16 +5,18 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/mTipContainerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <Button
+            android:visibility="gone"
             android:textSize="8sp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginRight="@dimen/dd50"
             android:layout_alignParentRight="true"
             android:text="目标" />
 

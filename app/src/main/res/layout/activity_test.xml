@@ -1,16 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:background="#000"
+    android:layout_height="match_parent">
 
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_centerHorizontal="true"
-        android:text="kakaka"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Button>
+        <com.ng.ui.test.TestSvView
+            android:id="@+id/TestSvView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd300" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sk_test"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dd10"
+            android:background="#fff"
+            android:max="100" />
+    </LinearLayout>
 
 </RelativeLayout>

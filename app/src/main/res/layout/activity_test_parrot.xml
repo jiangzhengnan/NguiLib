@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#9f182972">
+    android:background="#fff">
 
     <com.ng.ui.other.parrot.ParrotView
         android:id="@+id/ptv_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" />
+        android:layout_marginBottom="@dimen/dd100"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

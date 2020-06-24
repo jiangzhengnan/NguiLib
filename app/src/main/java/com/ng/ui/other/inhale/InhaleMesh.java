@@ -100,23 +100,21 @@ public class InhaleMesh extends Mesh {
         float w = mBmpWidth;
         float h = mBmpHeight;
 
-        //bitmap宽高
-        LogUtils.INSTANCE.d("w h : " + w + " " + h);
-        //屏幕宽高
-        LogUtils.INSTANCE.d("endXw endY : " + endX + " " + endY);
 
         mFirstPath.reset();
         mSecondPath.reset();
 
         mFirstPath.moveTo(endX / 2 - w / 2, endY / 2 - h / 2);
-
         mSecondPath.moveTo(endX / 2 + w / 2, endY / 2 - h / 2);
 
         mFirstPath.lineTo(endX / 2 - w / 2, endY / 2 + h / 2);
         mSecondPath.lineTo(endX / 2 + w / 2, endY / 2 + h / 2);
 
-        mFirstPath.quadTo(endX / 4, endY, endX / 2, endY);
-        mSecondPath.quadTo(endX - endX / 4, endY, endX / 2, endY);
+        mFirstPath.quadTo(endX / 4, endY / 2 + h / 2,
+                endX, endY);
+
+        mSecondPath.quadTo(endX - endX / 4, endY / 2 + h / 2
+                , endX, endY);
     }
 
     private void buildPathsUp(float endX, float endY, float width, float height) {
@@ -126,6 +124,10 @@ public class InhaleMesh extends Mesh {
         float w = mBmpWidth;
         float h = mBmpHeight;
 
+        //bitmap宽高
+        LogUtils.INSTANCE.d("w h : " + w + " " + h);
+        //屏幕宽高
+        LogUtils.INSTANCE.d("endXw endY : " + endX + " " + endY);
 
         mFirstPath.reset();
         mSecondPath.reset();
@@ -137,8 +139,8 @@ public class InhaleMesh extends Mesh {
         mFirstPath.lineTo(width / 2 - w / 2, height / 2 - h / 2);
         mSecondPath.lineTo(width / 2 + w / 2, height / 2 - h / 2);
 
-        mFirstPath.quadTo(width / 2 - w / 2, endY, endX, endY);
-        mSecondPath.quadTo(width / 2 + w / 2, endY, endX, endY);
+        mFirstPath.quadTo(endX, height / 2 - h / 2, endX, endY);
+        mSecondPath.quadTo(endX, height / 2 - h / 2, endX, endY);
     }
 
     private void buildPathsRight(float endX, float endY) {

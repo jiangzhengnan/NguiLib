@@ -24,13 +24,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".other.TestActivity" />
+        <activity android:name=".test.TestActivity" >
+        </activity>
 
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
 
         <!--test-->
-        <activity android:name=".other.inhale.InhaleAnimationActivity" />
+        <activity android:name=".other.inhale.InhaleAnimationActivity" >
+        </activity>
         <activity android:name=".other.textview.TestTxtActivity" />
         <activity android:name=".other.print.TestPrintTextViewActivity" />
         <activity android:name=".other.gesture.TestGuochangAty" />

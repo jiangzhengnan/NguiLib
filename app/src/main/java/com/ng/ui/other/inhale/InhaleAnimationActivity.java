@@ -47,7 +47,7 @@ public class InhaleAnimationActivity extends Activity {
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_test);
 
-        mBitmap = resizeImage(mBitmap, 700, 1100);
+        mBitmap = resizeImage(mBitmap, 800, 500);
 
         showTradeIntroduceAnimView(mBitmap);
 
@@ -61,7 +61,7 @@ public class InhaleAnimationActivity extends Activity {
         mInhaleView.setIsDebug(true);
         mInhaleView.setmBitmap(bitmap);
         //target: 980  1982
-        mInhaleView.setTargetPosition(980,100 , 1080 , 1982);
+        mInhaleView.setTargetPosition(800,100 , 1080 , 1982);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
