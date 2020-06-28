@@ -17,26 +17,33 @@ import com.ng.nguilib.R
 /**
  * Created by GG on 2017/11/2.
  */
-class CentralTractionButton : RadioButton {
+class CentralTractionButton : androidx.appcompat.widget.AppCompatRadioButton {
+    private var mAttracted: Boolean = false
+
     //四个图片的id
     private var normalexternalbackground: Int = 0
     private var normalinsidebackground: Int = 0
     private var selectedinsidebackground: Int = 0
     private var selectedexternalbackground: Int = 0
+
     //文字
     private var textdimension: Float = 0f
     private var text: String = ""
+
     //绘制图形的画笔
     private var bmPaint: Paint? = null
+
     //图形偏移距离
     private var offsetDistanceLimit: Float = 0.toFloat()
 
     //组件宽高
     private var mWidth: Float = 0.toFloat()
     private var mHeight: Float = 0.toFloat()
+
     //中心点坐标,相较于屏幕
     private var centerX: Float = 0.toFloat()
     private var centerY: Float = 0.toFloat()
+
     //中心点坐标,相较于组件内
     private var centerx: Float = 0.toFloat()
     private var centery: Float = 0.toFloat()
@@ -54,6 +61,7 @@ class CentralTractionButton : RadioButton {
         ta.recycle()
         init()
     }
+
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -72,6 +80,7 @@ class CentralTractionButton : RadioButton {
 
     //轨迹圆外径的半径mR = ob
     var mR: Float = 0.toFloat()
+
     //背景图图形的半径 = 长宽(这里类似于直径)/2 = ob/2
     var mr: Float = 0.toFloat()
 
@@ -108,7 +117,7 @@ class CentralTractionButton : RadioButton {
                 val pvhX = PropertyValuesHolder.ofFloat("scaleX", 0.1f,
                         1f)
                 val pvhY = PropertyValuesHolder.ofFloat("scaleY", 0.1f,
-                          1f)
+                        1f)
                 val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, pvhX, pvhY)
                 objectAnimator.duration = 500
                 val overshootInterpolator = OvershootInterpolator(1.2f)
@@ -169,6 +178,9 @@ class CentralTractionButton : RadioButton {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
+        if (mAttracted)
+            parent.requestDisallowInterceptTouchEvent(true)
+
         //相较于视图的XY
         var mx1 = event.x
         var my1 = event.y
@@ -176,6 +188,7 @@ class CentralTractionButton : RadioButton {
         var my2 = event.y  //需要减掉标题栏高度
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                startAttract()
                 postInvalidate()
             }
             MotionEvent.ACTION_MOVE -> {
@@ -249,12 +262,20 @@ class CentralTractionButton : RadioButton {
                         (centerx + mr).toInt(),
                         (centery + mr).toInt())
                 postInvalidate()
+                releaseAttract()
             }
         }
 
         return super.onTouchEvent(event)
     }
 
+    fun startAttract() {
+        mAttracted = true
+    }
+
+    fun releaseAttract() {
+        mAttracted = false
+    }
 
     //得到两点之间的距离
     private fun getDistanceTwoPoint(x1: Float, y1: Float, x2: Float, y2: Float): Float {
