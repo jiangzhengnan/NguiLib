@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
@@ -29,7 +28,6 @@ import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
 import com.ng.nguilib.utils.LinearGradientUtil;
-import com.ng.nguilib.utils.LogUtils;
 import com.ng.nguilib.utils.Utils;
 import com.ng.ui.R;
 
@@ -38,11 +36,13 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * 描述:酷酷的螺旋鹦鹉图😠
- *  工作版本
+ * 工作版本
+ *
  * @author Jzn
  * @date 2020-05-07
  */
@@ -61,7 +61,7 @@ public class ParrotView extends View {
             "#2687BB", "#31A4E2",
             "#2766FF", "#1C3DFF"
     };
-    //定义常量pi（圆周率） 
+    //定义常量pi（圆周率）
     private float pi = 3.1415926f;
     //基础组件
     private Paint mPaint;
@@ -98,7 +98,7 @@ public class ParrotView extends View {
     private RectF mInsideOval;
 
     //文字嵌入圆弧距离
-    private float mEmbeddedArcDistanceMax = getResources().getDimensionPixelOffset(R.dimen.dd30);
+    private float mEmbeddedArcDistanceMax = getResources().getDimensionPixelOffset(R.dimen.dd60);
     private float mEmbeddedArcDistanceMin = getResources().getDimensionPixelOffset(R.dimen.dd08);
     private float mEmbeddedArcDistanceNow;
     //文字距离圆弧距离
@@ -108,7 +108,7 @@ public class ParrotView extends View {
     private float mMinTextSize = getResources().getDimensionPixelOffset(R.dimen.dd05);
     //文字颜色
     @SuppressLint("ResourceType")
-    private int mTextColor = ColorUtils.setAlphaComponent(Color.BLACK, 153);
+    private int mTextColor = ColorUtils.setAlphaComponent(getResources().getColor(R.color.nc306_black), 153);
     //文字绘制旋转角
     private float mStrStartAngle = -90;
 
@@ -178,11 +178,13 @@ public class ParrotView extends View {
             }
         });
 
+
         mSwitchAnimator = ValueAnimator.ofFloat(0f, 1f);
         mSwitchAnimator.setDuration(SWITCH_DURATION);
         mSwitchAnimator.setInterpolator(new DecelerateInterpolator());
 
         mValueAnimatorList = new ArrayList<>();
+
     }
 
     @Override
@@ -192,12 +194,13 @@ public class ParrotView extends View {
             return;
         }
 
-        //LogUtils.INSTANCE.d("onDraw:" + mColumn + " " + mAngle + " " + mParrotPillars.toString());
+        //NgLogUtils.INSTANCE.d("onDraw:" + mColumn + " " + mAngle + " " + mParrotPillars.toString());
 
         //绘制螺旋图
-        for (ParrotPillar temp : mParrotPillars) {
-            drawSingleColumn(canvas, temp);
+        for (int i = 0; i < mParrotPillars.size(); i++) {
+            drawSingleColumn(canvas, mParrotPillars.get(i), i);
         }
+
         mPaint.setShader(null);
         //绘制文字
         drawText(canvas);
@@ -285,8 +288,10 @@ public class ParrotView extends View {
         return fm.descent - fm.ascent;
     }
 
+    private HashMap<Integer, RadialGradient> mShaders = new HashMap<>();
+
     //绘制单个弧片
-    private void drawSingleColumn(Canvas canvas, ParrotPillar temp) {
+    private void drawSingleColumn(Canvas canvas, ParrotPillar temp, int index) {
         mPaint.setStyle(Paint.Style.FILL);
         float lengthR = temp.getAnimLength();
         //设置双重渐变色
@@ -294,9 +299,15 @@ public class ParrotView extends View {
         int startColor = ColorUtils.setAlphaComponent(Color.parseColor(temp.getStartColor()), 255 * alpha / 100);
         int endColor = ColorUtils.setAlphaComponent(Color.parseColor(temp.getEndColor()), 255 * alpha / 100);
 
-        RadialGradient radialGradient = new RadialGradient(mCenterX, mCenterY, mCenterX + lengthR,
-                startColor, endColor, LinearGradient.TileMode.CLAMP
-        );
+        RadialGradient radialGradient;
+        if (mShaders != null && mShaders.get(index) != null) {
+            radialGradient = mShaders.get(index);
+        } else {
+            radialGradient = new RadialGradient(mCenterX, mCenterY, mCenterX + temp.getLength(),
+                    startColor, endColor, RadialGradient.TileMode.CLAMP
+            );
+            mShaders.put(index, radialGradient);
+        }
         mPaint.setShader(radialGradient);
         RectF oval = new RectF(mCenterX - lengthR, mCenterY - lengthR,
                 mCenterX + lengthR, mCenterY + lengthR);
@@ -325,7 +336,6 @@ public class ParrotView extends View {
      * @param dataList 数据
      */
     public void setData(ArrayList<ParrotPillar> dataList) {
-        LogUtils.INSTANCE.d("setData():" + dataList);
         //运行中则不执行
         if (isAnimRunning) {
             return;
@@ -341,7 +351,6 @@ public class ParrotView extends View {
         mAnimType = getAnimType(dataList, mParrotPillars);
         if (mAnimType.equals(ANIM_TYPE_NULL)) return;
 
-        LogUtils.INSTANCE.d("startAnim:" + isAnimRunning);
         if (isAnimRunning) {
             return;
         }
@@ -366,12 +375,18 @@ public class ParrotView extends View {
         }
 
         //开启loop
-        if (!isLoop) {
-            isLoop = true;
-            loopHandler.sendEmptyMessageDelayed(0, LOOP_DURATION);
-        }
+//        if (!isLoop) {
+//            isLoop = true;
+//            loopHandler.sendEmptyMessageDelayed(0, LOOP_DURATION);
+//        }
     }
 
+    public void clearData() {
+        stopAllAnim();
+        if (!Utils.isEmpty(mParrotPillars)) {
+            mParrotPillars.clear();
+        }
+    }
 
     //对换更新动画
     private void startSwitchAnim(ArrayList<ParrotPillar> newData) {
@@ -486,7 +501,7 @@ public class ParrotView extends View {
                 ParrotPillar newTemp = mNewParrotPillars.get(i);
                 ParrotPillar nowTemp = mParrotPillars.get(i);
                 ValueAnimator mTempAnimator = ValueAnimator.ofFloat(1f, 1.05f, 1f);
-                mTempAnimator.setDuration((long) (VALUE_DURATION+ 500l * Math.random()));
+                mTempAnimator.setDuration((long) (VALUE_DURATION + 500l * Math.random()));
                 mTempAnimator.setStartDelay((long) (200 + VALUE_SINGLE_DURATION * Math.random()));
                 mTempAnimator.setInterpolator(getRamdomInterPolator());
                 final int finalI = i;
@@ -513,9 +528,9 @@ public class ParrotView extends View {
                         newTemp.setAnimLength(tempAnimLenght);
 
                         //mCenterThick
-                        if (finalI == 0) {
+                        if (finalI == mValueUpdateIndex.get(mValueUpdateIndex.size() - 1)) {
                             mCenterThick = getResources().getDimensionPixelOffset(R.dimen.dd01) +
-                                    getResources().getDimensionPixelOffset(R.dimen.dd03) * (1 - strAplhaRate);
+                                    getResources().getDimensionPixelOffset(R.dimen.dd02) * (1 - strAplhaRate);
                         }
 
 
@@ -553,8 +568,8 @@ public class ParrotView extends View {
     }
 
     private TimeInterpolator getRamdomInterPolator() {
-        int random=(int)(Math.random()*7+1);
-        switch (random){
+        int random = (int) (Math.random() * 7 + 1);
+        switch (random) {
             case 0:
                 return new AccelerateDecelerateInterpolator();
             case 1:
@@ -628,7 +643,7 @@ public class ParrotView extends View {
 
     //循环操作动画
     private void startLoopAnim() {
-        //  LogUtils.INSTANCE.d("startLoopAnim~~ l   o    o   p");
+        //  NgLogUtils.INSTANCE.d("startLoopAnim~~ l   o    o   p");
     }
 
 
@@ -642,15 +657,15 @@ public class ParrotView extends View {
     private String getAnimType(ArrayList<ParrotPillar> newData, ArrayList<ParrotPillar> oldData) {
 
         if (Utils.isEmpty(oldData) || newData.size() != oldData.size()) {
-            //    LogUtils.INSTANCE.d("********** getAnimType ldData为空，或数据量不等,执行数量切换动画");
+            //    NgLogUtils.INSTANCE.d("********** getAnimType ldData为空，或数据量不等,执行数量切换动画");
             return ANIM_TYPE_NUMBER;
         }
 
-        //  LogUtils.INSTANCE.d("newData:" + newData.toString());
-        //  LogUtils.INSTANCE.d("oldData:" + oldData.toString());
+        //  NgLogUtils.INSTANCE.d("newData:" + newData.toString());
+        //  NgLogUtils.INSTANCE.d("oldData:" + oldData.toString());
 
         if (newData.equals(oldData)) {
-            //     LogUtils.INSTANCE.d("********** getAnimType 相等");
+            //     NgLogUtils.INSTANCE.d("********** getAnimType 相等");
             return ANIM_TYPE_NULL;
         }
 
@@ -663,11 +678,11 @@ public class ParrotView extends View {
             }
         }
         if (swtichNumber == 2) {
-            //   LogUtils.INSTANCE.d("********** getAnimType 对换切换动画");
+            //   NgLogUtils.INSTANCE.d("********** getAnimType 对换切换动画");
             return ANIM_TYPE_SWITCH;
         }
         //默认全部更新
-        //  LogUtils.INSTANCE.d("********** getAnimType 值切换动画");
+        //  NgLogUtils.INSTANCE.d("********** getAnimType 值切换动画");
         return ANIM_TYPE_VALUE;
     }
 
@@ -807,22 +822,7 @@ public class ParrotView extends View {
 
     @Override
     protected void onDetachedFromWindow() {
-        if (!Utils.isEmpty(mAnimatorList)) {
-            for (Animator temp : mAnimatorList) {
-                temp.cancel();
-            }
-        }
-        if (!Utils.isEmpty(mValueAnimatorList)) {
-            for (Animator temp : mValueAnimatorList) {
-                temp.cancel();
-            }
-        }
-        if (mCircleAnimator != null) {
-            mCircleAnimator.cancel();
-        }
-        if (mSwitchAnimator != null) {
-            mSwitchAnimator.cancel();
-        }
+        stopAllAnim();
         if (loopHandler != null) {
             loopHandler.removeCallbacksAndMessages(null);
             loopHandler = null;
@@ -906,6 +906,28 @@ public class ParrotView extends View {
         }
     }
 
+    private void stopAllAnim() {
+        if (!Utils.isEmpty(mAnimatorList)) {
+            for (Animator temp : mAnimatorList) {
+                temp.cancel();
+            }
+            mAnimatorList.clear();
+        }
+        if (!Utils.isEmpty(mValueAnimatorList)) {
+            for (Animator temp : mValueAnimatorList) {
+                temp.cancel();
+            }
+            mValueAnimatorList.clear();
+        }
+        if (mCircleAnimator != null) {
+            mCircleAnimator.cancel();
+        }
+        if (mSwitchAnimator != null) {
+            mSwitchAnimator.cancel();
+        }
+        isAnimRunning = false;
+    }
+
 
     private String getHexString(int color) {
         String s = "#";
@@ -915,6 +937,7 @@ public class ParrotView extends View {
     }
 
 }
+
 
 
 
