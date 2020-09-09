@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.ui.R;
 
 public class FloatingActionButton extends View {
@@ -110,7 +110,7 @@ public class FloatingActionButton extends View {
         if (mIconSize <= 0)
             mIconSize = ThemeUtil.dpToPx(context, 24);
 
-        LogUtils.INSTANCE.d("mIconSize:" + mIconSize + "  ");
+        MLog.INSTANCE.d("mIconSize:" + mIconSize + "  ");
 
         if (mAnimDuration < 0)
             mAnimDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);

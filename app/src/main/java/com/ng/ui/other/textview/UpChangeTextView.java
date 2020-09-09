@@ -16,7 +16,7 @@ import android.view.Gravity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.ui.R;
 
 /**
@@ -151,7 +151,7 @@ public class UpChangeTextView extends RelativeLayout {
 
 
     public void setText(String str) {
-        LogUtils.INSTANCE.d("str: " + str);
+        MLog.INSTANCE.d("str: " + str);
         if (curText == null) {
             this.curText = str;
             mTvs[0].setText(str);

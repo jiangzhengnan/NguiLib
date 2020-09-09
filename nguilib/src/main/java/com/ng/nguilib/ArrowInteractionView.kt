@@ -12,7 +12,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.ng.nguilib.utils.DensityUtil
-import com.ng.nguilib.utils.LogUtils
+import com.ng.nguilib.utils.MLog
 
 /**
  * @ProjectName: NguiLib
@@ -81,7 +81,7 @@ class ArrowInteractionView(context: Context?, attrs: AttributeSet?) : View(conte
 
     private fun init() {
         hadInit = true
-        LogUtils.d("init")
+        MLog.d("init")
         paintLine = Paint()
         paintCircle = Paint()
         paintBg = Paint()

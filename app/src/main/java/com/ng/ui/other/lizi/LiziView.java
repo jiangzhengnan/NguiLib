@@ -13,7 +13,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -135,7 +135,7 @@ public class LiziView extends View {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                LogUtils.INSTANCE.d("run " + mPointList.size());
+                MLog.INSTANCE.d("run " + mPointList.size());
                 //create    1-10个
                 if (mPointList.size() < 500) {
                     int addNum = new Random().nextInt(10) + 1;

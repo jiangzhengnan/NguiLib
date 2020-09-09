@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 /**
  * 描述:
@@ -92,14 +92,14 @@ public class ToggleView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                LogUtils.INSTANCE.d("DOWN");
+                MLog.INSTANCE.d("DOWN");
 
                 startLitterAnim();
 
                 return true;
 
             case MotionEvent.ACTION_UP:
-                LogUtils.INSTANCE.d("UP");
+                MLog.INSTANCE.d("UP");
                 startChangeAnim();
                 startBigAnim();
                 break;
@@ -119,7 +119,7 @@ public class ToggleView extends View {
             return;
         }
         isAnimRunning = true;
-        LogUtils.INSTANCE.d("startAnim : " + isPositive);
+        MLog.INSTANCE.d("startAnim : " + isPositive);
         mAnimator = ValueAnimator.ofFloat(0, 1f);
         mAnimator.setDuration(DURATION);
         mAnimator.setInterpolator(new DecelerateInterpolator());
@@ -127,7 +127,7 @@ public class ToggleView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 thickness = (float) animation.getAnimatedValue();
-                LogUtils.INSTANCE.d("animing: " + thickness);
+                MLog.INSTANCE.d("animing: " + thickness);
                 postInvalidate();
             }
         });
@@ -182,7 +182,7 @@ public class ToggleView extends View {
 
         Bitmap bmInside = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvasInside = new Canvas(bmInside);
-        LogUtils.INSTANCE.d("onDraw: " + isPositive);
+        MLog.INSTANCE.d("onDraw: " + isPositive);
         if (isPositive) {
             mBitmapPaint.setColor(Color.WHITE);
             mBitmapPaint.setStyle(Paint.Style.FILL);

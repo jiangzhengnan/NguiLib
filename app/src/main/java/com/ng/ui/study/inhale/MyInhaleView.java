@@ -14,7 +14,7 @@ import android.view.animation.Animation;
 
 import androidx.annotation.Nullable;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 /**
  * 描述:
@@ -155,7 +155,7 @@ public class MyInhaleView extends View {
         }
         PathAnimation animation = new PathAnimation(0, HEIGHT,
                 index -> {
-                    LogUtils.INSTANCE.d("进度:" + index);
+                    MLog.INSTANCE.d("进度:" + index);
                     buildMeshes(index);
                     invalidate();
                 });

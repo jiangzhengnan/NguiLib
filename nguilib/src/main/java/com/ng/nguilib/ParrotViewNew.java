@@ -21,7 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
 import com.ng.nguilib.utils.LinearGradientUtil;
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.nguilib.utils.Utils;
 import com.ng.nguilib.utils.ParrotPillarNew;
 
@@ -290,7 +290,7 @@ public class ParrotViewNew extends View {
                 mCenterX + mCenterR, mCenterY + mCenterR);
         mInsideOval = new RectF(mCenterX - mCenterInsideR, mCenterY - mCenterInsideR,
                 mCenterX + mCenterInsideR, mCenterY + mCenterInsideR);
-        LogUtils.INSTANCE.d("圆心:" + mCenterX + " " + mCenterY);
+        MLog.INSTANCE.d("圆心:" + mCenterX + " " + mCenterY);
     }
 
 
@@ -379,7 +379,7 @@ public class ParrotViewNew extends View {
         }
 
 
-        LogUtils.INSTANCE.d("mMaxValue: " + mMaxValue + " mParrotPillarNews:" + mParrotPillarNews.toString());
+        MLog.INSTANCE.d("mMaxValue: " + mMaxValue + " mParrotPillarNews:" + mParrotPillarNews.toString());
 
         //得到单个角度
         getAngle();

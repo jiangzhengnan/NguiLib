@@ -28,7 +28,7 @@ import android.widget.Scroller;
 
 import androidx.annotation.DrawableRes;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.ui.R;
 
 import java.util.ArrayList;
@@ -335,7 +335,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
         mItemMaxTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_max_size,
                 getResources().getDimensionPixelSize(R.dimen.WheelItemMaxTextSize));
 
-        LogUtils.INSTANCE.d("最小文字:" + mItemTextSize + " " + "最大文字:" + mItemMaxTextSize);
+        MLog.INSTANCE.d("最小文字:" + mItemTextSize + " " + "最大文字:" + mItemMaxTextSize);
 
 //        ISettingManagerService settingManagerService = ServiceManager.getInstance().getService(ISettingManagerService.class);
 //        if(settingManagerService != null) {

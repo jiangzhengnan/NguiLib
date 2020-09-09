@@ -22,7 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.ui.R;
 
 /**
@@ -95,7 +95,7 @@ public class TestGuochangAty extends AppCompatActivity {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 Point resultPoint = (Point) valueAnimator.getAnimatedValue();
-                LogUtils.INSTANCE.d(resultPoint.toString());
+                MLog.INSTANCE.d(resultPoint.toString());
 
                 mTradeIntroduceAnimView.setX(resultPoint.x - bitmap.getWidth() / 2);
                 mTradeIntroduceAnimView.setY(resultPoint.y - bitmap.getHeight() / 2);

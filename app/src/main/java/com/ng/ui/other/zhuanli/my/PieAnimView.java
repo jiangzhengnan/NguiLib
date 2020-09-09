@@ -18,7 +18,7 @@ import android.view.animation.Interpolator;
 
 import androidx.annotation.Nullable;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 import com.ng.ui.R;
 
 import java.util.List;
@@ -302,7 +302,7 @@ public class PieAnimView extends View implements Animatable {
             mNextShape = 0;
         }
 
-        LogUtils.INSTANCE.d("startAnim: " + mNowShape + " -> " + mNextShape);
+        MLog.INSTANCE.d("startAnim: " + mNowShape + " -> " + mNextShape);
 
         start();
     }
@@ -403,9 +403,9 @@ public class PieAnimView extends View implements Animatable {
             canvas.rotate(degrees, mDrawBound.centerX(), mDrawBound.centerY());
         }
         if (mAlphaSwitch) {
-            LogUtils.INSTANCE.d("thickness:" + mThickness);
+            MLog.INSTANCE.d("thickness:" + mThickness);
             int alpha = (int) (Math.abs(0.5 - mThickness) / 0.5 * (255 - mAlphaNum)) + mAlphaNum;
-            LogUtils.INSTANCE.d("alpha:" + alpha + " " + mThickness);
+            MLog.INSTANCE.d("alpha:" + alpha + " " + mThickness);
             mPaint.setAlpha(alpha);
 
         }

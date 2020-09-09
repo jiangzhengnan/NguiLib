@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import com.ng.nguilib.utils.LogUtils
+import com.ng.nguilib.utils.MLog
 
 
 class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -331,7 +331,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         mSideLength = (if (measuredWidth > measuredHeight) measuredHeight else measuredWidth).toFloat()
         //宽必须等于高
-        LogUtils.d("宽： $mSideLength  高：  $mSideLength")
+        MLog.d("宽： $mSideLength  高：  $mSideLength")
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -410,7 +410,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
     //应该绑定activity生命周期
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun stopAnimation() {
-        LogUtils.d("stopAnimation")
+        MLog.d("stopAnimation")
         if (animatorSet != null) {
             animatorSet?.cancel()
         }
@@ -418,7 +418,7 @@ class PolygonLoadView(context: Context, attrs: AttributeSet) : View(context, att
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun startAnimation() {
-        LogUtils.d("startAnimation")
+        MLog.d("startAnimation")
         if (animatorSet != null && !animatorSet!!.isStarted && !animatorSet!!.isRunning) {
             animatorSet!!.start()
         }

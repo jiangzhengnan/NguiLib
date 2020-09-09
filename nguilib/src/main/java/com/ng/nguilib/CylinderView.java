@@ -17,7 +17,7 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
 
 import com.ng.nguilib.utils.DensityUtil;
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,7 +104,7 @@ public class CylinderView extends View {
 
     public void startUpAllAnim() {
         if (!isAnimRunning) {
-            LogUtils.INSTANCE.d("startUpAllAnim");
+            MLog.INSTANCE.d("startUpAllAnim");
             thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
             ANIM_STATE = ANIM_STATE_ALL;
             isAnimRunning = true;
@@ -135,7 +135,7 @@ public class CylinderView extends View {
     public void startSingleAnim() {
         if (!isAnimRunning) {
             hadDrawBg = false;
-            LogUtils.INSTANCE.d("startSingleAnim");
+            MLog.INSTANCE.d("startSingleAnim");
             singleAnimValue = 0;
             singleAnimIndex = 0;
             thickness = DensityUtil.INSTANCE.dip2px(getContext(), 150f);
@@ -154,7 +154,7 @@ public class CylinderView extends View {
                         thickness = singleAnimValue % 100;
                     }
 
-                    LogUtils.INSTANCE.d("singleAnimValue: " + singleAnimValue + " singleAnimIndex: " + singleAnimIndex + " thickness: " + thickness + "  " + max);
+                    MLog.INSTANCE.d("singleAnimValue: " + singleAnimValue + " singleAnimIndex: " + singleAnimIndex + " thickness: " + thickness + "  " + max);
 
                     postInvalidate();
                 }
@@ -173,7 +173,7 @@ public class CylinderView extends View {
 
     public void startChangeAnim() {
         if (!isAnimRunning) {
-            LogUtils.INSTANCE.d("startChangeAnim");
+            MLog.INSTANCE.d("startChangeAnim");
             ANIM_STATE = ANIM_STATE_CHANGGE;
             isAnimRunning = true;
             mAnimator = ValueAnimator.ofInt(0, thickness);
@@ -218,7 +218,7 @@ public class CylinderView extends View {
         max = mEntrySourceList.size();
         mEntries = mEntrySourceList;
         computationOrder();
-        LogUtils.INSTANCE.d("排序后: " + mEntrySourceList.toString());
+        MLog.INSTANCE.d("排序后: " + mEntrySourceList.toString());
         postInvalidate();
     }
 
@@ -295,7 +295,7 @@ public class CylinderView extends View {
 
                         Entry tempEntry = mEntrySourceList.get(i);
                         int tempThickNess = singleAnimValue - (i + 1) * 100;
-                        LogUtils.INSTANCE.d("tempThickNess: " + tempThickNess);
+                        MLog.INSTANCE.d("tempThickNess: " + tempThickNess);
 
                         tempThickNess = (int) ((tempEntry.percent / 360f) * tempThickNess * (max * 0.33f));
 

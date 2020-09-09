@@ -14,7 +14,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.PathParser;
 
-import com.ng.nguilib.utils.LogUtils;
 import com.ng.ui.R;
 
 import org.w3c.dom.NodeList;

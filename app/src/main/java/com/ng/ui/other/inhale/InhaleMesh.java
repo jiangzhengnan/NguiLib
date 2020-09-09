@@ -10,7 +10,7 @@ package com.ng.ui.other.inhale;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 public class InhaleMesh extends Mesh {
     public enum InhaleDir {
@@ -125,9 +125,9 @@ public class InhaleMesh extends Mesh {
         float h = mBmpHeight;
 
         //bitmap宽高
-        LogUtils.INSTANCE.d("w h : " + w + " " + h);
+        MLog.INSTANCE.d("w h : " + w + " " + h);
         //屏幕宽高
-        LogUtils.INSTANCE.d("endXw endY : " + endX + " " + endY);
+        MLog.INSTANCE.d("endXw endY : " + endX + " " + endY);
 
         mFirstPath.reset();
         mSecondPath.reset();

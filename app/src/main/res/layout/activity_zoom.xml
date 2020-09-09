@@ -4,40 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp"
+    android:orientation="horizontal">
 
 
-    <View
+    <com.ng.ui.other.zoom.ZoomChildLayout
         android:id="@+id/child1_layout"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#AEFF0000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/child2_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#AEFF0000" />
 
 
-    <View
+    <com.ng.ui.other.zoom.ZoomChildLayout
         android:id="@+id/child2_layout"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#C100FF00"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toRightOf="@id/child1_layout"
-        app:layout_constraintRight_toLeftOf="@id/child3_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#C100FF00" />
 
-    <View
+    <com.ng.ui.other.zoom.ZoomChildLayout
         android:id="@+id/child3_layout"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#A30000FF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toRightOf="@id/child2_layout"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#A30000FF" />
 
 </com.ng.ui.other.zoom.ZoomLayout>

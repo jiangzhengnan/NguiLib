@@ -18,7 +18,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.ng.nguilib.utils.LogUtils;
+import com.ng.nguilib.utils.MLog;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -397,7 +397,7 @@ public class SoundNewView extends View {
             range = nextFloat(random, 0.4f, 0.8f);
             amplitude = nextFloat(random, -1, 1);
 
-            LogUtils.INSTANCE.d("生成的点: " + this.toString());
+            MLog.INSTANCE.d("生成的点: " + this.toString());
         }
 
         long nextLong(Random random, long minValue, long maxValue) {
