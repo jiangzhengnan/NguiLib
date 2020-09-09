@@ -6,17 +6,39 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".MyApp"
-        android:largeHeap="true"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.ng.ui.show.MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".test.TestActivity"></activity>
+
+        <!--training-->
+        <activity android:name=".other.gesture.testjava" />
+
+        <!--test-->
+        <activity android:name=".other.inhale.InhaleAnimationActivity"></activity>
+        <activity android:name=".other.textview.TestTxtActivity" />
+        <activity android:name=".other.print.TestPrintTextViewActivity" />
+        <activity android:name=".other.gesture.TestGuochangAty" />
+        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity" />
+        <activity android:name=".other.parrot.NgTestAty"></activity>
+        <activity
+            android:name=".other.zoom.ZoomActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,38 +46,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".test.TestActivity" >
-        </activity>
-
-        <!--training-->
-        <activity android:name=".other.gesture.testjava" />
-
-        <!--test-->
-        <activity android:name=".other.inhale.InhaleAnimationActivity" >
-        </activity>
-        <activity android:name=".other.textview.TestTxtActivity" />
-        <activity android:name=".other.print.TestPrintTextViewActivity" />
-        <activity android:name=".other.gesture.TestGuochangAty" />
-        <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity" />
-        <activity android:name=".other.parrot.NgTestAty">
-        </activity>
+        <activity
+            android:name=".other.drag.DragActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
 
         <!--study-->
-        <activity android:name=".study.inhale.InhaleStudyActivity">
-        </activity>
+        <activity android:name=".study.inhale.InhaleStudyActivity"></activity>
         <activity android:name=".other.zhuanli.my.MyAnimStudyActivity" />
-        <activity android:name=".study.animbase.AnimBaseActivity"/>
-        <activity android:name=".study.region.RegionTestActivity">
-        </activity>
-        <activity android:name=".study.rotate.RotateTestActivity">
-
-        </activity>
-        <activity android:name=".study.rotate.RotateXyzTestActivity">
-        </activity>
-        <activity android:name=".study.clock.ClockTestActivity">
-        </activity>
-        <activity android:name=".study.explode.ExplodeTestActivity">
-        </activity>
+        <activity android:name=".study.animbase.AnimBaseActivity" />
+        <activity android:name=".study.region.RegionTestActivity"></activity>
+        <activity android:name=".study.rotate.RotateTestActivity"></activity>
+        <activity android:name=".study.rotate.RotateXyzTestActivity"></activity>
+        <activity android:name=".study.clock.ClockTestActivity"></activity>
+        <activity android:name=".study.explode.ExplodeTestActivity"></activity>
 
     </application>
 
