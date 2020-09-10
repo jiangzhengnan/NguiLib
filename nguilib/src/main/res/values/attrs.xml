@@ -24,4 +24,10 @@
     <declare-styleable name="WaveView">
         <attr name="WaveView_color" format="color"/>
     </declare-styleable>
+
+
+    <declare-styleable name="ZoomLayout">
+        <attr name="IntervalLineWidth" format="reference" />
+        <attr name="IntervalLineColor" format="reference" />
+    </declare-styleable>
 </resources>

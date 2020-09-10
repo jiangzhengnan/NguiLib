@@ -1,6 +1,5 @@
-package com.ng.ui.other.zoom
+package com.ng.nguilib
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
@@ -9,15 +8,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.ng.ui.R
 
 /**
- * 描述:
+ * 描述:可缩放的layout
  * @author Jzn
  * @date 2020/9/9
  */
-@Suppress("NAME_SHADOWING")
-class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     //子layout列表
     private var mChildLayoutList: ArrayList<View> = arrayListOf()
     private var mIntervalList: ArrayList<View> = arrayListOf()
@@ -50,6 +47,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ZoomLayout)
         mIntervalLineWidth = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_IntervalLineWidth, R.dimen.dd10))
         mIntervalLineColor = ta.getColor(R.styleable.ZoomLayout_IntervalLineColor, Color.BLACK)
+        ta.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -57,7 +55,6 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
         refreshChildList()
         addSplit()
         refreshChildSizeList()
-
         val maxSize = if (measuredHeight > measuredWidth) measuredHeight else measuredWidth
         //修正分割线宽度
         mIntervalList.forEachIndexed { _, child ->
@@ -114,8 +111,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
     }
 
     //增加垂直分割线
-    @SuppressLint("ClickableViewAccessibility", "RtlHardcoded")
-    private fun addIntervalLine(index: Int, child: View) {
+    private fun addIntervalLine(number: Int, child: View) {
         val interValView = View(context)
         interValView.setBackgroundColor(mIntervalLineColor)
         var lp: ViewGroup.LayoutParams = LayoutParams(measuredWidth, mIntervalLineWidth)
@@ -132,8 +128,8 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
         } else if (orientation == VERTICAL) {
             interValView.y = tarGetLocation[1].toFloat()
         }
-        val realIndex = 1 + index * 2
-        interValView.setOnTouchListener { _, motionEvent ->
+        val realIndex = 1 + number * 2
+        interValView.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     mStartX = motionEvent.x
@@ -141,6 +137,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                 }
                 MotionEvent.ACTION_UP -> {
                     refreshChildSizeList()
+                    view.performClick()
                 }
             }
             mIntervalX = mStartX - motionEvent.x
@@ -154,7 +151,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                 }
                 // 联动调整左边
                 if (!isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1)) {
-                    gravity = Gravity.LEFT
+                    gravity = Gravity.START
                     var fixMulti = 0
                     if (realIndex - 2 > 0) {
                         for (index in 0..realIndex - 2) {
@@ -169,7 +166,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                 }
                 //联动调整右边
                 if (!isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)) {
-                    gravity = Gravity.RIGHT
+                    gravity = Gravity.END
                     var fixMulti = 0
                     for (index in (realIndex + 2) until childCount) {
                         if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] + mIntervalX.toInt(), index)) {
@@ -199,7 +196,6 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                         mRunningYList[realIndex + 1] += mIntervalY.toInt() * fixMulti
                     }
                 }
-
                 // 联动调整下面
                 if (!isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
                     gravity = Gravity.BOTTOM
@@ -212,11 +208,9 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                     }
                     mRunningYList[realIndex - 1] -= mIntervalY.toInt() * fixMulti
                 }
-
-
             }
-            mChildLayoutList.forEachIndexed { index, view ->
-                val childLp: LayoutParams = view.layoutParams as LayoutParams
+            mChildLayoutList.forEachIndexed { index, child ->
+                val childLp: LayoutParams = child.layoutParams as LayoutParams
                 childLp.weight = 0f
                 if (orientation == HORIZONTAL) {
                     childLp.width = mRunningXList[index]
@@ -225,9 +219,8 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                     childLp.height = mRunningYList[index]
                 }
 
-                view.layoutParams = childLp
+                child.layoutParams = childLp
             }
-
             //防止左越界
             if (mChildLayoutList.size != 0) {
                 mChildLayoutList[0].x = 0f
@@ -239,8 +232,7 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
     }
 
     private fun isChildValueLegal(value: Int, index: Int): Boolean {
-        //return value in (mMinZoom + 1) until mMaxZoom
-        var minZoom = if (orientation == HORIZONTAL) {
+        val minZoom = if (orientation == HORIZONTAL) {
             mChildLayoutList[index].minimumWidth
         } else {
             mChildLayoutList[index].minimumHeight
