@@ -45,18 +45,11 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
     //params
     private var mIntervalLineWidth = 1
     private var mIntervalLineColor = 1
-    private var mMinZoom = 1
-    private var mMaxZoom = 0
 
     init {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ZoomLayout)
         mIntervalLineWidth = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_IntervalLineWidth, R.dimen.dd10))
         mIntervalLineColor = ta.getColor(R.styleable.ZoomLayout_IntervalLineColor, Color.BLACK)
-        mMinZoom = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_MinZoom, R.dimen.dd01))
-        //mMaxZoom = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_MaxZoom, R.dimen.dd00))
-        if (mMaxZoom == 0) {
-            mMaxZoom = Int.MAX_VALUE
-        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -64,13 +57,15 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
         refreshChildList()
         addSplit()
         refreshChildSizeList()
+
+        val maxSize = if (measuredHeight > measuredWidth) measuredHeight else measuredWidth
         //修正分割线宽度
         mIntervalList.forEachIndexed { _, child ->
             val lp: ViewGroup.LayoutParams = child.layoutParams
             if (orientation == HORIZONTAL) {
-                lp.height = measuredHeight
+                lp.height = maxSize
             } else if (orientation == VERTICAL) {
-                lp.width = measuredWidth
+                lp.width = maxSize
             }
             child.layoutParams = lp
         }
@@ -150,24 +145,21 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
             }
             mIntervalX = mStartX - motionEvent.x
             mIntervalY = mStartY - motionEvent.y
-            val logList: ArrayList<Int> = arrayListOf()
-            mChildLayoutList.forEachIndexed { _, child ->
-                logList.add(child.measuredWidth)
-            }
             if (orientation == HORIZONTAL) {
-                if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt()) &&
-                        isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt())
+                if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1) &&
+                        isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)
                 ) {
                     mRunningXList[realIndex - 1] -= mIntervalX.toInt()
                     mRunningXList[realIndex + 1] += mIntervalX.toInt()
                 }
                 // 联动调整左边
-                if (!isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt())) {
+                if (!isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1)) {
                     gravity = Gravity.LEFT
                     var fixMulti = 0
                     if (realIndex - 2 > 0) {
                         for (index in 0..realIndex - 2) {
-                            if (isChildValueLegal(mRunningXList[index] - mIntervalX.toInt())) {
+                            //这里要判断是否是分割线
+                            if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] - mIntervalX.toInt(), index)) {
                                 mRunningXList[index] -= mIntervalX.toInt()
                                 fixMulti++
                             }
@@ -176,11 +168,11 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                     }
                 }
                 //联动调整右边
-                if (!isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt())) {
+                if (!isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)) {
                     gravity = Gravity.RIGHT
                     var fixMulti = 0
                     for (index in (realIndex + 2) until childCount) {
-                        if (isChildValueLegal(mRunningXList[index] + mIntervalX.toInt())) {
+                        if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] + mIntervalX.toInt(), index)) {
                             mRunningXList[index] += mIntervalX.toInt()
                             fixMulti++
                         }
@@ -188,18 +180,18 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                     mRunningXList[realIndex - 1] -= mIntervalX.toInt() * fixMulti
                 }
             } else if (orientation == VERTICAL) {
-                if (isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt()) &&
-                        isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt())) {
+                if (isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex - 1) &&
+                        isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
                     mRunningYList[realIndex - 1] -= mIntervalY.toInt()
                     mRunningYList[realIndex + 1] += mIntervalY.toInt()
                 }
                 // 联动调整上面
-                if (!isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt())) {
+                if (!isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex + 1)) {
                     gravity = Gravity.TOP
                     var fixMulti = 0
                     if (realIndex - 2 > 0) {
                         for (index in 0..realIndex - 2) {
-                            if (isChildValueLegal(mRunningYList[index] - mIntervalY.toInt())) {
+                            if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] - mIntervalY.toInt(), index)) {
                                 mRunningYList[index] -= mIntervalY.toInt()
                                 fixMulti++
                             }
@@ -209,11 +201,11 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
                 }
 
                 // 联动调整下面
-                if (!isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt())) {
+                if (!isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
                     gravity = Gravity.BOTTOM
                     var fixMulti = 0
                     for (index in (realIndex + 2) until childCount) {
-                        if (isChildValueLegal(mRunningYList[index] + mIntervalY.toInt())) {
+                        if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] + mIntervalY.toInt(), index)) {
                             mRunningYList[index] += mIntervalY.toInt()
                             fixMulti++
                         }
@@ -246,9 +238,14 @@ class ZoomLayout @SuppressLint("Recycle") constructor(context: Context, attrs: A
         addView(interValView, realIndex, lp)
     }
 
-    private fun isChildValueLegal(value: Int): Boolean {
+    private fun isChildValueLegal(value: Int, index: Int): Boolean {
         //return value in (mMinZoom + 1) until mMaxZoom
-        return value > mMinZoom
+        var minZoom = if (orientation == HORIZONTAL) {
+            mChildLayoutList[index].minimumWidth
+        } else {
+            mChildLayoutList[index].minimumHeight
+        }
+        return value > minZoom
     }
 
 }

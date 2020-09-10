@@ -8,19 +8,19 @@
     android:orientation="horizontal"
     app:IntervalLineColor="@color/interval_line"
     app:IntervalLineWidth="@dimen/dd20"
-    app:MinZoom="@dimen/dd30">
+    >
 
 
     <com.ng.ui.other.zoom.ZoomLayout
         android:id="@+id/child1_layout"
-        android:layout_width="0dp"
+        android:minWidth="@dimen/dd100"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-
         android:layout_weight="1"
         android:orientation="vertical"
         app:IntervalLineColor="@color/interval_line"
         app:IntervalLineWidth="@dimen/dd10"
-        app:MinZoom="@dimen/dd10">
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -100,38 +100,5 @@
     </RelativeLayout>
 
 
-    <com.ng.ui.other.zoom.ZoomLayout
-        android:id="@+id/child4_layout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-
-        android:layout_weight="1"
-        android:orientation="vertical"
-        app:IntervalLineColor="@color/interval_line"
-        app:IntervalLineWidth="@dimen/dd10"
-        app:MinZoom="@dimen/dd10">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@color/black" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="2"
-            android:textColor="@color/black" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="@color/black" />
-    </com.ng.ui.other.zoom.ZoomLayout>
 
 </com.ng.ui.other.zoom.ZoomLayout>
