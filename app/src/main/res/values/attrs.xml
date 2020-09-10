@@ -34,4 +34,12 @@
         <attr name="darkColor" format="color" />
         <attr name="textSize" format="dimension" />
     </declare-styleable>
+
+
+    <declare-styleable name="ZoomLayout">
+        <attr name="IntervalLineWidth" format="reference" />
+        <attr name="IntervalLineColor" format="reference" />
+        <attr name="MinZoom" format="dimension" />
+        <attr name="MaxZoom" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -4,30 +4,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    app:IntervalLineColor="@color/interval_line"
+    app:IntervalLineWidth="@dimen/dd20"
+    app:MinZoom="@dimen/dd30">
 
 
-    <com.ng.ui.other.zoom.ZoomChildLayout
+    <com.ng.ui.other.zoom.ZoomLayout
         android:id="@+id/child1_layout"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#AEFF0000" />
+
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:IntervalLineColor="@color/interval_line"
+        app:IntervalLineWidth="@dimen/dd10"
+        app:MinZoom="@dimen/dd10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dd40"
+            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+            android:gravity="center"
+            android:text="文字一"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+            android:gravity="center"
+            android:text="文字二"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+            android:gravity="center"
+            android:text="文字三"
+            android:textColor="@color/white" />
 
 
-    <com.ng.ui.other.zoom.ZoomChildLayout
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+            android:gravity="center"
+            android:text="文字4"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
+            android:gravity="center"
+            android:text="文字5"
+            android:textColor="@color/white" />
+    </com.ng.ui.other.zoom.ZoomLayout>
+
+
+    <RelativeLayout
         android:id="@+id/child2_layout"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#C100FF00" />
+        android:layout_weight="1">
 
-    <com.ng.ui.other.zoom.ZoomChildLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/leak_canary_icon" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/child3_layout"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="#A30000FF" />
+        android:layout_weight="1"
+        android:background="#A30000FF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="center"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+    <com.ng.ui.other.zoom.ZoomLayout
+        android:id="@+id/child4_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:IntervalLineColor="@color/interval_line"
+        app:IntervalLineWidth="@dimen/dd10"
+        app:MinZoom="@dimen/dd10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/black" />
+    </com.ng.ui.other.zoom.ZoomLayout>
 
 </com.ng.ui.other.zoom.ZoomLayout>
