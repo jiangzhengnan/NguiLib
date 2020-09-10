@@ -95,9 +95,9 @@ install {
                 //开发者基本信息
                 developers {
                     developer {
-                        id 'jiang zhengnan'
-                        name 'jiang zhengnan'
-                        email '3442771773@qq.com'
+                        id 'jiangzhengnan'
+                        name 'jiangzhengnan'
+                        email 'jiangzhengnan@users.noreply.github.com'
                     }
                 }
                 scm {
