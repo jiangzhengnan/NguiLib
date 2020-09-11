@@ -29,40 +29,51 @@ class MainActivity : AppCompatActivity() {
 
     private fun getContentViewLayoutID(): Int = R.layout.activity_main_vp
 
-    private var itemInfoList = ArrayList<ItemInfo>()
-    private var myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, itemInfoList)
+    private var isShowView = true
+
+    private var mViewList = ArrayList<ItemInfo>()
+    private var myViewPagerAdapter :MyViewPagerAdapter?=null
     private lateinit var mAdapter: LeftListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DensityUtil.setCustomDensity(this,application)
+        DensityUtil.setCustomDensity(this, application)
         setContentView(getContentViewLayoutID())
         initViewsAndEvents()
     }
 
     private fun initViewsAndEvents() {
+        initData()
+
         initView()
-        //start
-        itemInfoList.add(ItemInfo("CentralTractionButton", CtbFragment()))
-        itemInfoList.add(ItemInfo("EcgView", EcgFragment()))
-        itemInfoList.add(ItemInfo("PolygonLoadView", PlFragment()))
-        itemInfoList.add(ItemInfo("ArrowInteractionView", AiFragment()))
-        itemInfoList.add(ItemInfo("PointLoadingView", PtlFragment()))
-        itemInfoList.add(ItemInfo("CylinderView", CdFragment()))
-        itemInfoList.add(ItemInfo("SoundView", SvFragment()))
-        itemInfoList.add(ItemInfo("ToggleView", TgFragment()))
-        itemInfoList.add(ItemInfo("ParrotView", PtFragment()))
+
+
 
         //notify
-        myViewPagerAdapter.notifyDataSetChanged()
+        myViewPagerAdapter!!.notifyDataSetChanged()
         mAdapter.notifyDataSetChanged()
-        vp_maina.currentItem = itemInfoList.size - 1
+        vp_maina.currentItem = 0
+    }
+
+    private fun initData() {
+        //start
+        mViewList.add(ItemInfo(getString(R.string.view_1), CtbFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_2), EcgFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_3), PlFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_4), AiFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_5), PtlFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_6), CdFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_7), SvFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_8), TgFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_9), PtFragment()))
     }
 
     private fun initView() {
+        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, mViewList)
         vp_maina.adapter = myViewPagerAdapter;
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
-        vp_maina.offscreenPageLimit = 3
+        vp_maina.offscreenPageLimit = mViewList.size
+
         pts_main.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         pts_main.setTextColor(Color.WHITE)
         pts_main.setTabIndicatorColorResource(R.color.colorAccent)
@@ -76,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
 
-        mAdapter = LeftListAdapter(this, itemInfoList)
+        mAdapter = LeftListAdapter(this, mViewList)
         mAdapter.setItemListener(object : LeftListAdapter.OnLeftItemClick {
             override fun onItem(pos: Int) {
                 vp_maina.currentItem = pos
@@ -87,7 +98,6 @@ class MainActivity : AppCompatActivity() {
         left_rv.layoutManager = LinearLayoutManager(this)
         left_rv.adapter = mAdapter
     }
-
 
 
     class MyOnPageChangeListener : ViewPager.OnPageChangeListener {
@@ -109,6 +119,8 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+
+    //        menu.findItem(R.id.option_menu_previous).setEnabled(true);
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> if (drawer_main.isDrawerOpen(GravityCompat.START)) {
@@ -116,27 +128,19 @@ class MainActivity : AppCompatActivity() {
             } else {
                 drawer_main.openDrawer(GravityCompat.START)
             }
+            R.id.option_menu_change -> {
+                isShowView = !isShowView
+                if (isShowView) {
+                    item.title = getString(R.string.view)
+                } else {
+                    item.title = getString(R.string.layout)
+                }
+            }
+
             //R.id.menu_1 -> Toast.makeText(this@MainActivity, item.getTitle(), Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }
 
-//    fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val menuInflater = menuInflater
-//        menuInflater.inflate(R.menu.main_menu, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-
-//    fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.getItemId()) {
-//            android.R.id.home -> if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                drawerLayout.closeDrawers()
-//            } else {
-//                drawerLayout.openDrawer(GravityCompat.START)
-//            }
-//            R.id.menu_1 -> Toast.makeText(this@MainActivity, item.getTitle(), Toast.LENGTH_SHORT).show()
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
 }

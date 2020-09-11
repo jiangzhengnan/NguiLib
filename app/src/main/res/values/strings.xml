@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">NGUI</string>
-    <string name="guide_robot_str_1">Hi,I am Webull.Learn about me together. fuck uuuu</string>
+    <string name="view">View</string>
+    <string name="layout">Layout</string>
+
+    <string name="view_1">CentralTractionButton</string>
+    <string name="view_2">EcgView</string>
+    <string name="view_3">PolygonLoadView</string>
+    <string name="view_4">ArrowInteractionView</string>
+    <string name="view_5">PointLoadingView</string>
+    <string name="view_6">CylinderView</string>
+    <string name="view_7">SoundView</string>
+    <string name="view_8">ToggleView</string>
+    <string name="view_9">ParrotView</string>
 
 </resources>

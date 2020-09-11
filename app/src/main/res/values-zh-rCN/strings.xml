@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="view">视图</string>
+    <string name="layout">布局</string>
+
+    <string name="view_1">中心轴吸引按钮</string>
+    <string name="view_2">心电图</string>
+    <string name="view_3">多边形加载</string>
+    <string name="view_4">左右箭头</string>
+    <string name="view_5">下坠加载</string>
+    <string name="view_6">3d圆柱体</string>
+    <string name="view_7">波浪语音</string>
+    <string name="view_8">内置切换按钮</string>
+    <string name="view_9">螺旋鹦鹉图</string>
+</resources>

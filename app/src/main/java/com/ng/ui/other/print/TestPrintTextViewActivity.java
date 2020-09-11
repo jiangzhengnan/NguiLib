@@ -26,8 +26,8 @@ public class TestPrintTextViewActivity extends Activity {
 
         ptv_test1 = findViewById(R.id.ptv_test1);
 
-        ptv_test1.setPrintText(getString(R.string.guide_robot_str_1));
-        ptv_test1.setWidth((int) getTextViewLength(ptv_test1,getString(R.string.guide_robot_str_1)));
+        ptv_test1.setPrintText("weqewqeq");
+        ptv_test1.setWidth((int) getTextViewLength(ptv_test1,"qweqeqweqw"));
 
 
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
