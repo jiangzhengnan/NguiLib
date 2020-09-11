@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
+import com.ng.nguilib.utils.DensityUtil
 import com.ng.ui.R
 import com.ng.ui.show.frag.*
 import com.ng.ui.show.main.AppUtils
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_main_vp.*
 
 
 /**
+ * todo add layout布局主页
  * 描述: 新的主页
  * @author Jzn
  * @date 2020-04-11
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DensityUtil.setCustomDensity(this,application)
         setContentView(getContentViewLayoutID())
         initViewsAndEvents()
     }
