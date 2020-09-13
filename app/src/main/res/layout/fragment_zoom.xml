@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ng.nguilib.ZoomLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dd200"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        app:IntervalLineColor="@color/colorPrimary"
+        app:IntervalLineWidth="@dimen/dd20">
+
+
+        <RelativeLayout
+            android:id="@+id/child2_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/leak_canary_icon" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/child3_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#A30000FF">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="center"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+
+    </com.ng.nguilib.ZoomLayout>
+</RelativeLayout>

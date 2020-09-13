@@ -7,6 +7,9 @@ package com.ng.ui.show.main;
  * @date 2020-04-11
  */
 
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -17,9 +20,24 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
 
     private List<ItemInfo> infoLost;
 
+    public void setInfoLost(List<ItemInfo> infoLost) {
+        this.infoLost = infoLost;
+    }
+
     public MyViewPagerAdapter(FragmentManager fm, List<ItemInfo> infoLost){
         super(fm);
         this.infoLost = infoLost;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return infoLost.get(position).hashCode();
+    }
+
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     /**
@@ -28,6 +46,12 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int arg0) {
         return (infoLost == null || infoLost.size() == 0) ? null : infoLost.get(arg0).fragment;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
     }
 
     /**

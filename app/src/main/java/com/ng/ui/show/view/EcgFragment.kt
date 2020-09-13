@@ -1,8 +1,7 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.view.View
 import com.ng.ui.R
-import com.ng.ui.view.EcgShowView
 import kotlinx.android.synthetic.main.fragment_ecg.*
 import java.util.*
 
@@ -18,7 +17,6 @@ class EcgFragment : BaseFragment() {
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_ecg
-
 
 
     private lateinit var timer: Timer
@@ -37,7 +35,7 @@ class EcgFragment : BaseFragment() {
                 if (index >= dataList.size) {
                     index = 0
                 }
-                if (dataList[index] == null || dataList[index] == "") return
+                if (dataList[index] == null || dataList[index] == "" || ecgview == null) return
                 ecgview.showLine(dataList[index].toFloat())
                 index++
             }

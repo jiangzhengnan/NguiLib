@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">NGUI</string>
     <string name="view">视图</string>
     <string name="layout">布局</string>
 
@@ -12,4 +13,7 @@
     <string name="view_7">波浪语音</string>
     <string name="view_8">内置切换按钮</string>
     <string name="view_9">螺旋鹦鹉图</string>
+
+    <string name="layout_1">可联动伸缩线性布局</string>
+
 </resources>

@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.ng.nguilib.utils.DensityUtil
 import com.ng.ui.R
-import com.ng.ui.show.frag.*
+import com.ng.ui.show.layout.ZoomFragment
 import com.ng.ui.show.main.AppUtils
 import com.ng.ui.show.main.ItemInfo
 import com.ng.ui.show.main.LeftListAdapter
 import com.ng.ui.show.main.MyViewPagerAdapter
+import com.ng.ui.show.view.*
 import kotlinx.android.synthetic.main.activity_main_vp.*
 
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var isShowView = true
 
     private var mViewList = ArrayList<ItemInfo>()
+    private var mLayoutList = ArrayList<ItemInfo>()
     private var myViewPagerAdapter :MyViewPagerAdapter?=null
     private lateinit var mAdapter: LeftListAdapter
 
@@ -44,11 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewsAndEvents() {
         initData()
-
         initView()
-
-
-
         //notify
         myViewPagerAdapter!!.notifyDataSetChanged()
         mAdapter.notifyDataSetChanged()
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        //start
+        //view
         mViewList.add(ItemInfo(getString(R.string.view_1), CtbFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_2), EcgFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_3), PlFragment()))
@@ -66,13 +64,16 @@ class MainActivity : AppCompatActivity() {
         mViewList.add(ItemInfo(getString(R.string.view_7), SvFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_8), TgFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_9), PtFragment()))
+        //layout
+        mLayoutList.add(ItemInfo(getString(R.string.layout_1), ZoomFragment()))
+
     }
 
     private fun initView() {
-        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, mViewList)
-        vp_maina.adapter = myViewPagerAdapter;
+        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager,mViewList)
+        vp_maina.adapter = myViewPagerAdapter
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
-        vp_maina.offscreenPageLimit = mViewList.size
+        vp_maina.offscreenPageLimit = 0
 
         pts_main.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         pts_main.setTextColor(Color.WHITE)
@@ -120,7 +121,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //        menu.findItem(R.id.option_menu_previous).setEnabled(true);
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> if (drawer_main.isDrawerOpen(GravityCompat.START)) {
@@ -132,15 +132,23 @@ class MainActivity : AppCompatActivity() {
                 isShowView = !isShowView
                 if (isShowView) {
                     item.title = getString(R.string.view)
+                    changeShow(mViewList)
                 } else {
                     item.title = getString(R.string.layout)
+                    changeShow(mLayoutList)
                 }
             }
-
-            //R.id.menu_1 -> Toast.makeText(this@MainActivity, item.getTitle(), Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun changeShow(infoList : ArrayList<ItemInfo>) {
+        myViewPagerAdapter!!.setInfoLost(infoList)
+        myViewPagerAdapter!!.notifyDataSetChanged()
+        mAdapter.data = infoList
+        mAdapter.notifyDataSetChanged()
+    }
+
 
 
 }

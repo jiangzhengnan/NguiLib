@@ -1,4 +1,4 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.view.View
 import com.ng.ui.R

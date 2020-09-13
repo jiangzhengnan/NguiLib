@@ -1,11 +1,8 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.view.View
 import android.widget.SeekBar
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatSeekBar
 import com.ng.ui.R
-import com.ng.ui.other.soundwaveview.SoundView
 import kotlinx.android.synthetic.main.fragment_sv.*
 
 /**

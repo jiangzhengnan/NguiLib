@@ -1,4 +1,4 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,8 +1,7 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.graphics.Color
 import android.view.View
-import com.ng.nguilib.PointLoadingView
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.fragment_ptl.*
 

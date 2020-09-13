@@ -50,6 +50,7 @@ class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLa
         ta.recycle()
     }
 
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         refreshChildList()
@@ -95,7 +96,8 @@ class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLa
             }
             mRunningYList = mChildHeightList
         }
-    }
+
+     }
 
     //在子view中设置操作分割线
     private fun addSplit() {

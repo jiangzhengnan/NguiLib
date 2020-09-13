@@ -1,8 +1,7 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.graphics.Color
 import android.view.View
-import android.widget.Button
 import com.ng.nguilib.CylinderView
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.fragment_cd.*
@@ -13,7 +12,7 @@ import java.util.*
  * @author Jzn
  * @date 2020-06-12
  */
-class CdFragment:BaseFragment() {
+class CdFragment: BaseFragment() {
 
     override fun initViewsAndEvents(v: View) {
 

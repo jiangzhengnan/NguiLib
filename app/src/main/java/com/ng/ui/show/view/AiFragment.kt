@@ -1,7 +1,6 @@
-package com.ng.ui.show.frag
+package com.ng.ui.show.view
 
 import android.view.View
-import com.ng.nguilib.ArrowInteractionView
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.fragment_ai.*
 
