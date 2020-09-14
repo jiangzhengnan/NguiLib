@@ -11,10 +11,11 @@ import android.widget.LinearLayout
 
 /**
  * 描述:可缩放的layout
+ * 触发了ACTION_CANCEL？
  * @author Jzn
  * @date 2020/9/9
  */
-class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     //子layout列表
     private var mChildLayoutList: ArrayList<View> = arrayListOf()
     private var mIntervalList: ArrayList<View> = arrayListOf()
@@ -48,11 +49,13 @@ class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLa
         mIntervalLineWidth = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_IntervalLineWidth, R.dimen.dd10))
         mIntervalLineColor = ta.getColor(R.styleable.ZoomLayout_IntervalLineColor, Color.BLACK)
         ta.recycle()
+
     }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
         refreshChildList()
         addSplit()
         refreshChildSizeList()
@@ -96,8 +99,7 @@ class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLa
             }
             mRunningYList = mChildHeightList
         }
-
-     }
+    }
 
     //在子view中设置操作分割线
     private fun addSplit() {
@@ -130,102 +132,111 @@ class ZoomLayout  constructor(context: Context, attrs: AttributeSet?) : LinearLa
         } else if (orientation == VERTICAL) {
             interValView.y = tarGetLocation[1].toFloat()
         }
+
         val realIndex = 1 + number * 2
+
         interValView.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     mStartX = motionEvent.x
                     mStartY = motionEvent.y
+
+                    if (parent != null) {
+                        //防止事件被父布局拦截
+                        parent.requestDisallowInterceptTouchEvent(true);
+                    }
                 }
                 MotionEvent.ACTION_UP -> {
                     refreshChildSizeList()
                     view.performClick()
                 }
-            }
-            mIntervalX = mStartX - motionEvent.x
-            mIntervalY = mStartY - motionEvent.y
-            if (orientation == HORIZONTAL) {
-                if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1) &&
-                        isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)
-                ) {
-                    mRunningXList[realIndex - 1] -= mIntervalX.toInt()
-                    mRunningXList[realIndex + 1] += mIntervalX.toInt()
-                }
-                // 联动调整左边
-                if (!isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1)) {
-                    gravity = Gravity.START
-                    var fixMulti = 0
-                    if (realIndex - 2 > 0) {
-                        for (index in 0..realIndex - 2) {
-                            //这里要判断是否是分割线
-                            if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] - mIntervalX.toInt(), index)) {
-                                mRunningXList[index] -= mIntervalX.toInt()
-                                fixMulti++
+                MotionEvent.ACTION_MOVE -> {
+                    mIntervalX = mStartX - motionEvent.x
+                    mIntervalY = mStartY - motionEvent.y
+                    if (orientation == HORIZONTAL) {
+                        if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1) &&
+                                isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)
+                        ) {
+                            mRunningXList[realIndex - 1] -= mIntervalX.toInt()
+                            mRunningXList[realIndex + 1] += mIntervalX.toInt()
+                        }
+                        // 联动调整左边
+                        if (!isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1)) {
+                            gravity = Gravity.START
+                            var fixMulti = 0
+                            if (realIndex - 2 > 0) {
+                                for (index in 0..realIndex - 2) {
+                                    //这里要判断是否是分割线
+                                    if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] - mIntervalX.toInt(), index)) {
+                                        mRunningXList[index] -= mIntervalX.toInt()
+                                        fixMulti++
+                                    }
+                                }
+                                mRunningXList[realIndex + 1] += mIntervalX.toInt() * fixMulti
                             }
                         }
-                        mRunningXList[realIndex + 1] += mIntervalX.toInt() * fixMulti
-                    }
-                }
-                //联动调整右边
-                if (!isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)) {
-                    gravity = Gravity.END
-                    var fixMulti = 0
-                    for (index in (realIndex + 2) until childCount) {
-                        if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] + mIntervalX.toInt(), index)) {
-                            mRunningXList[index] += mIntervalX.toInt()
-                            fixMulti++
+                        //联动调整右边
+                        if (!isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)) {
+                            gravity = Gravity.END
+                            var fixMulti = 0
+                            for (index in (realIndex + 2) until childCount) {
+                                if (index % 2 == 0 && isChildValueLegal(mRunningXList[index] + mIntervalX.toInt(), index)) {
+                                    mRunningXList[index] += mIntervalX.toInt()
+                                    fixMulti++
+                                }
+                            }
+                            mRunningXList[realIndex - 1] -= mIntervalX.toInt() * fixMulti
                         }
-                    }
-                    mRunningXList[realIndex - 1] -= mIntervalX.toInt() * fixMulti
-                }
-            } else if (orientation == VERTICAL) {
-                if (isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex - 1) &&
-                        isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
-                    mRunningYList[realIndex - 1] -= mIntervalY.toInt()
-                    mRunningYList[realIndex + 1] += mIntervalY.toInt()
-                }
-                // 联动调整上面
-                if (!isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex + 1)) {
-                    gravity = Gravity.TOP
-                    var fixMulti = 0
-                    if (realIndex - 2 > 0) {
-                        for (index in 0..realIndex - 2) {
-                            if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] - mIntervalY.toInt(), index)) {
-                                mRunningYList[index] -= mIntervalY.toInt()
-                                fixMulti++
+                    } else if (orientation == VERTICAL) {
+                        if (isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex - 1) &&
+                                isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
+                            mRunningYList[realIndex - 1] -= mIntervalY.toInt()
+                            mRunningYList[realIndex + 1] += mIntervalY.toInt()
+                        }
+                        // 联动调整上面
+                        if (!isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex + 1)) {
+                            gravity = Gravity.TOP
+                            var fixMulti = 0
+                            if (realIndex - 2 > 0) {
+                                for (index in 0..realIndex - 2) {
+                                    if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] - mIntervalY.toInt(), index)) {
+                                        mRunningYList[index] -= mIntervalY.toInt()
+                                        fixMulti++
+                                    }
+                                }
+                                mRunningYList[realIndex + 1] += mIntervalY.toInt() * fixMulti
                             }
                         }
-                        mRunningYList[realIndex + 1] += mIntervalY.toInt() * fixMulti
-                    }
-                }
-                // 联动调整下面
-                if (!isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
-                    gravity = Gravity.BOTTOM
-                    var fixMulti = 0
-                    for (index in (realIndex + 2) until childCount) {
-                        if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] + mIntervalY.toInt(), index)) {
-                            mRunningYList[index] += mIntervalY.toInt()
-                            fixMulti++
+                        // 联动调整下面
+                        if (!isChildValueLegal(mRunningYList[realIndex + 1] + mIntervalY.toInt(), realIndex + 1)) {
+                            gravity = Gravity.BOTTOM
+                            var fixMulti = 0
+                            for (index in (realIndex + 2) until childCount) {
+                                if (index % 2 == 0 && isChildValueLegal(mRunningYList[index] + mIntervalY.toInt(), index)) {
+                                    mRunningYList[index] += mIntervalY.toInt()
+                                    fixMulti++
+                                }
+                            }
+                            mRunningYList[realIndex - 1] -= mIntervalY.toInt() * fixMulti
                         }
                     }
-                    mRunningYList[realIndex - 1] -= mIntervalY.toInt() * fixMulti
-                }
-            }
-            mChildLayoutList.forEachIndexed { index, child ->
-                val childLp: LayoutParams = child.layoutParams as LayoutParams
-                childLp.weight = 0f
-                if (orientation == HORIZONTAL) {
-                    childLp.width = mRunningXList[index]
+                    mChildLayoutList.forEachIndexed { index, child ->
+                        val childLp: LayoutParams = child.layoutParams as LayoutParams
+                        childLp.weight = 0f
+                        if (orientation == HORIZONTAL) {
+                            childLp.width = mRunningXList[index]
 
-                } else if (orientation == VERTICAL) {
-                    childLp.height = mRunningYList[index]
-                }
+                        } else if (orientation == VERTICAL) {
+                            childLp.height = mRunningYList[index]
+                        }
 
-                child.layoutParams = childLp
-            }
-            //防止左越界
-            if (mChildLayoutList.size != 0) {
-                mChildLayoutList[0].x = 0f
+                        child.layoutParams = childLp
+                    }
+                    //防止左越界
+                    if (mChildLayoutList.size != 0) {
+                        mChildLayoutList[0].x = 0f
+                    }
+                }
             }
             true
         }

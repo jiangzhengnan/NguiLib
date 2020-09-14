@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mViewList = ArrayList<ItemInfo>()
     private var mLayoutList = ArrayList<ItemInfo>()
-    private var myViewPagerAdapter :MyViewPagerAdapter?=null
+    private var myViewPagerAdapter: MyViewPagerAdapter? = null
     private lateinit var mAdapter: LeftListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager,mViewList)
+        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, mViewList)
         vp_maina.adapter = myViewPagerAdapter
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
         vp_maina.offscreenPageLimit = 0
@@ -142,13 +142,12 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changeShow(infoList : ArrayList<ItemInfo>) {
+    private fun changeShow(infoList: ArrayList<ItemInfo>) {
         myViewPagerAdapter!!.setInfoLost(infoList)
         myViewPagerAdapter!!.notifyDataSetChanged()
         mAdapter.data = infoList
         mAdapter.notifyDataSetChanged()
     }
-
 
 
 }

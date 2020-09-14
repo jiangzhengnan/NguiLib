@@ -18,7 +18,8 @@
             android:id="@+id/child2_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:minWidth="10dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
@@ -32,7 +33,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#A30000FF">
+            android:background="#A30000FF"
+            android:minWidth="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
