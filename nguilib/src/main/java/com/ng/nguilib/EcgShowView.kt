@@ -283,6 +283,9 @@ class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
 
     private fun initData() {
+        if(dataStrList==null){
+            return
+        }
         var dataLength: Int
         when (SHOW_MODEL) {
             SHOW_MODEL_ALL -> {

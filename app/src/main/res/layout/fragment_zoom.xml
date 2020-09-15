@@ -7,19 +7,53 @@
     <com.ng.nguilib.ZoomLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dd200"
+        android:layout_height="@dimen/dd300"
         android:layout_centerInParent="true"
-        android:orientation="horizontal"
-        app:IntervalLineColor="@color/colorPrimary"
-        app:IntervalLineWidth="@dimen/dd20">
+        android:layout_marginLeft="@dimen/dd12"
+        android:layout_marginRight="@dimen/dd12"
+        android:background="@drawable/shape_test_bg"
+        android:orientation="vertical"
+        app:IntervalLineColor="@color/interval_line"
+        app:IntervalLineWidth="@dimen/dd10">
 
+        <com.ng.nguilib.ZoomLayout
+            android:id="@+id/child1_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minWidth="10dp"
+            android:minHeight="@dimen/dd20"
+            android:orientation="horizontal"
+            app:IntervalLineColor="@color/interval_line"
+            app:IntervalLineWidth="@dimen/dd10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minWidth="@dimen/dd20"
+                android:text="Shall I compare thee to a summer's day?"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dd05"
+                android:layout_weight="1"
+                android:minWidth="@dimen/dd20"
+                android:src="@mipmap/leak_canary_icon" />
+        </com.ng.nguilib.ZoomLayout>
 
         <RelativeLayout
             android:id="@+id/child2_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:minWidth="10dp">
+            android:minWidth="10dp"
+            android:minHeight="@dimen/dd20">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
@@ -28,23 +62,47 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <com.ng.nguilib.ZoomLayout
             android:id="@+id/child3_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#A30000FF"
-            android:minWidth="10dp">
+            android:minWidth="10dp"
+            android:orientation="horizontal"
+            app:IntervalLineColor="@color/interval_line"
+            app:IntervalLineWidth="@dimen/dd10">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="center"
-                android:textColor="@color/white" />
+                android:minWidth="@dimen/dd20"
+                android:text="LeftLayout"
+                android:textColor="@color/black" />
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minWidth="@dimen/dd20"
+                android:text="CenterLayout"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minWidth="@dimen/dd20"
+                android:text="RightLayout"
+                android:textColor="@color/black" />
+
+        </com.ng.nguilib.ZoomLayout>
 
 
     </com.ng.nguilib.ZoomLayout>

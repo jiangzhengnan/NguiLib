@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getContentViewLayoutID(): Int = R.layout.activity_main_vp
 
-    private var isShowView = true
+    private var isShowView = false
 
     private var mViewList = ArrayList<ItemInfo>()
     private var mLayoutList = ArrayList<ItemInfo>()
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, mViewList)
+        myViewPagerAdapter = MyViewPagerAdapter(supportFragmentManager, mLayoutList)
         vp_maina.adapter = myViewPagerAdapter
         vp_maina.setOnPageChangeListener(MyOnPageChangeListener())
         vp_maina.offscreenPageLimit = 0
