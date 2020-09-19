@@ -167,4 +167,13 @@
         <item name="selectableItemBackground">@null</item>
     </style>
 
+    <declare-styleable name="PercentCircleView">
+        <attr name="txtSize" format="dimension" />
+        <attr name="txtColor" format="reference" />
+        <attr name="proBgColor" format="reference" />
+        <attr name="proStartColor" format="reference" />
+        <attr name="proEndColor" format="reference" />
+        <attr name="proWidth" format="dimension" />
+    </declare-styleable>
+
 </resources>

@@ -8,6 +8,9 @@
     <color name="white">#fff</color>
     <color name="nc306_black">#FFFFFF</color>
 
+    <color name="color_test1">#ff0000</color>
+    <color name="color_test2">#00ff00</color>
+
     <color name="interval_line">#999999</color>
 
     <color name="transparent">#00000000</color>

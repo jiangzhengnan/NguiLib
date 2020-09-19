@@ -39,6 +39,7 @@
         <activity android:name=".other.parrot.NgTestAty" />
         <activity android:name=".other.zoom.ZoomActivity" />
         <activity android:name=".other.drag.DragActivity" />
+        <activity android:name=".other.percentcircle.PercentCircleActivity" />
 
         <!--study-->
         <activity android:name=".study.inhale.InhaleStudyActivity" />

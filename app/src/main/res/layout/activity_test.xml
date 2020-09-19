@@ -5,24 +5,13 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/white"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        <com.ng.ui.test.TestSvView
-            android:id="@+id/TestSvView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dd300" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/sk_test"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dd10"
-            android:background="#fff"
-            android:max="100" />
     </LinearLayout>
 
 </RelativeLayout>

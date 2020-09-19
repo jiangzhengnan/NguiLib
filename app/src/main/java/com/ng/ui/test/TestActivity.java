@@ -1,13 +1,12 @@
 package com.ng.ui.test;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.ng.nguilib.utils.DensityUtil;
 import com.ng.ui.R;
 
 /**
@@ -16,36 +15,17 @@ import com.ng.ui.R;
  * @author Jzn
  * @date 2020-01-08
  */
-public class TestActivity extends Activity implements View.OnClickListener {
-    AppCompatSeekBar sk_test;
-    TestSvView TestSvView;
+public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        DensityUtil.INSTANCE.setCustomDensity(this,getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         init();
     }
 
     private void init() {
-        sk_test = findViewById(R.id.sk_test);
-        TestSvView = findViewById(R.id.TestSvView);
-
-        sk_test.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //todo
-                TestSvView.setVolume(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
     }
 
     @Override
