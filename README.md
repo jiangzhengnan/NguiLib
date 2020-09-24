@@ -1,4 +1,5 @@
 # NguiLib
+English | [简体中文](./README.zh-CN.md) |
 
 An *beautiful+useful+easy-style*  custom view & layout collection for Android,minSdkVersion >= 14<br>
 issues welcome<br/>
