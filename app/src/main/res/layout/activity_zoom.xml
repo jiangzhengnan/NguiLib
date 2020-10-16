@@ -1,104 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ng.nguilib.ZoomLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    app:IntervalLineColor="@color/interval_line"
-    app:IntervalLineWidth="@dimen/dd20"
-    >
+    android:layout_height="match_parent">
 
-
-    <com.ng.nguilib.ZoomLayout
-        android:id="@+id/child1_layout"
-        android:minWidth="@dimen/dd100"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
+    <com.ng.nguilib.ZoomLayout2
+        android:layout_margin="@dimen/dd12"
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
         app:IntervalLineColor="@color/interval_line"
-        app:IntervalLineWidth="@dimen/dd10"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dd40"
-            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
-            android:gravity="center"
-            android:text="文字一"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
-            android:gravity="center"
-            android:text="文字二"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
-            android:gravity="center"
-            android:text="文字三"
-            android:textColor="@color/white" />
+        app:IntervalLineWidth="@dimen/dd20">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
-            android:gravity="center"
-            android:text="文字4"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_dialog_hight_light_range_confirm_bg"
-            android:gravity="center"
-            android:text="文字5"
-            android:textColor="@color/white" />
-    </com.ng.nguilib.ZoomLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/child2_layout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:background="@color/white"
+            android:id="@+id/child2_layout"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_icon" />
+            android:layout_weight="1"
+            android:minWidth="@dimen/dd100">
 
-    </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_icon" />
 
-    <RelativeLayout
-        android:id="@+id/child3_layout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#A30000FF">
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="center"
-            android:textColor="@color/white" />
+        <RelativeLayout
+            android:id="@+id/child3_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#A30000FF"
+            android:minWidth="@dimen/dd100">
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="center"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
 
 
-
-</com.ng.nguilib.ZoomLayout>
+    </com.ng.nguilib.ZoomLayout2>
+</RelativeLayout>

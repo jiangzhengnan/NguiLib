@@ -1,32 +1,39 @@
 package com.ng.ui.test;
 
+import java.util.LinkedList;
+import java.util.List;
+
+/*
+输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。例如，一个链表有6个节点，从头节点开始，它们的值依次是1、2、3、4、5、6。这个链表的倒数第3个节点是值为4的节点。
+示例：
+给定一个链表: 1->2->3->4->5, 和 k = 2.
+返回链表 4->5.
+ */
 public class TestClass {
 
     public static void main(String[] args) {
-        int[] nums = new int[]{2, 7, 11, 15};
 
-        System.out.println( twoSum(nums, 9)[0] +" " + twoSum(nums, 9)[1]);
     }
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
 
-    public static int[] twoSum(int[] nums, int target) {
-        int[] result = new int[2];
-        int a = 0;
-        int b = 0;
-        for (int i = 0; i < nums.length; i++) {
+    public class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) { val = x; }
+    }
+    class Solution {
+        public ListNode getKthFromEnd(ListNode head, int k) {
 
-            for (int j = 0; j < i; j++) {
-                System.out.println((nums[i]  )  +" " + i);
-                System.out.println((nums[j]  ) + " " + j);
 
-                System.out.println((nums[i] + nums[j]));
-                if ((nums[i] + nums[j]) == target) {
-                    result[0] = i;
-                    result[1] = j;
-                    return result;
-                }
-            }
+            return null;
         }
-        return result;
     }
 
 }

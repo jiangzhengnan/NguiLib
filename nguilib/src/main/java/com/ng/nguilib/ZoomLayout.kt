@@ -3,6 +3,7 @@ package com.ng.nguilib
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -10,8 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 
 /**
- * 描述:可缩放的layout
- * 触发了ACTION_CANCEL？
+ * 描述:
  * @author Jzn
  * @date 2020/9/9
  */
@@ -49,16 +49,17 @@ class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLay
         mIntervalLineWidth = context.resources.getDimensionPixelOffset(ta.getResourceId(R.styleable.ZoomLayout_IntervalLineWidth, R.dimen.dd10))
         mIntervalLineColor = ta.getColor(R.styleable.ZoomLayout_IntervalLineColor, Color.BLACK)
         ta.recycle()
-
     }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        refreshChildList()
-        addSplit()
-        refreshChildSizeList()
+        if (mChildLayoutList.size != childCount) {
+            refreshChildList()
+            refreshChildSizeList()
+            addSplit()
+        }
+
         val maxSize = if (measuredHeight > measuredWidth) measuredHeight else measuredWidth
         //修正分割线宽度
         mIntervalList.forEachIndexed { _, child ->
@@ -74,31 +75,25 @@ class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLay
 
     //刷新子view数组
     private fun refreshChildList() {
-        if (mChildLayoutList.size != childCount) {
-            mChildLayoutList.clear()
-            for (i in 0 until childCount) {
-                val childView: View = getChildAt(i)
-                mChildLayoutList.add(childView)
-            }
+        mChildLayoutList.clear()
+        for (i in 0 until childCount) {
+            val childView: View = getChildAt(i)
+            mChildLayoutList.add(childView)
         }
     }
 
     //刷新子view size
     private fun refreshChildSizeList() {
-        if (mChildWidthList.size != childCount) {
-            mChildWidthList.clear()
-            mChildLayoutList.forEachIndexed { _, child ->
-                mChildWidthList.add(child.measuredWidth)
-            }
-            mRunningXList = mChildWidthList
+        mChildWidthList.clear()
+        mChildLayoutList.forEachIndexed { _, child ->
+            mChildWidthList.add(child.measuredWidth)
         }
-        if (mChildHeightList.size != childCount) {
-            mChildHeightList.clear()
-            mChildLayoutList.forEachIndexed { _, child ->
-                mChildHeightList.add(child.measuredHeight)
-            }
-            mRunningYList = mChildHeightList
+        mRunningXList = mChildWidthList
+        mChildHeightList.clear()
+        mChildLayoutList.forEachIndexed { _, child ->
+            mChildHeightList.add(child.measuredHeight)
         }
+        mRunningYList = mChildHeightList
     }
 
     //在子view中设置操作分割线
@@ -120,18 +115,11 @@ class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLay
         interValView.setBackgroundColor(mIntervalLineColor)
         var lp: ViewGroup.LayoutParams = LayoutParams(measuredWidth, mIntervalLineWidth)
         if (orientation == HORIZONTAL) {
-            lp = LayoutParams(mIntervalLineWidth, measuredHeight)
+            lp = LayoutParams(mIntervalLineWidth, ViewGroup.LayoutParams.MATCH_PARENT)
         } else if (orientation == VERTICAL) {
-            lp = LayoutParams(measuredWidth, mIntervalLineWidth)
+            lp = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIntervalLineWidth)
         }
         interValView.layoutParams = lp
-        val tarGetLocation = IntArray(2)
-        child.getLocationOnScreen(tarGetLocation)
-        if (orientation == HORIZONTAL) {
-            interValView.x = tarGetLocation[0].toFloat()
-        } else if (orientation == VERTICAL) {
-            interValView.y = tarGetLocation[1].toFloat()
-        }
 
         val realIndex = 1 + number * 2
 
@@ -140,6 +128,8 @@ class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLay
                 MotionEvent.ACTION_DOWN -> {
                     mStartX = motionEvent.x
                     mStartY = motionEvent.y
+
+                    refreshChildSizeList()
 
                     if (parent != null) {
                         //防止事件被父布局拦截

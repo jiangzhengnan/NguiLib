@@ -1,0 +1,22 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="-1dp">
+        <shape android:shape="rectangle">
+            <!-- rectangle表示为矩形 -->
+
+            <!-- 填充的颜色 -->
+
+            <!-- 边框的颜色和粗细 -->
+            <stroke
+                android:width="1dp"
+                android:color="#979797" />
+
+            <!-- android:radius 圆角的半径 -->
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="2dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="2dp" />
+
+        </shape>
+    </item>
+</layer-list>

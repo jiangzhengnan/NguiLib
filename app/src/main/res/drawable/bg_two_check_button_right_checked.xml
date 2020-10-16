@@ -1,0 +1,28 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="-1dp">
+        <shape android:shape="rectangle">
+            <!-- rectangle表示为矩形 -->
+
+            <!-- 填充的颜色 -->
+            <gradient
+                android:angle="180"
+                android:endColor="#540A84FF"
+                android:startColor="#5416CCFF" />
+
+            <!-- 边框的颜色和粗细 -->
+            <stroke
+                android:width="1dp"
+                android:color="#12B4FF" />
+
+            <!-- android:radius 圆角的半径 -->
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="2dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="2dp" />
+
+        </shape>
+
+
+    </item>
+</layer-list>

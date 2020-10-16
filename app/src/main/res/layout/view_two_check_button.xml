@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_two_check_button"
+    android:layout_height="match_parent">
+
+    <RadioButton
+        android:text="P/L Allocation"
+        android:gravity="center"
+        android:textSize="11dp"
+        android:layout_width="0dp"
+        android:button="@null"
+        android:layout_weight="1"
+        android:textColor="@color/radiobutton_textcolor"
+        android:background="@drawable/selector_two_check_button_left"
+        android:layout_height="match_parent"/>
+
+    <RadioButton
+        android:text="Cumulative P/L"
+        android:textSize="11dp"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:button="@null"
+        android:textColor="@color/radiobutton_textcolor"
+        android:background="@drawable/selector_two_check_button_right"
+        android:layout_height="match_parent"/>
+
+</RadioGroup>
