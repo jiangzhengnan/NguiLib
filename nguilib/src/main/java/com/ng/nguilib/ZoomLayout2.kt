@@ -12,6 +12,9 @@ import androidx.annotation.RequiresApi
 import com.ng.nguilib.utils.MLog
 import kotlin.math.abs
 
+/**
+ * 目前有一点滑动锯齿问题
+ */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     //子layout列表
@@ -132,7 +135,6 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                     }
 
                     refreshChildSizeList()
-                    MLog.d("mStartX:  " + mStartX + " ");
 
 
                 }
@@ -144,10 +146,7 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 MotionEvent.ACTION_MOVE -> {
                     mIntervalX = mStartX - motionEvent.x
                     mIntervalY = mStartY - motionEvent.y
-
-
                     // MLog.d("temp:  " + mTempX + " ");
-
                     judgeLocation(realIndex)
 
                 }
@@ -155,7 +154,7 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
             true
         }
 
-        interValView.translationZ = 10f
+        interValView.translationZ = 0.1f
         mIntervalList.add(interValView)
         addView(interValView, realIndex, lp)
     }
@@ -165,8 +164,6 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
 
 
     private fun judgeLocation(realIndex: Int) {
-        MLog.d("fixvalue>?: " + fixValue)
-
 
         if (orientation == HORIZONTAL) {
             if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1) &&
@@ -191,23 +188,26 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
             childLp.weight = 0f
             if (orientation == HORIZONTAL) {
                 var value: Int = abs(mIntervalX.toInt())
+
                 //正左负右
                 if (mIntervalX > 0) {
                     when (index) {
                         realIndex - 1 -> {
                             if (!isChildValueLegal(mRunningXList[realIndex - 1] - value, realIndex - 1)) {
+                                fixValue += value
+
                                 childLp.marginEnd -= value
                                 mRunningXList[realIndex + 1] += value
-                                fixValue += value
 
                                 setLeftZ(realIndex)
                             }
                         }
                         realIndex + 1 -> {
                             if (!isChildValueLegal(mRunningXList[realIndex + 1] - value, realIndex + 1)) {
+                                fixValue -= value;
+
                                 childLp.marginStart += value
                                 mRunningXList[realIndex - 1] -= value
-                                fixValue -= value;
                                 if (fixValue < 0) {
                                     //防止间隙
                                     val sunShi = abs(fixValue)
@@ -226,9 +226,10 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                     when (index) {
                         realIndex - 1 -> {
                             if (!isChildValueLegal(mRunningXList[realIndex - 1] - value, realIndex - 1)) {
+                                fixValue -= value;
+
                                 childLp.marginEnd += value
                                 mRunningXList[realIndex + 1] -= value
-                                fixValue -= value
                                 if (fixValue < 0) {
                                     //防止间隙
                                     val sunShi = abs(fixValue)
@@ -241,9 +242,9 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                         }
                         realIndex + 1 -> {
                             if (!isChildValueLegal(mRunningXList[realIndex + 1] - value, realIndex + 1)) {
-                                childLp.marginStart -= value
-                                mRunningXList[realIndex - 1] += value
                                 fixValue += value
+                                mRunningXList[realIndex - 1] += value
+                                childLp.marginStart -= value
                                 serRightZ(realIndex)
                             }
                         }
@@ -267,14 +268,14 @@ class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLa
     }
 
     private fun serRightZ(realIndex: Int) {
-        mChildLayoutList[realIndex - 1].translationZ = 10f
+        mChildLayoutList[realIndex - 1].translationZ = 0.1f
         mChildLayoutList[realIndex + 1].translationZ = 0f
 
     }
 
     private fun setLeftZ(realIndex: Int) {
         mChildLayoutList[realIndex - 1].translationZ = 0f
-        mChildLayoutList[realIndex + 1].translationZ = 10f
+        mChildLayoutList[realIndex + 1].translationZ = 0.1f
 
     }
 
