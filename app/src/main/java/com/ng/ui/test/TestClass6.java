@@ -1,7 +1,5 @@
 package com.ng.ui.test;
 
-import org.w3c.dom.Node;
-
 import java.util.List;
 
 /*
@@ -33,9 +31,10 @@ public class TestClass6 {
         }
     }
 
-    ;
+
 
     public List<Integer> postorder(Node root) {
+
 
         return null;
     }
