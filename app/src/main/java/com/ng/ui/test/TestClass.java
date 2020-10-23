@@ -1,5 +1,7 @@
 package com.ng.ui.test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -22,10 +24,33 @@ A[i][j] 是小写字母
 public class TestClass {
 
     public static void main(String[] args) {
+        commonChars(new String[]{"bella", "label", "roller"});
     }
 
-    public List<String> commonChars(String[] A) {
-        return null;
+    public static List<String> commonChars(String[] A) {
+        int[] fir = new int[26];
+        Arrays.fill(fir, Integer.MAX_VALUE);
+
+        for (String temp : A) {
+            int[] tempfir = new int[26];
+            for (char charTemp : temp.toCharArray()) {
+                tempfir[charTemp - 'a']++;
+            }
+
+            //比较
+            for (int i = 0; i < 26; i++) {
+                fir[i] = Math.min(fir[i], tempfir[i]);
+            }
+        }
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < fir[i]; j++) {
+                char temp = (char) ('a' + i);
+                result.add(String.valueOf(temp));
+            }
+        }
+        LogUtils.print(result.toString());
+        return result;
     }
 
 

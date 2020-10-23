@@ -33,14 +33,19 @@ public class TestClass3 {
     // 1 -> 2 3 4 5
     //  1  <-  2  3  4 5
 
-
     public ListNode reverseList(ListNode head) {//1
-        ListNode last = head.next;//2
-        return last;
-    }
+        if (head.next==null){
+            return head;
+        }
+        ListNode now = head;
+        ListNode next = head.next;
 
-    public ListNode reverse(ListNode one,ListNode two) {//1
+        while (now!=null) {
+
+        }
 
         return null;
     }
+
+
 }
