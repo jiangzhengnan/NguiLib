@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/NGUI.iml" filepath="$PROJECT_DIR$/.idea/modules/NGUI.iml" group="NGUI" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/NGUI-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/NGUI-app.iml" group="NGUI/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/NguiLib.iml" filepath="$PROJECT_DIR$/.idea/NguiLib.iml" group="NguiLib" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="NguiLib/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nguilib/ng.ngui.ngbase-nguilib.iml" filepath="$PROJECT_DIR$/.idea/modules/nguilib/ng.ngui.ngbase-nguilib.iml" group="NGUI/nguilib" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nguilib/nguilib.iml" filepath="$PROJECT_DIR$/.idea/modules/nguilib/nguilib.iml" group="NguiLib/nguilib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NguiLib.iml" filepath="$PROJECT_DIR$/.idea/NguiLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/NguiLib.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/NguiLib.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nguilib/NguiLib.nguilib.iml" filepath="$PROJECT_DIR$/.idea/modules/nguilib/NguiLib.nguilib.iml" />
     </modules>
   </component>
 </project>
