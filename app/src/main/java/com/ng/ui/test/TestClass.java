@@ -1,66 +1,65 @@
 package com.ng.ui.test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 /*
-学校在拍年度纪念照时，一般要求学生按照 非递减 的高度顺序排列。
+https://leetcode-cn.com/problems/unique-number-of-occurrences/
+给你一个整数数组 arr，请你帮忙统计数组中每个数的出现次数。
 
-请你返回能让所有学生以 非递减 高度排列的最小必要移动人数。
-
-注意，当一组学生被选中时，他们之间可以以任何可能的方式重新排序，而未被选中的学生应该保持不动。
+如果每个数的出现次数都是独一无二的，就返回 true；否则返回 false。
 
  
 
-示例：
+示例 1：
 
-输入：heights = [1,1,4,2,1,3]
-输出：3
-解释：
-当前数组：[1,1,4,2,1,3]
-目标数组：[1,1,1,2,3,4]
-在下标 2 处（从 0 开始计数）出现 4 vs 1 ，所以我们必须移动这名学生。
-在下标 4 处（从 0 开始计数）出现 1 vs 3 ，所以我们必须移动这名学生。
-在下标 5 处（从 0 开始计数）出现 3 vs 4 ，所以我们必须移动这名学生。
+输入：arr = [1,2,2,1,1,3]
+输出：true
+解释：在该数组中，1 出现了 3 次，2 出现了 2 次，3 只出现了 1 次。没有两个数的出现次数相同。
 示例 2：
 
-输入：heights = [5,1,2,3,4]
-输出：5
+输入：arr = [1,2]
+输出：false
 示例 3：
 
-输入：heights = [1,2,3,4,5]
-输出：0
+输入：arr = [-3,0,1,-3,1,1,1,-3,10,0]
+输出：true
  
 
 提示：
 
-1 <= heights.length <= 100
-1 <= heights[i] <= 100
+1 <= arr.length <= 1000
+-1000 <= arr[i] <= 1000
+
  */
 public class TestClass {
 
     public static void main(String[] args) {
-        LogUtils.print(heightChecker(new int[]{1,2,3,4,5})+"");
+        LogUtils.print(uniqueOccurrences(new int[]{1, 2, 2, 1, 1, 3}) + " ");
     }
 
-    public static int heightChecker(int[] heights) {
-        int result = 0;
-        int[] nums = new int[100];
-        for (int temp : heights) {
-            nums[temp]++;
+    public static boolean uniqueOccurrences(int[] arr) {
+        int[] words = new int[1000];
+
+        for (int i = 0; i < arr.length; i++) {
+            int temp = arr[i];
+            words[temp]++;
         }
-        int[] sortHeights = new int[heights.length];
-        int index = 0;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < nums[i]; j++) {
-                sortHeights[index] = i;
-                index++;
+
+        int[] nums = new int[1000];
+
+        for (int i = 0; i < words.length; i++) {
+            int temp = words[i];
+            if (nums[temp] == 0) {
+                nums[temp]++;
+            } else {
+                return false;
             }
         }
 
-        for (int i = 0; i < heights.length; i++) {
-            if (heights[i] != sortHeights[i]) {
-                result++;
-            }
-        }
 
-        return result;
+        return true;
     }
 }
