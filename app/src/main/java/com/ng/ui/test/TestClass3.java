@@ -1,97 +1,71 @@
 package com.ng.ui.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /*
-https://leetcode-cn.com/problems/lucky-numbers-in-a-matrix/
-给你一个 m * n 的矩阵，矩阵中的数字 各不相同 。请你按 任意 顺序返回矩阵中的所有幸运数。
+https://leetcode-cn.com/problems/intersection-of-two-arrays/
+给定两个数组，编写一个函数来计算它们的交集。
 
-幸运数是指矩阵中满足同时下列两个条件的元素：
-
-在同一行的所有元素中最小
-在同一列的所有元素中最大
  
 
 示例 1：
 
-输入：matrix = [[3,7,8],[9,11,13],[15,16,17]]
-输出：[15]
-解释：15 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
+输入：nums1 = [1,2,2,1], nums2 = [2,2]
+输出：[2]
 示例 2：
 
-输入：matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
-输出：[12]
-解释：12 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
-示例 3：
-
-输入：matrix = [[7,8],[1,2]]
-输出：[7]
+输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出：[9,4]
  
 
-提示：
+说明：
 
-m == mat.length
-n == mat[i].length
-1 <= n, m <= 50
-1 <= matrix[i][j] <= 10^5
-矩阵中的所有元素都是不同的
-
-
-执行用时过长啦
-
+输出结果中的每个元素一定是唯一的。
+我们可以不考虑输出结果的顺序。
  */
 public class TestClass3 {
 
     public static void main(String[] args) {
-        luckyNumbers(new int[][]{{3, 7, 8}, {9, 11, 13}, {15, 16, 17}});
+        intersection(new int[]{4, 9, 5},
+                new int[]{9, 4, 9, 8, 9}
+        );
     }
 
-    /**
-     * 在同一行的所有元素中最小
-     * 在同一列的所有元素中最大
-     */
-    public static List<Integer> luckyNumbers(int[][] matrix) {
-        List<Integer> result = new ArrayList<>();
-        if (matrix == null || matrix[0] == null) {
-            return result;
+    public static int[] intersection(int[] nums1, int[] nums2) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        Set<Integer> map = new HashSet();
+        for (int temp : nums1) {
+            map.add(temp);
         }
-        int lieCount = matrix.length;
-        int hangCount = matrix[0].length;
-        for (int i = 0; i < lieCount; i++) {
-            //列
-            for (int j = 0; j < hangCount; j++) {
-                //行
-                boolean hang = true;
-                boolean lie = true;
+        for (int temp : nums2) {
+            map.add(temp);
+        }
 
-                int now = matrix[i][j];
-                for (int index = 0; index < hangCount; index++) {
-                    if (matrix[i][index] < now) {
+        LogUtils.print(map.toString());
 
 
-                        hang = false;
-                        break;
-                    }
-                }
-                for (int index = 0; index < lieCount; index++) {
-
-
-                    if (matrix[index][j] > now) {
-                        lie = false;
-                        break;
-                    }
-                }
-                if (hang && lie) {
-                    result.add(now);
-                }
-
+        int[] min = nums1.length > nums2.length ? nums2 : nums1;
+        for (int temp : min) {
+            if (map.contains(temp) && !result.contains(temp)) {
+                result.add(temp);
             }
-
         }
 
-        return result;
-    }
+        LogUtils.print(result.toString());
 
+
+        int[] resultList = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            resultList[i] = result.get(i);
+        }
+
+        return resultList;
+    }
 
 }

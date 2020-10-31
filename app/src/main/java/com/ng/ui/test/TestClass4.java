@@ -5,39 +5,66 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-https://leetcode-cn.com/problems/array-partition-i/
-给定长度为 2n 的数组, 你的任务是将这些数分成 n 对, 例如 (a1, b1), (a2, b2), ..., (an, bn) ，使得从1 到 n 的 min(ai, bi) 总和最大。
+https://leetcode-cn.com/problems/implement-queue-using-stacks-lcci/
+实现一个MyQueue类，该类用两个栈来实现一个队列。
 
-示例 1:
 
-输入: [1,4,3,2]
+示例：
 
-输出: 4
-解释: n 等于 2, 最大总和为 4 = min(1, 2) + min(3, 4).
-提示:
+MyQueue queue = new MyQueue();
 
-n 是正整数,范围在 [1, 10000].
-数组中的元素范围在 [-10000, 10000].
+queue.push(1);
+queue.push(2);
+queue.peek();  // 返回 1
+queue.pop();   // 返回 1
+queue.empty(); // 返回 false
 
-有更好的答案sad
+说明：
 
+你只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size 和 is empty 操作是合法的。
+你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
 
  */
 public class TestClass4 {
 
     public static void main(String[] args) {
-        LogUtils.print("result: " + arrayPairSum(new int[]{1,4,3,2}));
     }
+    class MyQueue {
 
-    public static int arrayPairSum(int[] nums) {
-        Arrays.sort(nums);
-        int result = 0;
-        for (int i = 0; i < nums.length / 2; i++) {
-            result += (Math.min(nums[i * 2], nums[i * 2 + 1]));
+        /** Initialize your data structure here. */
+        public MyQueue() {
+
         }
 
-        return result;
+        /** Push element x to the back of queue. */
+        public void push(int x) {
+
+        }
+
+        /** Removes the element from in front of queue and returns that element. */
+//        public int pop() {
+//
+//        }
+//
+//        /** Get the front element. */
+//        public int peek() {
+//
+//        }
+//
+//        /** Returns whether the queue is empty. */
+//        public boolean empty() {
+//
+//        }
     }
 
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */
 
 }
