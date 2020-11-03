@@ -1,10 +1,7 @@
 package com.ng.ui.test;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /*
@@ -27,6 +24,10 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays/
 
 输出结果中的每个元素一定是唯一的。
 我们可以不考虑输出结果的顺序。
+
+执行用时有点长。。:
+
+
  */
 public class TestClass3 {
 
@@ -37,35 +38,39 @@ public class TestClass3 {
     }
 
     public static int[] intersection(int[] nums1, int[] nums2) {
-        ArrayList<Integer> result = new ArrayList<>();
-
-        Set<Integer> map = new HashSet();
+        Set<Integer> result = new HashSet<>();
         for (int temp : nums1) {
-            map.add(temp);
+            result.add(temp);
         }
         for (int temp : nums2) {
-            map.add(temp);
+            result.add(temp);
         }
-
-        LogUtils.print(map.toString());
-
-
-        int[] min = nums1.length > nums2.length ? nums2 : nums1;
-        for (int temp : min) {
-            if (map.contains(temp) && !result.contains(temp)) {
-                result.add(temp);
+        Iterator<Integer> iterator = result.iterator();
+        while (iterator.hasNext()) {
+            int temp = iterator.next();
+            if (!contains(nums1, temp) || !contains(nums2, temp)) {
+                iterator.remove();
             }
         }
 
-        LogUtils.print(result.toString());
-
-
-        int[] resultList = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            resultList[i] = result.get(i);
+        int[] a = new int[result.size()];
+        int index = 0;
+        iterator = result.iterator();
+        while (iterator.hasNext()) {
+            a[index] = iterator.next();
+            index++;
         }
+        LogUtils.printList(a);
+        return a;
+    }
 
-        return resultList;
+    public static boolean contains(int[] temp, int target) {
+        for (int i : temp) {
+            if (i == target) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
