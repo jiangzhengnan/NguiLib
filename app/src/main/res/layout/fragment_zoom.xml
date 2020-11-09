@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ng.nguilib.ZoomLayout
+    <com.ng.nguilib.layout.ZoomLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dd300"
@@ -16,7 +16,7 @@
         app:IntervalLineColor="@color/interval_line"
         app:IntervalLineWidth="@dimen/dd10">
 
-        <com.ng.nguilib.ZoomLayout
+        <com.ng.nguilib.layout.ZoomLayout
             android:id="@+id/child1_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:minWidth="@dimen/dd20"
                 android:src="@mipmap/ic_icon" />
-        </com.ng.nguilib.ZoomLayout>
+        </com.ng.nguilib.layout.ZoomLayout>
 
         <RelativeLayout
             android:id="@+id/child2_layout"
@@ -62,7 +62,7 @@
 
         </RelativeLayout>
 
-        <com.ng.nguilib.ZoomLayout
+        <com.ng.nguilib.layout.ZoomLayout
             android:id="@+id/child3_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -102,8 +102,8 @@
                 android:text="RightLayout"
                 android:textColor="@color/black" />
 
-        </com.ng.nguilib.ZoomLayout>
+        </com.ng.nguilib.layout.ZoomLayout>
 
 
-    </com.ng.nguilib.ZoomLayout>
+    </com.ng.nguilib.layout.ZoomLayout>
 </RelativeLayout>

@@ -1,17 +1,17 @@
-package com.ng.nguilib
+package com.ng.nguilib.layout
 
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.ng.nguilib.R
 
 /**
- * 描述:
+ * 描述: 普通联动滑动版本
  * @author Jzn
  * @date 2020/9/9
  */
@@ -212,7 +212,7 @@ class ZoomLayout constructor(context: Context, attrs: AttributeSet?) : LinearLay
                     }
                     mChildLayoutList.forEachIndexed { index, child ->
                         val childLp: LayoutParams = child.layoutParams as LayoutParams
-                        childLp.weight = 0f
+                        //childLp.weight = 0f
                         if (orientation == HORIZONTAL) {
                             childLp.width = mRunningXList[index]
 

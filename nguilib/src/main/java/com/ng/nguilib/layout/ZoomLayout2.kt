@@ -1,4 +1,4 @@
-package com.ng.nguilib
+package com.ng.nguilib.layout
 
 import android.content.Context
 import android.graphics.Color
@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import com.ng.nguilib.utils.MLog
+import com.ng.nguilib.R
 import kotlin.math.abs
 
 /**
- * 目前有一点滑动锯齿问题
+ * 测试覆盖滑动的版本
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class ZoomLayout2 constructor(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
