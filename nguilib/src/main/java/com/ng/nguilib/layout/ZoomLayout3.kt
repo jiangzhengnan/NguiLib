@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.ng.nguilib.R
+import com.ng.nguilib.utils.MLog
 import com.ng.nguilib.utils.ScreenUtils
 import com.ng.nguilib.utils.ViewUtils
 
@@ -70,15 +71,13 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
         if (mChildLayoutList.size != childCount) {
             refreshChildList()
             refreshChildSizeList()
             addSplit()
-
             //expandTouchDelegate(80)
-
         }
-
 
     }
 
@@ -137,12 +136,13 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
     private fun addIntervalLine(number: Int, child: View) {
         val interValView = ZoomGuideView(context)
         interValView.setBackgroundColor(mIntervalLineColor)
-        var lp: ViewGroup.LayoutParams = LayoutParams(measuredWidth, mIntervalLineWidth)
+        var lp: LinearLayout.LayoutParams = LayoutParams(measuredWidth, mIntervalLineWidth)
         if (orientation == HORIZONTAL) {
             lp = LayoutParams(mIntervalLineWidth, ViewGroup.LayoutParams.MATCH_PARENT)
         } else if (orientation == VERTICAL) {
             lp = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIntervalLineWidth)
         }
+        lp.weight = 0f
         interValView.layoutParams = lp
 
         val realIndex = 1 + number * 2
@@ -206,12 +206,12 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
     private fun resizeChildSize() {
         mChildLayoutList.forEachIndexed { index, child ->
             val childLp: LayoutParams = child.layoutParams as LayoutParams
-            childLp.weight = 1f
+
             if (orientation == HORIZONTAL) {
                 childLp.width = mRunningXList[index]
                 if (index == mChildLayoutList.size - 1) {
                     //防右越界
-                    var temp = ScreenUtils.getWidth(context) - mChildLayoutList[mChildLayoutList.size - 1].x
+                    var temp = measuredWidth - mChildLayoutList[mChildLayoutList.size - 1].x
                     childLp.width = temp.toInt()
                 } else {
                     childLp.width = mRunningXList[index]
@@ -220,7 +220,6 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
             } else if (orientation == VERTICAL) {
                 childLp.height = mRunningYList[index]
             }
-
             child.layoutParams = childLp
         }
     }
@@ -307,7 +306,7 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                             }
                         }
 
-                        Log.d("nangua", "当前: " + left + " " + right + "     " + index)
+                        Log.d("nangua", "坐标"+ motionEvent.x+"当前: " + left + " " + right + "     " + index)
 
                         if (motionEvent.x > left && motionEvent.x < right) {
                             Log.d("nangua", "选择: " + index)

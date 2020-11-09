@@ -15,12 +15,13 @@
         android:clipChildren="false"
         android:orientation="horizontal"
         app:IntervalLineColor="@color/interval_line"
-        app:IntervalLineWidth="@dimen/dd10">
+         >
 
 
         <RelativeLayout
             android:id="@+id/child2_layout"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clipChildren="false"
@@ -33,29 +34,41 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dd10"
+            android:background="#51000000"
+            android:gravity="center"
+            android:minWidth="10dp"
+            android:text="center"
+            android:textColor="@color/white" />
+<!--        <com.ng.nguilib.layout.ZoomLayout3-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="horizontal">-->
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+<!--            <EditText-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginLeft="@dimen/dd20" />-->
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="@dimen/dd20" />
-
-            <TextView
-                android:id="@+id/right"
-                android:layout_marginLeft="@dimen/dd10"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_alignParentBottom="true"
-                android:background="#51000000"
-                android:gravity="center"
-                android:minWidth="10dp"
-                android:text="center"
-                android:textColor="@color/white" />
-        </RelativeLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/right"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_marginLeft="@dimen/dd10"-->
+<!--                android:background="#51000000"-->
+<!--                android:gravity="center"-->
+<!--                android:minWidth="10dp"-->
+<!--                android:text="center"-->
+<!--                android:textColor="@color/white" />-->
+<!--        </com.ng.nguilib.layout.ZoomLayout3>-->
 
 
     </com.ng.nguilib.layout.ZoomLayout3>
