@@ -1,8 +1,10 @@
 package com.ng.ui.other.zoom
 
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.ng.nguilib.layout.ZoomLayout3
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.activity_zoom.*
 
@@ -13,16 +15,16 @@ import kotlinx.android.synthetic.main.activity_zoom.*
  */
 class ZoomActivity : AppCompatActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_zoom)
-        right.setOnClickListener {
-            Toast.makeText(this, "right", Toast.LENGTH_SHORT).show()
-        }
-        right.setOnTouchListener { v, event ->
-            Toast.makeText(this, "right", Toast.LENGTH_SHORT).show()
-            true
-        }
+
+        root_layout.addListener(object:ZoomLayout3.OnZoomListener{
+            override fun setState(isZoomming: Boolean) {
+            }
+
+        })
     }
 
 }

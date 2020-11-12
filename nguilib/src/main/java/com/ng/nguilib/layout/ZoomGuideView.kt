@@ -52,11 +52,15 @@ class ZoomGuideView(context: Context?) : View(context) {
 
     private var mShowY = 0f;
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return onCallBack!!.onMyTouchEvent(event)
+    }
+
     init {
-        WIDTH_LINE = ViewUtils.dip2px(context,5f)
-        MAX_LENGTH_LINE = ViewUtils.dip2px(context,100f)
+        WIDTH_LINE = ViewUtils.dip2px(context,1.5f)
+        MAX_LENGTH_LINE = ViewUtils.dip2px(context,150f)
         MAX_CIRCLE_R = ViewUtils.dip2px(context,20f)
-        MAX_LENGTH_TRIANGLE = ViewUtils.dip2px(context,60f)
+        MAX_LENGTH_TRIANGLE = ViewUtils.dip2px(context,30f)
         TRIANGLE_SIDE = ViewUtils.dip2px(context,25f)
         TRIANGLE_LENGTH = ViewUtils.dip2px(context,40f)
 
@@ -90,20 +94,17 @@ class ZoomGuideView(context: Context?) : View(context) {
         invalidate()
     }
 
-    public interface OnMyTouchListener {
-        fun onMyTouchEvent(view: View, event: MotionEvent):Boolean
+      interface OnMyTouchListener {
+        fun onMyTouchEvent(  event: MotionEvent):Boolean
     }
 
     var onCallBack: OnMyTouchListener? = null
 
-    public fun setOnMyTouchListener(temp: OnMyTouchListener) {
+      fun setOnMyTouchListener(temp: OnMyTouchListener) {
         this.onCallBack = temp
     }
 
 
-    fun onMyTouchEvent(view: View,event: MotionEvent):Boolean {
-        return onCallBack!!.onMyTouchEvent(view,event)
-    }
 
     private fun endAnim() {
         mAnimator.addUpdateListener(AnimatorUpdateListener { animation ->
@@ -155,8 +156,8 @@ class ZoomGuideView(context: Context?) : View(context) {
             //画上下的线
             val mGradient = RadialGradient(
                     centerX, mShowY, MAX_LENGTH_LINE.toFloat(),
-                    mColor,
-                    Color.TRANSPARENT,
+                    intArrayOf(mColor, mColor,  Color.TRANSPARENT),
+                    null,
                     Shader.TileMode.CLAMP)
             mPaint.shader = mGradient
             canvas.drawRect(centerX - WIDTH_LINE, mShowY,

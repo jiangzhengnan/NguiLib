@@ -137,7 +137,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'androidx.appcompat:appcompat:1.2.0'
-
+    api 'androidx.constraintlayout:constraintlayout:2.0.1'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
