@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -98,7 +97,8 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
         mChildLayoutList.clear()
         for (i in 0 until childCount) {
             val childView: View = getChildAt(i)
-            mChildLayoutList.add(childView)
+            if (childView.visibility == VISIBLE)
+                mChildLayoutList.add(childView)
         }
     }
 
@@ -235,9 +235,8 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 if (mNowChoiceIndex != -1) {
-                    isZoomState = true
                     if (mCallBack != null) {
-                        mCallBack!!.setState(isZoomState)
+                        mCallBack!!.setState(true)
                     }
                     val intervalView: ZoomGuideView = mChildLayoutList[mNowChoiceIndex] as ZoomGuideView
                     return intervalView.onTouchEvent(motionEvent)
@@ -250,15 +249,12 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                     it.expend(false)
                 }
                 if (mCallBack != null) {
-                    mCallBack!!.setState(isZoomState)
+                    mCallBack!!.setState(false)
                 }
                 mNowChoiceIndex = -1
             }
             MotionEvent.ACTION_MOVE -> {
                 if (mNowChoiceIndex != -1) {
-                    if (mCallBack != null) {
-                        mCallBack!!.setState(isZoomState)
-                    }
                     val intervalView: ZoomGuideView = mChildLayoutList[mNowChoiceIndex] as ZoomGuideView
                     requestDisallowInterceptTouchEvent(true)
                     return intervalView.onTouchEvent(motionEvent)
@@ -270,6 +266,9 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                     it.expend(false)
                 }
                 mNowChoiceIndex = -1
+                if (mCallBack != null) {
+                    mCallBack!!.setState(false)
+                }
             }
         }
 
@@ -278,7 +277,6 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
 
 
     override fun onInterceptTouchEvent(motionEvent: MotionEvent): Boolean {
-        Log.d("nangua", "onInterceptTouchEvent: " + motionEvent.action + " " + mNowChoiceIndex)
         if (mNowChoiceIndex != -1) {
             return true
         }
