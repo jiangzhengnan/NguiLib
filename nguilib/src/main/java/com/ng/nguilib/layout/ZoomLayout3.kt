@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -12,11 +13,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.ng.nguilib.R
+import com.ng.nguilib.utils.MLog
 import com.ng.nguilib.utils.ViewUtils
+
 
 /**
  * 基于LinearLayout
  * 增加滑动引导按钮的版本
+ * 增加了长按触发功能
  */
 @SuppressLint("CustomViewStyleable")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -99,6 +103,7 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
             val childView: View = getChildAt(i)
             if (childView.visibility == VISIBLE)
                 mChildLayoutList.add(childView)
+
         }
     }
 
@@ -129,6 +134,16 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
         }
     }
 
+    var startTime = 0L
+    var mNowTouchY = -1f
+    var mRealIndex = -1
+    var hadPost = false
+    var longTouchHandler = Handler() {
+        if (hadPost)
+            expandInterval(mRealIndex, mNowTouchY)
+        true
+    }
+
     //增加垂直分割线
     @SuppressLint("ClickableViewAccessibility")
     private fun addIntervalLine(number: Int) {
@@ -141,7 +156,6 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
             lp = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIntervalLineWidth)
         }
         interValView.layoutParams = lp
-
         val realIndex = 1 + number * 2
         interValView.setOnMyTouchListener(object : ZoomGuideView.OnMyTouchListener {
             override fun onMyTouchEvent(event: MotionEvent): Boolean {
@@ -151,27 +165,54 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                         mStartX = event.x
                         mStartY = event.y
                         refreshChildSizeList()
-                        expandInterval(realIndex, event.y)
+                        //expandInterval(realIndex, event.y)
+
+                        mNowTouchY = event.y
+                        mRealIndex = realIndex
+                        MLog.d("a:   " + hadPost)
+                        if (!hadPost) {
+                            hadPost = true
+                            startTime = System.currentTimeMillis()
+                            longTouchHandler.sendEmptyMessageDelayed(-1, 1000)
+                        }
                     }
                     MotionEvent.ACTION_UP -> {
+
+                        startTime = Long.MAX_VALUE
                         refreshChildSizeList()
                         hideInterval(realIndex, event.y)
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        requestDisallowInterceptTouchEvent(true)
+                        mNowTouchY = event.y
+                        mRealIndex = realIndex
+                        if (System.currentTimeMillis() - startTime < 1000) {
+                            return true
+                        }
 
+                        requestDisallowInterceptTouchEvent(true)
                         expandInterval(realIndex, event.y)
                         mIntervalX = mStartX - event.x
                         mIntervalY = mStartY - event.y
                         mStartX = event.x
                         mStartY = event.y
-
                         if (orientation == HORIZONTAL) {
-                            if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1) &&
-                                    isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)
-                            ) {
-                                mRunningXList[realIndex - 1] -= mIntervalX.toInt()
-                                mRunningXList[realIndex + 1] += mIntervalX.toInt()
+                            val xDistance = mIntervalX.toInt()
+                            //横屏需要考虑 有时候被动进入最小宽度值的情况
+                            if (xDistance > 0) {
+                                if (isChildValueLegal(mRunningXList[realIndex - 1] - mIntervalX.toInt(), realIndex - 1)) {
+                                    mRunningXList[realIndex - 1] -= mIntervalX.toInt()
+                                    if ((mRunningXList[realIndex + 1] + mIntervalX.toInt()) < measuredWidth) {
+                                        mRunningXList[realIndex + 1] += mIntervalX.toInt()
+                                    }
+                                }
+                            } else {
+                                if (isChildValueLegal(mRunningXList[realIndex + 1] + mIntervalX.toInt(), realIndex + 1)) {
+                                    mRunningXList[realIndex + 1] += mIntervalX.toInt()
+
+                                    if ((mRunningXList[realIndex - 1] - mIntervalX.toInt()) < measuredWidth) {
+                                        mRunningXList[realIndex - 1] -= mIntervalX.toInt()
+                                    }
+                                }
                             }
                         } else if (orientation == VERTICAL) {
                             if (isChildValueLegal(mRunningYList[realIndex - 1] - mIntervalY.toInt(), realIndex - 1) &&
@@ -199,9 +240,9 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
         mChildLayoutList.forEachIndexed { index, child ->
             val childLp: LayoutParams = child.layoutParams as LayoutParams
 
-            if (orientation == HORIZONTAL) {
+            if (orientation == HORIZONTAL && (index < mRunningXList.size)) {
                 childLp.width = mRunningXList[index]
-            } else if (orientation == VERTICAL) {
+            } else if (orientation == VERTICAL && (index < mRunningYList.size)) {
                 childLp.height = mRunningYList[index]
             }
             child.layoutParams = childLp
@@ -243,6 +284,12 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 }
             }
             MotionEvent.ACTION_UP -> {
+                //重置长按相关
+                hadPost = false
+                mNowTouchY = -1f
+                mRealIndex = -1
+
+
                 isZoomState = false
                 mIntervalList.forEach {
                     it.translationZ = 0.1f
@@ -254,6 +301,8 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 mNowChoiceIndex = -1
             }
             MotionEvent.ACTION_MOVE -> {
+
+
                 if (mNowChoiceIndex != -1) {
                     val intervalView: ZoomGuideView = mChildLayoutList[mNowChoiceIndex] as ZoomGuideView
                     requestDisallowInterceptTouchEvent(true)

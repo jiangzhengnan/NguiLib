@@ -94,13 +94,13 @@ class ZoomGuideView(context: Context?) : View(context) {
         invalidate()
     }
 
-      interface OnMyTouchListener {
+    interface OnMyTouchListener {
         fun onMyTouchEvent(  event: MotionEvent):Boolean
     }
 
     var onCallBack: OnMyTouchListener? = null
 
-      fun setOnMyTouchListener(temp: OnMyTouchListener) {
+    fun setOnMyTouchListener(temp: OnMyTouchListener) {
         this.onCallBack = temp
     }
 
