@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
-import android.os.Handler
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -13,8 +12,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.ng.nguilib.R
-import com.ng.nguilib.utils.MLog
+import com.ng.nguilib.layout.thread.ThreadPoolUtil
 import com.ng.nguilib.utils.ViewUtils
+import kotlin.math.abs
 
 
 /**
@@ -135,13 +135,15 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
     }
 
     var startTime = 0L
+    var mNowTouchX = -1f
     var mNowTouchY = -1f
     var mRealIndex = -1
     var hadPost = false
-    var longTouchHandler = Handler() {
-        if (hadPost)
-            expandInterval(mRealIndex, mNowTouchY)
-        true
+    var isInside = true
+    var isMoving = false
+
+    private fun isInside(x: Float, y: Float): Boolean {
+        return abs(mNowTouchX - x) < 10 && abs(mNowTouchY - y) < 10
     }
 
     //增加垂直分割线
@@ -167,13 +169,22 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                         refreshChildSizeList()
                         //expandInterval(realIndex, event.y)
 
+                        mNowTouchX = event.x
                         mNowTouchY = event.y
                         mRealIndex = realIndex
-                        MLog.d("a:   " + hadPost)
+
+
                         if (!hadPost) {
                             hadPost = true
                             startTime = System.currentTimeMillis()
-                            longTouchHandler.sendEmptyMessageDelayed(-1, 1000)
+
+
+                            ThreadPoolUtil.runOnUiThread({
+                                if (isInside) {
+                                    isMoving = true
+                                    expandInterval(mRealIndex, mNowTouchY)
+                                }
+                            }, 400)
                         }
                     }
                     MotionEvent.ACTION_UP -> {
@@ -181,11 +192,31 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                         startTime = Long.MAX_VALUE
                         refreshChildSizeList()
                         hideInterval(realIndex, event.y)
+
+                        resetTouchView()
+                    }
+                    MotionEvent.ACTION_CANCEL -> {
+                        mNowTouchY = event.y
+                        resetTouchView()
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        mNowTouchY = event.y
+                        if (isInside(event.x, event.y)) {
+                            mNowTouchX = event.x
+                            mNowTouchY = event.y
+                            isInside = true
+                        } else {
+                            isInside = false
+                        }
+
+                        if (isMoving) {
+                            mNowTouchX = event.x
+                            mNowTouchY = event.y
+                        }
+
                         mRealIndex = realIndex
-                        if (System.currentTimeMillis() - startTime < 1000) {
+
+
+                        if (System.currentTimeMillis() - startTime < 400 || !isMoving) {
                             return true
                         }
 
@@ -236,6 +267,7 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
         addView(interValView, realIndex, lp)
     }
 
+
     private fun resizeChildSize() {
         mChildLayoutList.forEachIndexed { index, child ->
             val childLp: LayoutParams = child.layoutParams as LayoutParams
@@ -284,10 +316,7 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 }
             }
             MotionEvent.ACTION_UP -> {
-                //重置长按相关
-                hadPost = false
-                mNowTouchY = -1f
-                mRealIndex = -1
+                resetTouchView()
 
 
                 isZoomState = false
@@ -301,8 +330,6 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 mNowChoiceIndex = -1
             }
             MotionEvent.ACTION_MOVE -> {
-
-
                 if (mNowChoiceIndex != -1) {
                     val intervalView: ZoomGuideView = mChildLayoutList[mNowChoiceIndex] as ZoomGuideView
                     requestDisallowInterceptTouchEvent(true)
@@ -310,6 +337,7 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 }
             }
             MotionEvent.ACTION_CANCEL -> {
+
                 mIntervalList.forEach {
                     it.translationZ = 0.1f
                     it.expend(false)
@@ -318,10 +346,27 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
                 if (mCallBack != null) {
                     mCallBack!!.setState(false)
                 }
+
+                //重置长按相关
+                resetTouchView()
+
             }
         }
 
         return super.onTouchEvent(motionEvent)
+    }
+
+    fun resetTouchView() {
+        //重置长按相关
+        isMoving = false
+        hadPost = false
+        isInside = true
+        //隐藏滑动条
+        startTime = Long.MAX_VALUE
+        refreshChildSizeList()
+        hideInterval(mRealIndex, mNowTouchY)
+        mRealIndex = -1
+        mNowTouchY = -1f
     }
 
 
@@ -377,18 +422,22 @@ class ZoomLayout3 constructor(context: Context, attrs: AttributeSet?) : LinearLa
 
 
     private fun hideInterval(realIndex: Int, showY: Float) {
-        val temp: ZoomGuideView = mChildLayoutList[realIndex] as ZoomGuideView
-        temp.translationZ = 0.1f
-        temp.setShowY(showY)
-        temp.expend(false)
+        if (realIndex < mChildHeightList.size) {
+            val temp: ZoomGuideView = mChildLayoutList[realIndex] as ZoomGuideView
+            temp.translationZ = 0.1f
+            temp.setShowY(showY)
+            temp.expend(false)
+        }
     }
 
     //展示引导图
     private fun expandInterval(realIndex: Int, showY: Float) {
-        val temp: ZoomGuideView = mChildLayoutList[realIndex] as ZoomGuideView
-        temp.translationZ = 0.2f
-        temp.setShowY(showY)
-        temp.expend(true)
+        if (realIndex < mChildHeightList.size && realIndex >= 0) {
+            val temp: ZoomGuideView = mChildLayoutList[realIndex] as ZoomGuideView
+            temp.translationZ = 0.2f
+            temp.setShowY(showY)
+            temp.expend(true)
+        }
     }
 
 

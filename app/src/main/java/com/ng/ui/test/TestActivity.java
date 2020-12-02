@@ -22,6 +22,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         DensityUtil.INSTANCE.setCustomDensity(this,getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+
         init();
     }
 
