@@ -1,4 +1,4 @@
-package com.ng.nguilib
+package com.ng.nguilib.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

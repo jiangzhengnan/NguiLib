@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     >
 
-    <com.ng.ui.view.CentralTractionButton
+    <com.ng.nguilib.view.CentralTractionButton
         android:id="@+id/ctt_mcv"
         android:button="@null"
         android:layout_width="87dp"

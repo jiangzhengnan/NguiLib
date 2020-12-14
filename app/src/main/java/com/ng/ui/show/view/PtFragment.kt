@@ -3,8 +3,8 @@ package com.ng.ui.show.view
 import android.graphics.Color
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
-import com.ng.nguilib.ParrotViewNew
 import com.ng.nguilib.utils.ParrotPillarNew
+import com.ng.nguilib.view.ParrotViewNew
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.fragment_pt.*
 import java.util.*
@@ -41,8 +41,8 @@ class PtFragment : BaseFragment() {
 
         ptv2_new.setColor(Color.parseColor("#cc8400"), Color.parseColor("#ffff00"))
 
-        ptv1_new.setData(mParrotPillars1,ParrotViewNew.ANIM_TYPE_NORMAL)
-        ptv2_new.setData(mParrotPillars2,ParrotViewNew.ANIM_TYPE_COLECT)
+        ptv1_new.setData(mParrotPillars1, ParrotViewNew.ANIM_TYPE_NORMAL)
+        ptv2_new.setData(mParrotPillars2, ParrotViewNew.ANIM_TYPE_COLECT)
 
         val btn : AppCompatButton = v.findViewById(R.id.btn_pt)
         btn.setOnClickListener {

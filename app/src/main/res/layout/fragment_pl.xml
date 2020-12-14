@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:orientation="horizontal">
 
-        <com.ng.nguilib.PolygonLoadView
+        <com.ng.nguilib.view.PolygonLoadView
             android:id="@+id/pl1"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="30dp" />
 
-        <com.ng.nguilib.PolygonLoadView
+        <com.ng.nguilib.view.PolygonLoadView
             android:id="@+id/pl2"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="30dp" />
 
-        <com.ng.nguilib.PolygonLoadView
+        <com.ng.nguilib.view.PolygonLoadView
             android:id="@+id/pl3"
             android:layout_width="80dp"
             android:layout_height="80dp"

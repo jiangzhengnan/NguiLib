@@ -1,4 +1,4 @@
-package com.ng.ui.view
+package com.ng.nguilib.view
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -10,8 +10,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.animation.OvershootInterpolator
-import android.widget.CompoundButton
-import android.widget.RadioButton
 import com.ng.nguilib.R
 
 /**

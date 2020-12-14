@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ng.nguilib.utils.DensityUtil;
+import com.ng.nguilib.view.BoundlessSeekBar;
 import com.ng.ui.R;
 
 /**
@@ -27,7 +28,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         init();
     }
 
+    BoundlessSeekBar mBr;
+
     private void init() {
+        mBr = findViewById(R.id.test_bar_a);
+
+        mBr.setLastPriceInit(100f,0);
     }
 
     @Override

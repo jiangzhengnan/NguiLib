@@ -1,4 +1,4 @@
-package com.ng.nguilib;
+package com.ng.nguilib.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.ng.nguilib.R;
 import com.ng.nguilib.utils.MLog;
 
 /**
@@ -48,7 +49,6 @@ public class ToggleView extends View {
     private float mHeight;
     private float mWidth;
     private float mEdge;
-
     private int mPositiveImgId = 0;
     private int mReverseImgId = 0;
 

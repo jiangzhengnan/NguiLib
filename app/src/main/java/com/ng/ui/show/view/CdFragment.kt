@@ -2,7 +2,7 @@ package com.ng.ui.show.view
 
 import android.graphics.Color
 import android.view.View
-import com.ng.nguilib.CylinderView
+import com.ng.nguilib.view.CylinderView
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.fragment_cd.*
 import java.util.*

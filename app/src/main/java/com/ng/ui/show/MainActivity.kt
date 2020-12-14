@@ -21,8 +21,7 @@ import kotlinx.android.synthetic.main.activity_main_vp.*
 
 
 /**
- * todo add layout布局主页
- * 描述: 新的主页
+  * 描述: 新的主页
  * @author Jzn
  * @date 2020-04-11
  */
@@ -64,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         mViewList.add(ItemInfo(getString(R.string.view_7), SvFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_8), TgFragment()))
         mViewList.add(ItemInfo(getString(R.string.view_9), PtFragment()))
+        mViewList.add(ItemInfo(getString(R.string.view_10),BdFragment()))
         //layout
         mLayoutList.add(ItemInfo(getString(R.string.layout_1), ZoomFragment()))
 

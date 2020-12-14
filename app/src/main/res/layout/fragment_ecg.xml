@@ -4,7 +4,7 @@
     android:background="#FAFAFA"
     android:layout_height="match_parent">
 
-    <com.ng.ui.view.EcgShowView
+    <com.ng.nguilib.view.EcgShowView
         android:layout_centerInParent="true"
         android:id="@+id/ecgview"
         android:layout_margin="10dp"

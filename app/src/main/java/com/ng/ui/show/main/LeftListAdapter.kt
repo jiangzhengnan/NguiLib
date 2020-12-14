@@ -1,10 +1,6 @@
 package com.ng.ui.show.main
 
-/**
- * 描述:
- * @author Jzn
- * @date 2020-06-12
- */
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ng.ui.R
-
 /**
- * @作者： ljp
- * @时间： 2020/5/23 9:19
- * @描述：
- **/
+ * 描述:
+ * @author Jzn
+ * @date 2020-06-12
+ */
 class LeftListAdapter(val context: Context, var data: List<ItemInfo>) :
         RecyclerView.Adapter<LeftListAdapter.VH>() {
 

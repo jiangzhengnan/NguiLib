@@ -25,22 +25,22 @@ class EcgFragment : BaseFragment() {
     private var index: Int = 0
 
     private fun showEcgData() {
-        ecgview.setData(null, ecgview.SHOW_MODEL_DYNAMIC_REFRESH)
+        ecgview.setData(health_data1, ecgview.SHOW_MODEL_DYNAMIC_SCROLL)
 
-        dataList = health_data1.split(",").toTypedArray()
-        timer = object : Timer() {}
-
-        timerTask = object : TimerTask() {
-            override fun run() {
-                if (index >= dataList.size) {
-                    index = 0
-                }
-                if (dataList[index] == null || dataList[index] == "" || ecgview == null) return
-                ecgview.showLine(dataList[index].toFloat())
-                index++
-            }
-        }
-        timer.schedule(timerTask, 500, 50)
+//        dataList = health_data1.split(",").toTypedArray()
+//        timer = object : Timer() {}
+//
+//        timerTask = object : TimerTask() {
+//            override fun run() {
+//                if (index >= dataList.size) {
+//                    index = 0
+//                }
+//                if (dataList[index] == null || dataList[index] == "" || ecgview == null) return
+//                ecgview.showLine(dataList[index].toFloat())
+//                index++
+//            }
+//        }
+//        timer.schedule(timerTask, 500, 50)
     }
 
 

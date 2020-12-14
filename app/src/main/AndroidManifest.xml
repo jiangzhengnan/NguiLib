@@ -17,15 +17,21 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.ng.ui.show.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--main test-->
+        <activity android:name=".test.TestActivity" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-
-        <!--main test-->
-        <activity android:name=".test.TestActivity" />
 
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
@@ -38,11 +44,6 @@
         <activity android:name=".other.zhuanli.TestLineMorphingDrawableActivity" />
         <activity android:name=".other.parrot.NgTestAty" />
         <activity android:name=".other.zoom.ZoomActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".other.drag.DragActivity" />
         <activity android:name=".other.percentcircle.PercentCircleActivity" />

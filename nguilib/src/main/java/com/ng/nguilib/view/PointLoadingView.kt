@@ -1,4 +1,4 @@
-package com.ng.nguilib
+package com.ng.nguilib.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,7 +15,6 @@ import android.view.animation.AccelerateInterpolator
 import android.graphics.RectF
 import android.util.Log
 import com.ng.nguilib.utils.DensityUtil
-import kotlin.math.log
 
 
 /**

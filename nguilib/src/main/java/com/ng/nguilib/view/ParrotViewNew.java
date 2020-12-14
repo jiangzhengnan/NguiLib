@@ -1,4 +1,4 @@
-package com.ng.nguilib;
+package com.ng.nguilib.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
 
+import com.ng.nguilib.R;
 import com.ng.nguilib.utils.LinearGradientUtil;
 import com.ng.nguilib.utils.MLog;
 import com.ng.nguilib.utils.Utils;

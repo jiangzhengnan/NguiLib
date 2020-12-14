@@ -9,14 +9,14 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.ng.nguilib.ParrotViewNew
+        <com.ng.nguilib.view.ParrotViewNew
             android:id="@+id/ptv1_new"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             />
 
-        <com.ng.nguilib.ParrotViewNew
+        <com.ng.nguilib.view.ParrotViewNew
             android:id="@+id/ptv2_new"
             android:layout_width="0dp"
             android:layout_weight="1"

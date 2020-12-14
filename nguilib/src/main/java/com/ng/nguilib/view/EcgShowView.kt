@@ -1,4 +1,4 @@
-package com.ng.ui.view
+package com.ng.nguilib.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -33,7 +33,7 @@ class EcgShowView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var showIndex: Int = 0
 
     private val MAX_VALUE = 20f
-    private var intervalNumHeart: Int = 0
+    private var intervalNumHeart: Int = 1
     private var intervalRowHeart: Float = 0.toFloat()
     private var intervalColumnHeart: Float = 0.toFloat()
     private val HEART_LINE_STROKE_WIDTH = 2.5f

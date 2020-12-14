@@ -4,7 +4,7 @@
     android:background="#FAFAFA"
     android:layout_height="match_parent">
 
-    <com.ng.nguilib.CylinderView
+    <com.ng.nguilib.view.CylinderView
         android:id="@+id/clv"
         android:layout_width="250dp"
         android:layout_height="325dp"

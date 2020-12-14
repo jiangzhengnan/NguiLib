@@ -5,7 +5,7 @@
     android:background="#FAFAFA"
     >
 
-    <com.ng.nguilib.PointLoadingView
+    <com.ng.nguilib.view.PointLoadingView
         android:id="@+id/ptl"
         android:layout_centerInParent="true"
         android:layout_width="100dp"

@@ -1,4 +1,4 @@
-package com.ng.ui.view
+package com.ng.nguilib.view
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint

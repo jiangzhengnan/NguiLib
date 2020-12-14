@@ -12,6 +12,7 @@
     <string name="view_7">SoundView</string>
     <string name="view_8">ToggleView</string>
     <string name="view_9">ParrotView</string>
+    <string name="view_10">BoundlessSeekBar</string>
 
     <string name="layout_1">ZoomLayout</string>
     <string name="layout_2">TestLayout</string>
