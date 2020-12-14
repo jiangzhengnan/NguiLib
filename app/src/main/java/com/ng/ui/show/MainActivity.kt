@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
 
-        mAdapter = LeftListAdapter(this, mViewList)
+        mAdapter = LeftListAdapter(this, mLayoutList)
         mAdapter.setItemListener(object : LeftListAdapter.OnLeftItemClick {
             override fun onItem(pos: Int) {
                 vp_maina.currentItem = pos
@@ -133,9 +133,13 @@ class MainActivity : AppCompatActivity() {
                 if (isShowView) {
                     item.title = getString(R.string.view)
                     changeShow(mViewList)
+                    mAdapter.data = mViewList
+                    mAdapter.notifyDataSetChanged()
                 } else {
                     item.title = getString(R.string.layout)
                     changeShow(mLayoutList)
+                    mAdapter.data = mLayoutList
+                    mAdapter.notifyDataSetChanged()
                 }
             }
         }
