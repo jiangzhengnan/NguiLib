@@ -283,10 +283,6 @@ class BoundlessSeekBar : View {
                     timer!!.cancel()
                     timer = null
                 }
-                if (mInertiaAnimator != null) {
-                    mInertiaAnimator!!.cancel()
-                    mInertiaAnimator = null
-                }
 
                 if (isInsideBar(motionEvent.x, motionEvent.y)) {
                     isInside = true
@@ -376,6 +372,7 @@ class BoundlessSeekBar : View {
                         val duration = abs(velocityX) / 3.toLong()
                         val circleNum = abs(velocityX) / 1000 / 2 + 1
 
+                        var needFinish = true
                         mInertiaAnimator = ValueAnimator.ofFloat(0f, mMoveLen)
                         mInertiaAnimator!!.duration = duration
                         mInertiaAnimator!!.interpolator = DecelerateInterpolator(2f)
@@ -388,12 +385,16 @@ class BoundlessSeekBar : View {
                                 180 * circleNum * tempPercent
                             }
 
-                            val temp = (animation.animatedValue as Float) - mAnimLastValue
-                            mAnimLastValue = animation.animatedValue as Float
+                            if (needFinish) {
+                                val temp = (animation.animatedValue as Float) - mAnimLastValue
+                                mAnimLastValue = animation.animatedValue as Float
 
-                            mMoveLen -= temp
+                                mMoveLen -= temp
+                                needFinish = startRun(-temp)
+                            } else {
+                                postInvalidate()
+                            }
 
-                            startRun(-temp)
                         })
                         mInertiaAnimator!!.start()
                     }
@@ -455,17 +456,18 @@ class BoundlessSeekBar : View {
         timer!!.schedule(timerTask, 0, 1000L / 60L)
     }
 
-    private fun startRun(temp: Float) {
+    private fun startRun(temp: Float): Boolean {
         //  mScale = (measuredWidth / (mRuleLength * 2))
         val distance = mPaddingDistance / mScale
-        if (mLeft + temp > -distance
+        return if (mLeft + temp > -distance
                 && mRight + temp < mMaxPrice + distance
         ) {
             mLeft += temp
             mRight += temp
             refreshParams()
+            true
         } else {
-            postInvalidate()
+            false
         }
     }
 
