@@ -87,6 +87,8 @@ class BoundlessSeekBar : View {
 
     private var mAnimLastValue = 0f
 
+    //旋转角度
+    private var mRotate = 0f
 
     private fun resetParams() {
         isInside = false
@@ -183,18 +185,6 @@ class BoundlessSeekBar : View {
             color = mBarColor
         }
         canvas.drawCircle(mDragX, mDragY, mBarR, mPaint)
-        //画三根线
-        mPaint.shader = null
-        mPaint.color = Color.WHITE
-        val interval = mBarR / 3f
-        mPaint.strokeWidth = MAX_WIDTH_THREE_LINE
-        val mShowY = mDragY
-        canvas.drawLine(mDragX - interval, mShowY - interval,
-                mDragX - interval, mShowY + interval, mPaint)
-        canvas.drawLine(mDragX, mShowY - interval,
-                mDragX, mShowY + interval, mPaint)
-        canvas.drawLine(mDragX + interval, mShowY - interval,
-                mDragX + interval, mShowY + interval, mPaint)
 
         //绘制可拖动bar头上的文字
         mPaint.apply {
@@ -206,6 +196,29 @@ class BoundlessSeekBar : View {
         val nowPriceStr = "$${decimalFormat.format(mNowPrice)}"
         canvas.drawText(nowPriceStr, mDragX - mPaint.measureText(nowPriceStr) / 2,
                 measuredHeight / 2 - mBarR - (mPaint.descent() - mPaint.ascent()) - 5, mPaint)
+
+
+        //画三根线
+        mPaint.shader = null
+        mPaint.color = Color.WHITE
+        val interval = mBarR / 3f
+        mPaint.strokeWidth = MAX_WIDTH_THREE_LINE
+        val mShowY = mDragY
+        canvas.translate(mDragX, mShowY)
+        canvas.rotate(mRotate)
+        canvas.drawLine(-interval, -interval,
+                -interval, interval, mPaint)
+        canvas.drawLine(0f, -interval,
+                0f, interval, mPaint)
+        canvas.drawLine(interval, -interval,
+                interval, interval, mPaint)
+
+//        canvas.drawLine(mDragX - interval, mShowY - interval,
+//                mDragX - interval, mShowY + interval, mPaint)
+//        canvas.drawLine(mDragX, mShowY - interval,
+//                mDragX, mShowY + interval, mPaint)
+//        canvas.drawLine(mDragX + interval, mShowY - interval,
+//                mDragX + interval, mShowY + interval, mPaint)
 
 
     }
@@ -340,7 +353,6 @@ class BoundlessSeekBar : View {
 
                     // 获取横向速度
                     val velocityX = mVelocityTracker!!.xVelocity.toInt()
-                    MLog.d("横向速度: $velocityX" + " " + mMoveLen)
 
                     if (abs(velocityX) < 1000) {
                         resetParams()
@@ -361,35 +373,30 @@ class BoundlessSeekBar : View {
 
                         mMoveLen /= 2
 
+                        val duration = abs(velocityX) / 3.toLong()
+                        val circleNum = abs(velocityX) / 1000 / 2 + 1
+
                         mInertiaAnimator = ValueAnimator.ofFloat(0f, mMoveLen)
-                        mInertiaAnimator!!.duration = abs(velocityX) / 3.toLong()
+                        mInertiaAnimator!!.duration = duration
                         mInertiaAnimator!!.interpolator = DecelerateInterpolator(2f)
                         mInertiaAnimator!!.addUpdateListener(ValueAnimator.AnimatorUpdateListener { animation ->
+                            //旋转
+                            val tempPercent = animation.animatedFraction
+                            mRotate = if (mMoveLen > 0) {
+                                -180 * circleNum * tempPercent
+                            } else {
+                                180 * circleNum * tempPercent
+                            }
 
                             val temp = (animation.animatedValue as Float) - mAnimLastValue
                             mAnimLastValue = animation.animatedValue as Float
 
-                            if (abs(mMoveLen) < STOP_SPEED) {
-                                mMoveLen = 0f
-                                if (mInertiaAnimator != null) {
-                                    mInertiaAnimator!!.cancel()
-                                    mInertiaAnimator = null
-                                }
-                                isInside = false
-                            } else {
+                            mMoveLen -= temp
 
-                                mMoveLen -= temp
-
-                                MLog.d("mmove len :  " + temp)
-                                startRun(-temp)
-                            }
-
+                            startRun(-temp)
                         })
                         mInertiaAnimator!!.start()
-
                     }
-
-
                 }
             }
         }
@@ -457,6 +464,8 @@ class BoundlessSeekBar : View {
             mLeft += temp
             mRight += temp
             refreshParams()
+        } else {
+            postInvalidate()
         }
     }
 
