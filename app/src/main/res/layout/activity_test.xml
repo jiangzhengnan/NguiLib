@@ -5,10 +5,29 @@
     android:background="#fff">
 
 
-    <com.ng.nguilib.view.BoundlessSeekBar
+    <com.ng.nguilib.view.BoundlessSeekBar2
         android:id="@+id/test_bar_a"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dd120"
+        android:layout_height="@dimen/dd200"
         android:layout_centerInParent="true" />
+
+
+    <SeekBar
+        android:id="@+id/sk_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/dd100"
+        android:max="10000"
+        android:min="0" />
+
+    <TextView
+        android:id="@+id/tv_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dd50"
+        android:textColor="@color/black"
+        android:textSize="11dp" />
+
 
 </RelativeLayout>
