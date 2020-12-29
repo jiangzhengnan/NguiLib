@@ -1,73 +1,57 @@
 package com.ng.ui.test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-
 /*
-https://leetcode-cn.com/problems/check-array-formation-through-concatenation/
-给你一个整数数组 arr ，数组中的每个整数 互不相同 。另有一个由整数数组构成的数组 pieces，
-其中的整数也 互不相同 。请你以 任意顺序 连接 pieces 中的数组以形成 arr 。但是，不允许 对每个数组 pieces[i] 中的整数重新排序。
-如果可以连接 pieces 中的数组形成 arr ，返回 true ；否则，返回 false 。
+https://leetcode-cn.com/problems/single-number/
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
 
-示例 1：
-输入：arr = [85], pieces = [[85]]
-输出：true
-示例 2：
-输入：arr = [15,88], pieces = [[88],[15]]
-输出：true
-解释：依次连接 [15] 和 [88]
-示例 3：
-输入：arr = [49,18,16], pieces = [[16,18,49]]
-输出：false
-解释：即便数字相符，也不能重新排列 pieces[0]
-示例 4：
+说明：
 
-输入：arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
-输出：true
-解释：依次连接 [91]、[4,64] 和 [78]
-示例 5：
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
 
-输入：arr = [1,3,5,7], pieces = [[2,4,6,8]]
-输出：false
- 
+示例 1:
 
-提示：
+输入: [2,2,1]
+输出: 1
+示例 2:
 
-1 <= pieces.length <= arr.length <= 100
-sum(pieces[i].length) == arr.length
-1 <= pieces[i].length <= arr.length
-1 <= arr[i], pieces[i][j] <= 100
-arr 中的整数 互不相同
-pieces 中的整数 互不相同（也就是说，如果将 pieces 扁平化成一维数组，数组中的所有整数互不相同）
+输入: [4,1,2,1,2]
+输出: 4
+
+
+5:101
+3:011
+4:100
+两个二进制对应位相同时，结果为0，否则结果为1。
+
+101
+011 = 110
+
+110
+011 = 101
+
+110
+100 = 011
+
+011
+101 = 110
+
+110
+100 = 011
+
  */
 public class TestClass {
 
     public static void main(String[] args) {
-        LogUtils.print(canFormArray(new int[]{91, 4, 64, 78}, new int[][]{{4, 64}, {78}, {91}}) + " ");
+
+         LogUtils.print(singleNumber(new int[]{4, 1, 2, 1, 2,8,7,6,5,6,7,8,5}) + "");
     }
 
-    public static boolean canFormArray(int[] arr, int[][] pieces) {
-        for (int i = 0; i < arr.length; i++) {
-
-            boolean contains = false;
-            for (int j = 0; j < pieces.length; j++) {
-                int[] temp = pieces[j];
-                if (temp[0] == arr[i]) {
-                    for (int k = 0; k < temp.length; k++) {
-
-                    }
-
-                }
-            }
-
+    public static int singleNumber(int[] nums) {
+        int single = 0;
+        for (int num : nums) {
+            single ^= num;
+            LogUtils.print(" " + single);
         }
-        return false;
+        return single;
     }
-
 }
