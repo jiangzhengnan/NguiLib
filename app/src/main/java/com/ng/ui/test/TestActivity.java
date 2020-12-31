@@ -39,17 +39,18 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         mBr = findViewById(R.id.test_bar_a);
         tv_show = findViewById(R.id.tv_show);
 
-        mBr.setLastPriceInit(0.01f, 0);
+        mBr.setLastPriceInit(2f, 0,true);
         sk_bar = findViewById(R.id.sk_bar);
+
+        tv_show.setText("初始价: 20");
 
         sk_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 MLog.INSTANCE.d("pro: " + progress);
-                float temp = ((float) progress) / 100f;
-                mBr.setLastPriceInit(temp, 0);
-
-                tv_show.setText(mBr.getNowPrice()+"");
+                float temp =progress/100;
+                mBr.setLastPriceInit(temp, 0,true);
+                tv_show.setText(temp+"");
             }
 
             @Override
