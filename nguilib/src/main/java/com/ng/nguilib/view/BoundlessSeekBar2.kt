@@ -346,7 +346,7 @@ class BoundlessSeekBar2 : View {
                 if (isInside) {
                     when {
                         motionEvent.x < mPaddingDistance -> {
-                            MLog.d("向左扩展")
+                            MLog.d("向左扩展 " + mNowPrice+" " + mDragX)
                             //向左扩展
                             startLeftExtend()
                         }
@@ -497,11 +497,12 @@ class BoundlessSeekBar2 : View {
         } else {
             //下跌
             when {
-                tempValue < 0 && mLeftLimit <= 0 -> {
-                    mDragX = mPaddingDistance.toFloat() + mMinPrice * mScale
+                tempValue < 0 && mLeftLimit <= mMinPrice -> {
+                    mDragX = mPaddingDistance.toFloat()
                     mNowPrice = mMinPrice
                     stopExtend()
                     vibrator(context)
+
                     return
                 }
                 tempValue > 0 && mRightLimit >= mLastPrice -> {
@@ -509,6 +510,8 @@ class BoundlessSeekBar2 : View {
                     mNowPrice = mLastPrice
                     stopExtend()
                     vibrator(context)
+                    MLog.d("stop 222")
+
                     return
                 }
             }
