@@ -12,3 +12,4 @@
 /app/gradlew
 /app/gradlew.bat
 /app/gradle/wrapper/gradle-wrapper.jar
+/.idea/
