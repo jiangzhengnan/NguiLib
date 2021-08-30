@@ -49,7 +49,11 @@ Inspiration : <a href="https://dribbble.com/shots/7077455-Spending-analytics">ht
 7.ToggleView. 矢量切换动画<br />
 Inspiration : <a href="https://dribbble.com/shots/9834681--Toggle">https://dribbble.com/shots/9834681--Toggle</a><br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/tg_show.gif" /> 
- 
+8.BoundlessSeekBar. 可拖拽横向选择条，支持惯性滑动。
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/bd_show.gif" /> 
+
+
+
 
 ## License
 
