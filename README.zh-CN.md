@@ -1,5 +1,5 @@
 # NguiLib
-English | [简体中文](./README.zh-CN.md) |
+简体中文 | [English](./README.md) |
 
 适用于Android的 漂亮 + 实用 + 简单 风格的自定义视图和布局集合，最小sdk版本兼容到14，欢迎rp
 <br/>
