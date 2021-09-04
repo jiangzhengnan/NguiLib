@@ -57,7 +57,7 @@ Inspiration : <a href="https://dribbble.com/shots/9834681--Toggle">https://dribb
 
 ## License
 
-    Copyright 2019, Jiang Zhengnan
+    Copyright 2021, Jiang Zhengnan
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
