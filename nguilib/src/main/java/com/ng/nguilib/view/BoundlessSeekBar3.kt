@@ -24,6 +24,7 @@ import kotlin.math.abs
  * 描述:无边界拖动的progressbar
  * @author Jzn
  * @date 2020/12/11
+ *
  */
 class BoundlessSeekBar3 : View {
 
