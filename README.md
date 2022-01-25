@@ -6,8 +6,7 @@ issues welcome<br/>
 Jcenter: 
 <a href="https://bintray.com/jiangzhengnan/NguiLib/NguiLib">https://bintray.com/jiangzhengnan/NguiLib/NguiLib</a><br />
 
-UseAge
--------
+## UseAge
 gradle:
 ```grovvy
 repositories {
@@ -24,35 +23,36 @@ dependencies {
 To add gradle dependency you need to open build.gradle (in your app folder,not in a project folder) then copy and add the dependencies there in the dependencies block
 <br/>
 
-<h3>Layout</h3>
+## Layout 
 1.ZoonLayout. Linelayout supporting linkage drag and size change.<br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/zoom_layout.gif" />
 
-<h3>View</h3>
+## View 
 1.CentralTractionButton. Perfect Realization of Tab Button Animation Effect of Tencent QQ   <br />
 Information: <a href="https://blog.csdn.net/qq_22770457/article/details/78630695">腾讯QQ的Tab按钮动画效果完美实现</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ctb_show.gif" />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ctb_show.gif" /><br /><br />
 2.EcgView. ECG display <br />
 Information: <a href="https://blog.csdn.net/qq_22770457/article/details/90679481">ECG心电图的绘制实现</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" />
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ecg_show.gif" /><br /><br />
 3.PolygonLoadView. A Cool Load View<br />
 Inspiration : <a href="https://dribbble.com/shots/5878367-Loaders">https://dribbble.com/shots/5878367-Loaders</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/pl_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/pl_show.gif" /> <br /><br />
 4.ArrowInteractionView. A Load Animation Button<br />
 Inspiration : <a href="https://dribbble.com/shots/6201452-Arrow-micro-interaction">https://dribbble.com/shots/6201452-Arrow-micro-interaction</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ai_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ai_show.gif" /> <br /><br />
 5.PointLoadingView. A Point Load Animation View<br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ptl_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/ptl_show.gif" /> <br /><br />
 6.CylinderView. A 3D cylinder animation View<br />
 Inspiration : <a href="https://dribbble.com/shots/7077455-Spending-analytics">https://dribbble.com/shots/7077455-Spending-analytics</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/cd_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/cd_show.gif" /> <br /><br />
 7.ToggleView. A simple vector switching animation<br />
 Inspiration : <a href="https://dribbble.com/shots/9834681--Toggle">https://dribbble.com/shots/9834681--Toggle</a><br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/tg_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/tg_show.gif" /> <br /><br />
 8.BoundlessSeekBar. ProgressBar without boundary drag, supporting inertial sliding<br />
-<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/bd_show.gif" /> 
+<img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/bd_show.gif" /> <br /><br />
  
-
+## Features
+- [x] https://dribbble.com/shots/7040213-Credit-cards-slider
 ## License
 
     Copyright 2021, Jiang Zhengnan
