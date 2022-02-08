@@ -1,6 +1,10 @@
 # NguiLib
 English | [简体中文](./README.zh-CN.md) |
-
+</br>
+![Java](https://img.shields.io/badge/language-Kotlin-red.svg)
+![Kotlin](https://img.shields.io/badge/language-Java-blue.svg)
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=jiangzhengnan.nguilib.read.me)
+</br>
 An *beautiful+useful+easy-style*  custom view & layout collection for Android,minSdkVersion >= 14<br>
 issues welcome<br/>
 Jcenter: 
