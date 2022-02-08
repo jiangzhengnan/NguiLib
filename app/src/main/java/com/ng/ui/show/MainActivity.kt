@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.ng.nguilib.utils.DensityUtil
 import com.ng.ui.R
+import com.ng.ui.show.layout.FloatingCardFragment
 import com.ng.ui.show.layout.ZoomFragment
 import com.ng.ui.show.main.AppUtils
 import com.ng.ui.show.main.ItemInfo
@@ -66,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         mViewList.add(ItemInfo(getString(R.string.view_10),BdFragment()))
         //layout
         mLayoutList.add(ItemInfo(getString(R.string.layout_1), ZoomFragment()))
-
     }
 
     private fun initView() {

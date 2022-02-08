@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout.thread;
+package com.ng.nguilib.layout.zoom.thread;
 
 import android.os.Handler;
 import android.os.HandlerThread;

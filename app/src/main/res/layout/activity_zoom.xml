@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <com.ng.nguilib.layout.ZoomLayout3
+    <com.ng.nguilib.layout.zoom.ZoomLayout3
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -33,7 +33,7 @@
         </RelativeLayout>
 
 
-        <com.ng.nguilib.layout.ZoomLayout3
+        <com.ng.nguilib.layout.zoom.ZoomLayout3
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -57,8 +57,8 @@
                 android:minWidth="10dp"
                 android:text="center"
                 android:textColor="@color/white" />
-        </com.ng.nguilib.layout.ZoomLayout3>
+        </com.ng.nguilib.layout.zoom.ZoomLayout3>
 
 
-    </com.ng.nguilib.layout.ZoomLayout3>
+    </com.ng.nguilib.layout.zoom.ZoomLayout3>
 </RelativeLayout>

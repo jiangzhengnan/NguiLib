@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout
+package com.ng.nguilib.layout.zoom
 
 import android.content.Context
 import android.graphics.Color

@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout
+package com.ng.nguilib.layout.zoom
 
 import android.graphics.Rect
 import android.view.MotionEvent

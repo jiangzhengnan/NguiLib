@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout
+package com.ng.nguilib.layout.zoom
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

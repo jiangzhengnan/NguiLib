@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout;
+package com.ng.nguilib.layout.zoom;
 
 /**
  * 描述:

@@ -12,7 +12,7 @@ import android.os.Vibrator
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.ng.nguilib.layout.thread.ThreadPoolUtil
+import com.ng.nguilib.layout.zoom.thread.ThreadPoolUtil
 import com.ng.nguilib.utils.MLog
 import com.ng.nguilib.utils.ViewUtils
 import java.text.DecimalFormat

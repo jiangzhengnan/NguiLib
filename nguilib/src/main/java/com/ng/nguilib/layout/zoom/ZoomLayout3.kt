@@ -1,4 +1,4 @@
-package com.ng.nguilib.layout
+package com.ng.nguilib.layout.zoom
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.ng.nguilib.R
-import com.ng.nguilib.layout.thread.ThreadPoolUtil
+import com.ng.nguilib.layout.zoom.thread.ThreadPoolUtil
 import com.ng.nguilib.utils.ViewUtils
 import kotlin.math.abs
 

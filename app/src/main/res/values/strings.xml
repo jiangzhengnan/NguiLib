@@ -15,6 +15,6 @@
     <string name="view_10">BoundlessSeekBar</string>
 
     <string name="layout_1">ZoomLayout</string>
-    <string name="layout_2">TestLayout</string>
+    <string name="layout_2">FloatingCardLayout</string>
 
 </resources>

@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.ng.nguilib.layout.ZoomLayout3
+import com.ng.nguilib.layout.zoom.ZoomLayout3
 import com.ng.ui.R
 import kotlinx.android.synthetic.main.activity_zoom.*
 
@@ -20,7 +20,7 @@ class ZoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_zoom)
 
-        root_layout.addListener(object:ZoomLayout3.OnZoomListener{
+        root_layout.addListener(object: ZoomLayout3.OnZoomListener{
             override fun setState(isZoomming: Boolean) {
             }
 

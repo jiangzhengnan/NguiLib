@@ -16,6 +16,6 @@
     <string name="view_10">无限边界条形选择器</string>
 
     <string name="layout_1">可联动伸缩线性布局</string>
-    <string name="layout_2">可联动伸缩线性布局</string>
+    <string name="layout_2">漂浮卡片布局</string>
 
 </resources>
