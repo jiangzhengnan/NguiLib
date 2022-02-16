@@ -53,7 +53,8 @@ Inspiration : <a href="https://dribbble.com/shots/9834681--Toggle">https://dribb
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/bd_show.gif" /> 
 
 
-
+## 待做
+- [x] https://dribbble.com/shots/6612066-Tab-Bar-active-animation
 
 ## License
 
