@@ -24,10 +24,6 @@
             </intent-filter>
         </activity>
 
-        <!--main test-->
-        <activity android:name=".test.TestActivityK" >
-        </activity>
-
         <!--training-->
         <activity android:name=".other.gesture.testjava" />
 

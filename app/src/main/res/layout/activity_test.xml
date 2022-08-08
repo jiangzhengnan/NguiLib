@@ -4,37 +4,12 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+    <com.ng.ui.other.path.NgTouchPathView
+            android:id="@+id/ngTouchPathView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-        <EditText
-            android:id="@+id/et_year"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:hint="year"
-            android:inputType="number" />
 
-        <EditText
-            android:id="@+id/et_month"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:hint="month"
-            android:inputType="number" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:text="submit" />
-
-    </LinearLayout>
-
-    <com.ng.ui.other.calendar.NgCalendarLayout
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true" />
 
 </RelativeLayout>
