@@ -38,8 +38,8 @@
         </activity>
         <activity android:name=".other.drag.DragActivity" />
         <activity android:name=".other.percentcircle.PercentCircleActivity" />
-        <activity android:name=".other.twobtn.TwoCheckTestActivity">
-
+        <activity android:name=".other.twobtn.TwoCheckTestActivity"/>
+        <activity android:name=".other.upward.TestUpWardActivity">
         </activity>
         <!--study-->
         <activity android:name=".study.inhale.InhaleStudyActivity" />

@@ -2,6 +2,8 @@ package com.ng.ui.show
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Debug
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -11,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.ng.nguilib.utils.DensityUtil
 import com.ng.ui.R
-import com.ng.ui.show.layout.FloatingCardFragment
 import com.ng.ui.show.layout.ZoomFragment
 import com.ng.ui.show.main.AppUtils
 import com.ng.ui.show.main.ItemInfo
@@ -98,6 +99,17 @@ class MainActivity : AppCompatActivity() {
         })
         left_rv.layoutManager = LinearLayoutManager(this)
         left_rv.adapter = mAdapter
+
+        Debug.startMethodTracing()
+        Log.d("nangua","kaishi")
+
+        Thread {
+
+            Thread.sleep(5000)
+            Debug.stopMethodTracing()
+            Log.d("nangua","end")
+
+        }.start()
     }
 
 
