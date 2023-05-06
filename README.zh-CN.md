@@ -25,7 +25,7 @@ dependencies {
 <br/>
 
 <h3>布局组件</h3>
-1.ZoonLayout. 基于LinearLayout实现的可联动伸缩布局组件.<br />
+1.ZoomLayout. 基于LinearLayout实现的可联动伸缩布局组件.<br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/zoom_layout.gif" />
 
 <h3>视图组件</h3>
