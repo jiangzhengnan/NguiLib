@@ -28,7 +28,7 @@ To add gradle dependency you need to open build.gradle (in your app folder,not i
 <br/>
 
 ## Layout 
-1.ZoonLayout. Linelayout supporting linkage drag and size change.<br />
+1.ZoomLayout. Linelayout supporting linkage drag and size change.<br />
 <img src="https://github.com/jiangzhengnan/NguiLib/blob/master/app/src/main/res/raw/zoom_layout.gif" />
 
 ## View 
