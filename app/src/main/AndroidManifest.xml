@@ -50,6 +50,8 @@
         <activity android:name=".study.rotate.RotateXyzTestActivity" />
         <activity android:name=".study.clock.ClockTestActivity" />
         <activity android:name=".study.explode.ExplodeTestActivity" />
+        <activity android:name=".other.circularpro.TestCpActivity">
+        </activity>
 
     </application>
 
