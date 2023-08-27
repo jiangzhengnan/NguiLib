@@ -25,7 +25,6 @@ class CircularProgressView(context: Context, attrs: AttributeSet?) : View(contex
     private var mProWidth = 0
     private var mSpace = 0
 
-
     private val mEasyBgColor = Color.parseColor("#DCEEE0")
     private val mMidBgColor = Color.parseColor("#F4E7D4")
     private val mHardBgColor = Color.parseColor("#F1DBDA")

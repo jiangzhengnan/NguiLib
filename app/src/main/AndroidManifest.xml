@@ -17,11 +17,11 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.ng.ui.show.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <!--training-->
@@ -51,6 +51,11 @@
         <activity android:name=".study.clock.ClockTestActivity" />
         <activity android:name=".study.explode.ExplodeTestActivity" />
         <activity android:name=".other.circularpro.TestCpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
     </application>
